@@ -50,19 +50,23 @@ jobs:
 
       - name: Push app directory to app branch
         run: |
-          # Create a fresh orphan branch
-          git checkout --orphan app-temp
+          # Create a temp directory and copy app contents there
+          mkdir -p ../app-temp
+          cp -r app/* ../app-temp/
+          cd ../app-temp
           
-          # Remove everything from git tracking
-          git rm -rf --cached .
+          # Initialize new git repo with just app contents
+          git init
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          # Add only the app directory
-          git add app/
+          # Add all files from app directory
+          git add .
           
-          # Create commit with only app files
+          # Create commit with app files at root
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
           
-          # Push directly to app branch
-          git push -f origin HEAD:app
+          # Push to app branch with app contents at root
+          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" HEAD:app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
