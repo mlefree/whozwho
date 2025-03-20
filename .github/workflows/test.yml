@@ -53,7 +53,7 @@ jobs:
           # Create and checkout app branch
           git checkout -b app || git checkout app
           
-          # Remove gitignore and verify git status
+          # Remove gitignore and verify status
           rm .gitignore
           git status
           pwd
@@ -63,16 +63,16 @@ jobs:
           pwd
           ls -la
           
-          # Add all files
+          # Add all files (TypeScript compiled output)
           git add .
           
           # Verify files were added
           cd ..
           git status
           
-          # Commit and push
-          git commit -m "Update built app files [skip ci]" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+          # Commit and push to mlefree/whozwho repository
+          git commit -m "Update built app files - TypeScript Node.js Express.js MongoDB [skip ci]" || echo "No changes to commit"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git
           git push -f origin app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

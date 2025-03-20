@@ -4,7 +4,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
 [![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Tests](https://github.com/yourusername/whozwho/actions/workflows/test.yml/badge.svg)](https://github.com/yourusername/whozwho/actions/workflows/test.yml)
+[![Tests](https://github.com/mlefree/whozwho/actions/workflows/test.yml/badge.svg)](https://github.com/mlefree/whozwho/actions/workflows/test.yml)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -28,7 +28,7 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/whozwho.git
+git clone https://github.com/mlefree/whozwho.git
 
 # Install dependencies
 npm install
@@ -59,6 +59,21 @@ npm start
 # Run tests
 npm test
 ```
+
+## 🔄 CI/CD
+
+The project uses GitHub Actions for continuous integration and deployment:
+
+- **Test Workflow**: Runs on push/PR to main/master branches
+  - Tests with Node.js 22.x
+  - Runs the test suite
+  - Builds the TypeScript application
+  - Pushes compiled output to `app` branch
+
+### Branches
+
+- `main`: Main development branch
+- `app`: Contains the compiled TypeScript output (auto-updated by CI)
 
 ## 🎯 API Endpoints
 
@@ -144,4 +159,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-<p align="center">Made with ❤️ by Your Team</p>
+<p align="center">Made with ❤️ by mlefree</p>
