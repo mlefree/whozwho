@@ -73,7 +73,7 @@ The project uses GitHub Actions for continuous integration and deployment:
 ### Branches
 
 - `main`: Main development branch
-- `app`: Contains the compiled TypeScript output (auto-updated by CI)
+- `app`: Contains only the compiled TypeScript output (app/ directory, auto-updated by CI)
 
 ## 🎯 API Endpoints
 

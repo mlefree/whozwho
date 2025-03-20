@@ -48,31 +48,21 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Commit and push to app branch
+      - name: Push app directory to app branch
         run: |
-          # Create and checkout app branch
-          git checkout -b app || git checkout app
+          # Create a fresh orphan branch
+          git checkout --orphan app-temp
           
-          # Remove gitignore and verify status
-          rm .gitignore
-          git status
-          pwd
+          # Remove everything from git tracking
+          git rm -rf --cached .
           
-          # Move to app directory and verify location
-          cd app/
-          pwd
-          ls -la
+          # Add only the app directory
+          git add app/
           
-          # Add all files (TypeScript compiled output)
-          git add .
+          # Create commit with only app files
+          git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
           
-          # Verify files were added
-          cd ..
-          git status
-          
-          # Commit and push to mlefree/whozwho repository
-          git commit -m "Update built app files - TypeScript Node.js Express.js MongoDB [skip ci]" || echo "No changes to commit"
-          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git
-          git push -f origin app
+          # Push directly to app branch
+          git push -f origin HEAD:app
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
