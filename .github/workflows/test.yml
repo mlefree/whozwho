@@ -44,9 +44,22 @@ jobs:
           # Create and checkout app branch
           git checkout -b app || git checkout app
           
-          # Add built files
+          # Remove gitignore and verify git status
+          rm .gitignore
+          git status
+          pwd
+          
+          # Move to app directory and verify location
           cd app/
+          pwd
+          ls -la
+          
+          # Add all files
           git add .
+          
+          # Verify files were added
+          cd ..
+          git status
           
           # Commit and push
           git commit -m "Update built app files [skip ci]" || echo "No changes to commit"
