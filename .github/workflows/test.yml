@@ -16,6 +16,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
@@ -36,8 +39,8 @@ jobs:
 
       - name: Configure Git
         run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions@github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
       - name: Commit and push to app branch
         run: |
@@ -63,4 +66,7 @@ jobs:
           
           # Commit and push
           git commit -m "Update built app files [skip ci]" || echo "No changes to commit"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           git push -f origin app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
