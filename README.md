@@ -1,10 +1,10 @@
 # 🎭 WhozWho
 
-[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)](https://nodejs.org/)
-[![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)](https://expressjs.com/)
-[![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
-[![Tests](https://github.com/mlefree/whozwho/actions/workflows/test.yml/badge.svg)](https://github.com/mlefree/whozwho/actions/workflows/test.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mlefree/whozwho/test.yml?style=flat-square)](https://github.com/mlefree/whozwho/actions/workflows/test.yml)
+[![Node Version](https://img.shields.io/badge/node-22.x-brightgreen?style=flat-square&logo=node.js)](https://nodejs.org)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
+[![Express](https://img.shields.io/badge/Express-4.x-black?style=flat-square&logo=express)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -20,7 +20,7 @@
 
 ### Prerequisites
 
-- Node.js (v14+)
+- Node.js (v22.x)
 - MongoDB (v4.4+)
 - TypeScript (v4+)
 
@@ -80,26 +80,26 @@ The project uses GitHub Actions for continuous integration and deployment:
 ### Actor Management
 
 ```http
-POST /v1/hi
+POST /hi
 # Register actor's presence and status
 
-POST /v1/actors
+POST /actors
 # Query actor's role status
 
-GET /v1/status
+GET /status
 # Get system status
 ```
 
 ### Update Management
 
 ```http
-POST /v1/advices
+POST /advices
 # Request update advice
 
-GET /v1/advices
+GET /advices
 # Get pending advices
 
-PUT /v1/advices/:adviceId
+PUT /advices/:adviceId
 # Update advice status
 ```
 
