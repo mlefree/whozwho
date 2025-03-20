@@ -2,8 +2,8 @@ import {CACHE_COUNT, CACHE_STORE, CACHE_TTL, cacheFactory, lru} from 'mle-tools-
 import {config} from '../config';
 import {Tools} from '../shared/tools';
 
-const cacheStore = config.cache.disabled ?
-    CACHE_STORE.NONE : (config.cache.uri ? CACHE_STORE.REDIS : CACHE_STORE.MEMORY);
+const cacheType = config.cache.uri ? CACHE_STORE.REDIS : CACHE_STORE.MEMORY;
+const cacheStore = config.cache.disabled ? CACHE_STORE.NONE : cacheType;
 
 const cacheOptionsLRU = {
     instanceName: config.cache.uniqueName + Tools.GetHostname(),

@@ -1,40 +1,26 @@
 import {Router} from 'express';
-import {cacheLruFast} from '../../factories/cache';
 import {AdminController} from '../../controllers/admin';
-import {MeasureController} from '../../controllers/measure';
-import {QualityController} from '../../controllers/quality';
 
 export const routes = async (router: Router) => {
 
-    // get status
-    //      based on Who's Who advice => poll or update
-    router.get('/status', cacheLruFast, AdminController.getStatus);
+    // Give me a High Five: to say that you're alive - and still acting !
+    router.post('/hi', AdminController.postHi);
 
-    // wind?date=...&lat=...&lng=...
-    // {azimuthInDegrees: 12, speedInMetersPerSec: 5}
-    router.get('/wind', MeasureController.getWind);
-    router.post('/wind', MeasureController.postWind);
-    // {points: latLng[]}
-    router.get('/wind/map', MeasureController.getWindMap);
+    // Ask your preferred actor's question: Have I a principal role ?...
+    router.post('/actors', AdminController.postActor);
 
-    // water?date=...&lat=...&lng=...
-    // {mm: 0.2}
-    router.get('/water', MeasureController.getWater);
-    router.post('/water', MeasureController.postWater);
+    // May I give you one advice ?
+    router.post('/advices', AdminController.postAdvice);
 
-    // date
-    // cartesianRainHistories: CartesianRainHistory[],
-    // radarsLatLng: LatLng[],
-    // gaugeNodes: GaugeNode[],
-    // provider
-    // freqInMin
-    // optionalAzimuthToleranceInDegrees: number,  (0: no, 90: 180 degrees of tolerance)
-    // {rainComputationQuality: }
-    router.post('/quality', QualityController.postQuality);
+    // Receive one advice for the current situation: Do I need an update ?...
+    router.get('/advices', AdminController.getAdvices);
 
-    router.post('/poll', AdminController.postPoll);
+    // To let me know where you are in this advice
+    router.param('adviceId', AdminController.loadAdviceId);
+    router.put('/advices/:adviceId', AdminController.putAdvice);
 
-    router.post('/update', AdminController.postUpdate);
+    // What is the current status ?
+    router.get('/status', AdminController.getStatus); // TODO cacheLruFast,
 
     return router;
 

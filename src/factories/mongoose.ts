@@ -14,7 +14,5 @@ export const $mongoose = (async (): Promise<Mongoose> => {
                 return require(join(models, file));
             }
         });
-
-    // console.log('mongoose factory:', _mongoose);
     return mongoose;
 })();

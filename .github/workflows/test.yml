@@ -29,4 +29,25 @@ jobs:
     - name: Run tests
       run: npm test
       env:
-        NODE_ENV: test 
+        NODE_ENV: test
+
+    - name: Build app
+      run: npm run build
+      
+    - name: Configure Git
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'github-actions@github.com'
+        
+    - name: Commit and push to app branch
+      run: |
+        # Create and checkout app branch
+        git checkout -b app || git checkout app
+        
+        # Add built files
+        cd app/
+        git add .
+        
+        # Commit and push
+        git commit -m "Update built app files [skip ci]" || echo "No changes to commit"
+        git push -f origin app 

@@ -11,18 +11,36 @@ export class AbstractController {
 
     static _body(request: Request) {
         let body: any = request?.body ? request.body : {};
-
-        if (body && body.data) {
-            body = body.data;
-        }
-
         try {
+            if (body?.data) {
+                body = body.data;
+            }
             body = JSON.parse(body);
         } catch (ignored) {
-            // When parsing error occur, do not consider and return the body.
         }
-
         return body;
+    }
+
+    static _host(request: Request) {
+        let actorCategory: string, actorId: number;
+        const host = request?.header('Host') ? request.header('Host') : undefined;
+        if (host) {
+            try {
+                const sepPos = host.indexOf(':');
+                if (sepPos === -1) {
+                    return {actorCategory: undefined, actorId: undefined};
+                }
+                actorCategory = host.substring(0, sepPos);
+                actorId = parseInt(host.substring(sepPos + 1), 10);
+                if (isNaN(actorId)) {
+                    return {actorCategory: undefined, actorId: undefined};
+                }
+            } catch (e) {
+                logger.error('Error parsing host header:', e);
+                return {actorCategory: undefined, actorId: undefined};
+            }
+        }
+        return {actorCategory, actorId};
     }
 
     static _query(req: Request) {
@@ -32,7 +50,7 @@ export class AbstractController {
     static _errorDetails(details: any) {
         let detailsAsString = details ? '' + details : '[no detail]';
 
-        let detailsStack;
+        let detailsStack: any;
         if (details?.stack) {
             detailsStack = details.stack.toString();
         } else {
@@ -80,12 +98,12 @@ export class AbstractController {
     }
 
     static _notAuthenticated(res: Response, details) {
-        const detailsAsString = details ? details : 'not authenticated';
+        const detailsAsString = details || 'not authenticated';
         return res.status(details?.code ? details.code : 401).jsonp({status: detailsAsString});
     }
 
     static _notAuthorized(res: Response, details) {
-        const detailsAsString = details ? details : 'not authorized';
+        const detailsAsString = details || 'not authorized';
         return res.status(details?.code ? details.code : 403).jsonp({status: detailsAsString});
     }
 

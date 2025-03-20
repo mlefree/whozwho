@@ -74,3 +74,5 @@ app/
 *-audit.json
 *gitignored*
 *gitignored
+
+.DS_store

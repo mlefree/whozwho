@@ -1,12 +1,10 @@
 import {Request, Response} from 'express';
-import path from 'node:path';
 import npmRun from 'npm-run';
 import {logger} from '../factories/logger';
 import {config} from '../config';
 import {AbstractController} from './abstract';
-import {PollConfiguration, ProviderName, StoreDirectories} from 'raain-data-tools';
-import {launcher} from '../factories/launcher';
-import {Advice, Whozwho} from '../shared/whozwho';
+import {ActorAnswer, ActorQuestion, ActorStatics} from '../models/actor';
+import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
 
 export class AdminController extends AbstractController {
 
@@ -15,22 +13,6 @@ export class AdminController extends AbstractController {
         try {
             const {StatusStatics} = require('../models/status');
             status = await StatusStatics.BuildSummarizedStatus(config.deploy.version);
-
-            const advice = await Whozwho.GetAdvice();
-            if (advice === Advice.UPDATE) {
-                await AdminController.Update();
-                status.update = 'update is ongoing...'
-                res.status(200).jsonp(status);
-                return;
-            }
-
-            const isPrincipal = await Whozwho.IsPrincipal();
-            if (isPrincipal) {
-                AdminController.CheckPolling().then(ignored => {
-                });
-            }
-            status.isPrincipal = isPrincipal;
-
             if (status.ok) {
                 res.status(200).jsonp(status);
                 return;
@@ -45,67 +27,147 @@ export class AdminController extends AbstractController {
         res.status(206).send(status);
     }
 
-    static async postPoll(req: Request, res: Response) {
+    static async postHi(req: Request, res: Response) {
+        const {actorCategory, actorId} = AbstractController._host(req);
+        const hi: {
+            weight: number,
+            alivePeriodInSec: number,
+            version: string,
+            last100Errors: string[]
+        } = AbstractController._body(req);
+        if (!hi || Object.keys(hi).length !== 4 || !actorCategory || typeof actorId === 'undefined') {
+            AbstractController._badRequest(res, 'needs an high five, actor category and id');
+            return;
+        }
+
         try {
-            const polled = await AdminController.CheckPolling();
-            res.status(200).jsonp({polled});
+            await ActorStatics.PushHighFive(actorCategory, actorId, hi);
+
+            await AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+            return;
+        }
+
+        res.status(204).send();
+    }
+
+    static async postActor(req: Request, res: Response) {
+        const {actorCategory, actorId} = AbstractController._host(req);
+        const body = AbstractController._body(req);
+        if (!body?.question || !actorCategory || typeof actorId === 'undefined') {
+            AbstractController._badRequest(res, 'needs a question, actor category and id');
+            return;
+        }
+
+        let answer: ActorAnswer;
+        try {
+
+            const question = body.question;
+            if (question === ActorQuestion.PRINCIPAL) {
+                answer = await ActorStatics.HaveAPrincipalRole(actorCategory, actorId);
+            }
+
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+            return;
+        }
+
+        res.status(200).send({answer});
+    }
+
+    static async postAdvice(req: Request, res: Response) {
+        const {actorCategory, actorId} = AbstractController._host(req);
+        const body = AbstractController._body(req);
+        if (!body?.type || !actorCategory || typeof actorId === 'undefined') {
+            AbstractController._badRequest(res, 'needs a advice type, actor category and id');
+            return;
+        }
+
+        let advices: { id: string, type: string }[] = [];
+        try {
+
+            const adviceType = body.type;
+            if (adviceType === AdviceType.UPDATE) {
+                advices = await AdviceStatics.AskToUpdate('admin', 0, body.category);
+                if (advices.length === 0) {
+                    AbstractController._badRequest(res, 'needs a valid sender and advice');
+                    return;
+                }
+            }
+
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+            return;
+        }
+
+        res.status(200).send({advices});
+    }
+
+    static async loadAdviceId(req: Request, res: Response, next: () => void, _id: string) {
+        try {
+            req['loadedAdvice'] = await AdviceModel.findById(_id);
+            next();
+        } catch (err) {
+            AbstractController._notFound(res, 'Need a valid adviceId');
+        }
+    }
+
+    static async putAdvice(req: Request, res: Response) {
+        const {actorCategory, actorId} = AbstractController._host(req);
+        const body = AbstractController._body(req);
+        if (!body?.status || !actorCategory || typeof actorId === 'undefined') {
+            AbstractController._badRequest(res, 'needs a advice status, actor category and id');
+            return;
+        }
+
+        const advice: { id: string, type: string } = {id: 'na', type: 'na'};
+        try {
+            const adviceFound: any = req['loadedAdvice'];
+            advice.id = adviceFound.id;
+            advice.type = adviceFound.type;
+            adviceFound.status = body.status;
+            await adviceFound.save();
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+            return;
+        }
+
+        res.status(200).send({advice});
+    }
+
+    static async getAdvices(req: Request, res: Response) {
+        const {actorCategory, actorId} = AbstractController._host(req);
+        if (!actorCategory || typeof actorId === 'undefined') {
+            AbstractController._badRequest(res, 'needs an actor category and id');
+            return;
+        }
+
+        try {
+            const advices: {
+                id: string,
+                type: string
+            }[] = await AdviceStatics.GetTrickyAdvices(actorCategory, actorId);
+            if (advices.length === 0) {
+                res.status(404).type('application/json').send();
+                return;
+            }
+
+            res.status(200).type('application/json').send({advices});
         } catch (e) {
             AbstractController._internalProblem(res, e);
         }
     }
 
-    static async postUpdate(req: Request, res: Response) {
-        logger.warn('#UPDATE update...');
-        const version = require(path.resolve(__dirname, '../../package.json')).version;
-        await AdminController.Update()
-        res.status(200).send('update raain-ground from version: ' + version + ' to HEAD ...');
-    }
-
     protected static async Update() {
         logger.warn('#UPDATE app with "npm run update"...');
+        return 'TODO be careful';
+
         npmRun.exec('npm run update', {}, async (err, stdout, stderr) => {
             logger.warn(`#UPDATE ${process.pid} update: `, err, stdout, stderr);
             process.exit(0);
         });
 
-    }
-
-    protected static async CheckPolling() {
-
-        const pollConf = PollConfiguration.CreateFromFile(path.join(__dirname, '..', config.pollers.conf));
-        const pollConfigurationProviders = pollConf.getAllProviders();
-
-        const pollStorePath = path.join(__dirname, '../..', 'store.gitignored');
-        for (const provider of Object.keys(ProviderName)) {
-            const store = new StoreDirectories(pollStorePath, ProviderName[provider], console);
-            store.clean({all: true});
-        }
-
-        // => Split and Launch providers polling (PollConfigurationProvider[])
-        let launched = 0;
-        for (const pollConfigurationProvider of pollConfigurationProviders) {
-
-            const pollKey = pollConf.getProviderKey(pollConfigurationProvider);
-            const isReady = PollConfiguration.IsProviderReadyToPoll(pollConfigurationProvider);
-            if (isReady && launched < config.pollers.limit) {
-                // => Launch Poll worker
-                launched++;
-                logger.info(`${pollKey} isReady => Launch Poll worker ${launched}`);
-                const {WorkerNames} = require('../workers/workerProcessor');
-
-                const workerData = {
-                    config: {},
-                    input: {
-                        pollStorePath,
-                        pollKey,
-                        pollConfigurationProvider: JSON.stringify(pollConfigurationProvider),
-                    },
-                };
-                await launcher.push([WorkerNames.poll], workerData);
-            }
-        }
-
-        return launched;
     }
 
 }
