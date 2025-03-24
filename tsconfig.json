@@ -5,11 +5,11 @@
     "declaration": true,
     "sourceMap": true,
     "outDir": "app",
-    "esModuleInterop": true,
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
-    "dist",
+    "app",
     "examples",
     "specs",
     "coverage",

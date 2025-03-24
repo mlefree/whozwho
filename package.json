@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "whozwho",
   "main": "src/app.ts",
   "author": "mlefree",
@@ -14,8 +14,8 @@
     "build": "rm -rf app && npx tsc && cp -r .gitignore app/",
     "test": "npm run test-mocha-integration",
     "start": "npm run build && npm run start-app",
-    "start-in-docker": "npm run start-app",
-    "start-app": "node --expose-gc app/app.js",
+    "start-app": "node app/app.js",
+    "start-in-docker": "node app/app.js",
     "test-mocha-integration": "env NODE_ENV=test mocha --require ts-node/register \"./specs/**/*.spec.ts\" --exit",
     "update": "git reset --hard HEAD && git pull --rebase --force && npm i --omit=dev"
   },

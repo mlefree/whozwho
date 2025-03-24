@@ -3,8 +3,8 @@ import {config} from '../config';
 
 loggerFactory.setUp(
     config.deploy.isInTraceMode,
-    config.deploy.traceConsoleLevel,
-    config.deploy.traceLogLevel,
+    config.deploy.traceConsoleLevel as LoggerLevels,
+    config.deploy.traceLogLevel as LoggerLevels,
     config.integration.mailUser,
     config.integration.mailPwd,
     config.integration.mailTo,

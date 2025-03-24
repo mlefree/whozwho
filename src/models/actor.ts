@@ -5,6 +5,7 @@ export const ActorSchema: any = {
     actorId: {type: Number, required: 'Actor id needed', index: true},              // again no judgment
     weight: {type: Number, default: 1},                                             // ...
     alivePeriodInSec: {type: Number, default: 100},                                 // ...
+    isPrincipal: {type: Boolean, default: false, index: true},                      // Flagged during the High Five
     version: {type: String},
     last100Errors: [String],
 };
@@ -28,12 +29,17 @@ export const ActorMethods = {};
 export const ActorStatics = {
     async PushHighFive(actorCategory: string, actorId: number,
                        hi: { weight: number; alivePeriodInSec: number; version: string; last100Errors: string[] }) {
+
+        const answer = await ActorStatics.HaveAPrincipalRole(actorCategory, actorId);
+        const isPrincipal = answer === ActorAnswer.yes;
+
         const actor = new ActorModel({
             actorCategory,
             actorId,
             weight: hi.weight,
             alivePeriodInSec: hi.alivePeriodInSec,
             version: hi.version,
+            isPrincipal,
             last100Errors: hi.last100Errors,
         });
         await actor.save();
@@ -57,7 +63,7 @@ export const ActorStatics = {
         const now = new Date();
         const aliveActors = [];
         let maxAliveWeight = 0;
-        
+
         for (const id of Object.keys(actors)) {
             const actor = actors[id];
             const alive = actor.createdAt.getTime() - now.getTime() + actor.alivePeriodInSec * 1000;
@@ -66,8 +72,8 @@ export const ActorStatics = {
                 maxAliveWeight = Math.max(maxAliveWeight, actor.weight);
             }
         }
-        
-        return { aliveActors, maxAliveWeight };
+
+        return {aliveActors, maxAliveWeight};
     },
 
     async HaveAPrincipalRole(actorCategory: string, actorId: number) {
@@ -77,15 +83,20 @@ export const ActorStatics = {
             return ActorAnswer.no;
         }
 
-        const { aliveActors, maxAliveWeight } = await this._filterAliveActors(lastActors);
+        const {aliveActors, maxAliveWeight} = await this._filterAliveActors(lastActors);
 
         const foundCurrentActorAsAlive = aliveActors.filter(a => a.actorId === actorId);
         if (foundCurrentActorAsAlive.length !== 1) {
             return ActorAnswer.no;
         }
 
-        // Is actor part of the heaviest ? if no => no
+        // Is actor flagged as principal before ? if yes => yes
         const currentActor = foundCurrentActorAsAlive[0];
+        if (currentActor.isPrincipal) {
+            return ActorAnswer.yes;
+        }
+
+        // Is actor part of the heaviest ? if no => no
         if (currentActor.weight < maxAliveWeight) {
             return ActorAnswer.no;
         }
@@ -124,7 +135,7 @@ export const ActorStatics = {
 
     async GetAllActorsFromCategorySortedByWeight(actorCategory: string) {
         const lastActors = await this._getLastActorsFromCategory(actorCategory);
-        const { aliveActors } = await this._filterAliveActors(lastActors);
+        const {aliveActors} = await this._filterAliveActors(lastActors);
         return aliveActors.sort((a, b) => a.weight - b.weight);
     }
 };

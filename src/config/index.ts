@@ -1,6 +1,9 @@
 import cluster from 'node:cluster';
 import worker_threads from 'node:worker_threads';
+import {join} from 'node:path';
 import {IConfig} from './env/_default';
+
+require('dotenv').config({path: join(__dirname, '../..', '.env')});
 
 let _config: IConfig;
 

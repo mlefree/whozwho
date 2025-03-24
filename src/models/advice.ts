@@ -43,16 +43,27 @@ export const AdviceStatics = {
         }).sort({createdAt: -1});
     },
 
-    async _createAdvice(fromActor: any, toActorId: number, toActorCategory: string, type: AdviceType, status: AdviceStatus) {
-        const advice = new AdviceModel({
+    async _findOrCreateAdvice(fromActor: any, toActorId: number, toActorCategory: string, type: AdviceType, status: AdviceStatus) {
+        const adviceFound = await AdviceModel.findOne({
             type,
             fromActor,
             toActorId,
             toActorCategory,
             status
         });
-        await advice.save();
-        return { id: advice.id, type: advice.type };
+        if (adviceFound) {
+            return adviceFound;
+        }
+
+        const adviceCreated = new AdviceModel({
+            type,
+            fromActor,
+            toActorId,
+            toActorCategory,
+            status
+        });
+        await adviceCreated.save();
+        return {id: adviceCreated.id, type: adviceCreated.type};
     },
 
     async AskToUpdate(fromActorCategory: string, fromActorId: number, toCategory?: string) {
@@ -78,7 +89,7 @@ export const AdviceStatics = {
                 toActorCategory = actors[nextPos].actorCategory;
             }
 
-            const advice = await this._createAdvice(
+            const advice = await this._findOrCreateAdvice(
                 fromActor,
                 toActorId,
                 toActorCategory,
@@ -101,7 +112,7 @@ export const AdviceStatics = {
             AdviceStatus.TODO
         );
 
-        return advices.map(a => ({ id: a.id, type: a.type }));
+        return advices.map(a => ({id: a.id, type: a.type}));
     },
 
     async FinishPotentialOngoingAdvices(actorCategory: string, actorId: number) {
@@ -115,7 +126,7 @@ export const AdviceStatics = {
                     toActorCategory: actor.actorCategory,
                     status: AdviceStatus.ONGOING
                 },
-                { status: AdviceStatus.DONE }
+                {status: AdviceStatus.DONE}
             ).exec();
 
         if (updated?.modifiedCount) {

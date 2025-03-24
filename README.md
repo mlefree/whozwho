@@ -5,6 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-4.x-black?style=flat-square&logo=express)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com)
+[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](CHANGELOG.md)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -17,12 +18,6 @@
 - **🔒 Robust Error Handling**: Comprehensive error management and recovery
 
 ## 🚀 Quick Start
-
-### Prerequisites
-
-- Node.js (v22.x)
-- MongoDB (v4.4+)
-- TypeScript (v4+)
 
 ### Installation
 
@@ -90,18 +85,28 @@ GET /status
 # Get system status
 ```
 
-### Update Management
+### Advice Management
 
 ```http
 POST /advices
-# Request update advice
+# Suggest advice to actor's categories
 
 GET /advices
-# Get pending advices
+# Get my last advices
 
 PUT /advices/:adviceId
 # Update advice status
 ```
+
+The advice system currently supports:
+- `UPDATE`: Coordinate version updates across actors
+
+More advice types are planned for future releases to handle:
+- Configuration changes
+- Role reassignments
+- System-wide state changes
+- Resource allocation
+- Performance optimizations
 
 ## 🏗 Architecture
 
@@ -156,6 +161,18 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Express.js team for the amazing web framework
 - MongoDB team for the robust database
 - The open-source community for continuous inspiration
+
+## 📋 Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release procedures.
+
+Current version: 1.0.0 (Released 2025-03-22)
+- Actor-based system core functionality
+- Dynamic actor registration and lifecycle tracking
+- Role assignment system
+- Distributed update propagation
+- Real-time status monitoring
+- [See full release notes](CHANGELOG.md#100---2025-03-22)
 
 ---
 

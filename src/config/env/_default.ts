@@ -1,9 +1,4 @@
-import {LoggerLevels} from 'mle-tools-node';
-import {join} from 'node:path';
-
-require('dotenv').config({path: join(__dirname, '../../..', '.env')});
-
-export const defaultString = (d, v) => {
+export const defaultString = (d: string, v: string) => {
     return d || v;
 };
 
@@ -35,8 +30,8 @@ export interface IConfig {
         version: string,
         isInTestMode: boolean,
         isInTraceMode: boolean,
-        traceConsoleLevel: LoggerLevels,
-        traceLogLevel: LoggerLevels
+        traceConsoleLevel: string,
+        traceLogLevel: string
     },
     integration: {
         threadStrategy: string,
@@ -63,7 +58,7 @@ export const defaultConfig: IConfig = {
         uri: defaultString(process.env.REDIS_URI, ''),
     },
     deploy: {
-        port: defaultString(process.env.PORT, 3006),
+        port: parseInt(defaultString(process.env.PORT, '3006'), 10),
         env: defaultString(process.env.NODE_ENV, 'development'),
         version: defaultString(require('../../../package.json').version, '0.0.0'),
         isInTestMode: (defaultString(process.env.IS_TESTED, 'false') === 'true'),

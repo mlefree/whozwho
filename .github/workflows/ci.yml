@@ -1,10 +1,10 @@
-name: Test
+name: CI
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ main ]
 
 # Add explicit permissions
 permissions:
@@ -51,9 +51,11 @@ jobs:
       - name: Push app directory to app branch
         run: |
           # Create a temp directory and copy app contents there
-          mkdir -p ../app-temp
-          cp -r app/* ../app-temp/
-          cd ../app-temp
+          mkdir -p dist
+          cp -r app dist
+          cp package*.json dist/.
+          cp .gitignore.app dist/.gitignore
+          cd dist
           
           # Initialize new git repo with just app contents
           git init
