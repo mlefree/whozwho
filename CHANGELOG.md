@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.0.3] - 2025-03-24
+
+### Fixed
+- Fixed API endpoint issues
+- Resolved test failures across all scenarios
+- Corrected Content-Type header fields in responses
+- Fixed actor registration and role verification
+- Resolved advice distribution and update cycle issues
+
 ## [1.0.0] - 2025-03-22
 
 ### Added
@@ -35,5 +44,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/mlefree/whozwho/compare/v1.0.0...v1.0.3
 [1.0.0]: https://github.com/mlefree/whozwho/releases/tag/v1.0.0

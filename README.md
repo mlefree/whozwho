@@ -1,11 +1,11 @@
 # 🎭 WhozWho
 
-[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mlefree/whozwho/test.yml?style=flat-square)](https://github.com/mlefree/whozwho/actions/workflows/test.yml)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mlefree/whozwho/ci.yml?style=flat-square)](https://github.com/mlefree/whozwho/actions/workflows/ci.yml)
 [![Node Version](https://img.shields.io/badge/node-22.x-brightgreen?style=flat-square&logo=node.js)](https://nodejs.org)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-4.x-black?style=flat-square&logo=express)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com)
-[![Version](https://img.shields.io/badge/version-1.0.0-blue?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.X-blue?style=flat-square)](CHANGELOG.md)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -60,10 +60,10 @@ npm test
 The project uses GitHub Actions for continuous integration and deployment:
 
 - **Test Workflow**: Runs on push/PR to main/master branches
-  - Tests with Node.js 22.x
-  - Runs the test suite
-  - Builds the TypeScript application
-  - Pushes compiled output to `app` branch
+    - Tests with Node.js 22.x
+    - Runs the test suite
+    - Builds the TypeScript application
+    - Pushes compiled output to `app` branch
 
 ### Branches
 
@@ -99,9 +99,11 @@ PUT /advices/:adviceId
 ```
 
 The advice system currently supports:
+
 - `UPDATE`: Coordinate version updates across actors
 
 More advice types are planned for future releases to handle:
+
 - Configuration changes
 - Role reassignments
 - System-wide state changes
@@ -164,9 +166,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📋 Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for a list of changes and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release procedures.
+See [CHANGELOG.md](CHANGELOG.md) for a list of changes and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release
+procedures.
 
 Current version: 1.0.0 (Released 2025-03-22)
+
 - Actor-based system core functionality
 - Dynamic actor registration and lifecycle tracking
 - Role assignment system

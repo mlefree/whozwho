@@ -30,7 +30,7 @@ export const $express = (async () => {
     _app.use(timeTracking({milliSecBeforeWarning: 1000})); // use: setMetric(
     _app.use(timing()); // use: res.startTime('file', 'File IO metric'; ...  res.endTime('file';
 
-    if (config.deploy.version.startsWith('1.')) {
+    if (config.deploy.version.startsWith('v1.')) {
         const {routes} = require('../config/routes/routes.v1');
         const $routesV1 = await routes(express.Router());
         _app.use($routesV1);
