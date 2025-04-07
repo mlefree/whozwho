@@ -1,3 +1,4 @@
+import process from 'node:process';
 import {appBuildInfo} from '../build';
 
 export const defaultString = (d: string, v: string) => {
@@ -40,6 +41,14 @@ export interface IConfig {
         mailUser: string,
         mailPwd: string,
         mailTo: string,
+    },
+    whozwho: {
+        url: string;
+        category: string;
+        id: number;
+        weight: number;
+        alivePeriodInSec: number;
+        disabled?: boolean;
     };
 
     getDbUri: () => string;
@@ -51,7 +60,7 @@ export const defaultConfig: IConfig = {
     mongodb: {
         uri: dbUri,
         isMocked: (defaultString(process.env.MONGODB_MOCKED, 'false') === 'true'),
-        mockedPort: parseInt(defaultString(process.env.MONGODB_MOCKED_PORT, '54306'), 10),
+        mockedPort: parseInt(defaultString(process.env.MONGODB_MOCKED_PORT, '54303'), 10),
         sandboxData: false,
     },
     cache: {
@@ -60,7 +69,7 @@ export const defaultConfig: IConfig = {
         uri: defaultString(process.env.REDIS_URI, ''),
     },
     deploy: {
-        port: parseInt(defaultString(process.env.PORT, '3006'), 10),
+        port: parseInt(defaultString(process.env.PORT, '3003'), 10),
         env: defaultString(process.env.NODE_ENV, 'development'),
         version: appBuildInfo.version,
         isInTestMode: (defaultString(process.env.IS_TESTED, 'false') === 'true'),
@@ -73,6 +82,14 @@ export const defaultConfig: IConfig = {
         mailUser: defaultString(process.env.MAIL_USER, ''),
         mailPwd: defaultString(process.env.MAIL_PWD, ''),
         mailTo: defaultString(process.env.MAIL_TO, ''),
+    },
+    whozwho: {
+        disabled: (defaultString(process.env.WHOZWHO_DISABLED, 'false') === 'true'),
+        url: defaultString(process.env.WHOZWHO_URL, 'http://localhost:3003'),
+        category: defaultString(process.env.WHOZWHO_MY_CATEGORY, 'whozwho'),
+        id: parseInt(defaultString(process.env.WHOZWHO_MY_ID, '1'), 10),
+        weight: parseInt(defaultString(process.env.WHOZWHO_MY_WEIGHT, '1'), 10),
+        alivePeriodInSec: parseInt(defaultString(process.env.WHOZWHO_MY_ALIVE_PERIOD, '60'), 10),
     },
 
     getDbUri() {

@@ -1,5 +1,6 @@
 import {Request, Response} from 'express';
 import npmRun from 'npm-run';
+import {Whozwho} from 'whozwho-client';
 import {logger} from '../factories/logger';
 import {config} from '../config';
 import {AbstractController} from './abstract';
@@ -13,7 +14,25 @@ export class AdminController extends AbstractController {
         try {
             const {StatusStatics} = require('../models/status');
             status = await StatusStatics.BuildSummarizedStatus(config.deploy.version);
-            if (status.ok) {
+
+            if (!config.whozwho.disabled) {
+                const whozwho = new Whozwho(config);
+                const advices = await whozwho.getAdvices();
+                for (const advice of (advices || [])) {
+                    if (advice.type === AdviceType.UPDATE) {
+                        await whozwho.mentionThatAdviceIsOnGoing(advice);
+                        await AdminController.Update();
+                        status = {
+                            version: status.version,
+                            update: 'update is launched...'
+                        };
+                    }
+                }
+                status.isPrincipal = await whozwho.isPrincipal();
+            }
+
+            status.built = new Date().toISOString();
+            if (status.ok || status.update) {
                 res.status(200).jsonp(status);
                 return;
             }

@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
@@ -30,7 +30,8 @@
     "morgan": "^1.9.1",
     "npm-run": "^5.0.1",
     "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
+    "winston-daily-rotate-file": "^5.0.0",
+    "whozwho-client": "^0.2.3"
   },
   "devDependencies": {
     "@types/chai": "^5.2.0",

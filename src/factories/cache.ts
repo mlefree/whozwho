@@ -27,4 +27,4 @@ const cacheLru = lru(cacheOptionsLRU);
 const cacheLruFast = lru(cacheOptionsFast);
 const cacheLruLong = lru(cacheOptionsLong);
 
-export {cacheFactory, cacheLru, cacheLruFast, cacheOptionsLRU, cacheOptionsFast, cacheLruLong};
+export {cacheFactory, cacheStore, cacheLru, cacheLruFast, cacheOptionsLRU, cacheOptionsFast, cacheLruLong};

@@ -1,11 +1,8 @@
 import mongoose from 'mongoose';
 import {config} from '../config';
-import {cacheFactory} from 'mle-tools-node';
+import {cacheFactory, cacheStore} from '../factories/cache';
 
 export const StatusSchema: any = {
-    hostname: {type: String, required: 'hostname needed', index: true},
-    type: {type: String, required: 'type needed', index: true}, // => summarize, advanced, processor, purge
-    processor: {type: String, index: true}, // if processor => name
     json: {type: String, default: '{}'},    // all the details
 };
 
@@ -34,7 +31,10 @@ export const StatusStatics = {
         const status = {
             version,
             env: '' + config.deploy.env,
-            cache: cacheFactory.isOk(),
+            cache: {
+                store: cacheStore,
+                ok: cacheFactory.isOk(),
+            },
             ok
         };
         StatusStatics.StoreStatus(status).then(ignored => {
@@ -42,8 +42,9 @@ export const StatusStatics = {
         return status;
     },
 
-    async StoreStatus(status: any) {
-        const rec = new StatusModel(status);
+    async StoreStatus(details: any) {
+        const json = JSON.stringify(details);
+        const rec = new StatusModel({json});
         return rec.save();
     },
 

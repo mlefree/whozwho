@@ -1,5 +1,6 @@
 import {Router} from 'express';
 import {AdminController} from '../../controllers/admin';
+import {cacheLruFast} from '../../factories/cache';
 
 export const routes = async (router: Router) => {
 
@@ -20,7 +21,7 @@ export const routes = async (router: Router) => {
     router.put('/advices/:adviceId', AdminController.putAdvice);
 
     // What is the current status ?
-    router.get('/status', AdminController.getStatus); // TODO cacheLruFast,
+    router.get('/status', cacheLruFast, AdminController.getStatus);
 
     return router;
 
