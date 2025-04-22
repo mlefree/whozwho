@@ -22,25 +22,34 @@ export class AbstractController {
     }
 
     static _host(request: Request) {
-        let actorCategory: string, actorId: number;
+        let actorCategory: string,
+            actorId: number,
+            actorAddress: string;
         const host = request?.header('Host') ? request.header('Host') : undefined;
+        const forwarded = request?.header('Forwarded') ? request.header('Forwarded') : undefined;
+        // Forwarded: `for=${this.config.whozwho.category};by=${this.config.whozwho.id}`,
+
         if (host) {
-            try {
-                const sepPos = host.indexOf(':');
-                if (sepPos === -1) {
-                    return {actorCategory: undefined, actorId: undefined};
+            actorAddress = host;
+        }
+
+        if (forwarded) {
+            const forwardedItems = forwarded.split(';');
+            for (const item of forwardedItems) {
+
+                try {
+                    if (item.startsWith('for=')) {
+                        actorCategory = item.substring(4);
+                    } else if (item.startsWith('by=')) {
+                        actorId = parseInt(item.substring(3), 10);
+                    }
+                } catch (e) {
+                    logger.error('Error parsing forwarded header:', e);
+                    return {actorCategory: undefined, actorId: undefined, actorAddress: undefined};
                 }
-                actorCategory = host.substring(0, sepPos);
-                actorId = parseInt(host.substring(sepPos + 1), 10);
-                if (isNaN(actorId)) {
-                    return {actorCategory: undefined, actorId: undefined};
-                }
-            } catch (e) {
-                logger.error('Error parsing host header:', e);
-                return {actorCategory: undefined, actorId: undefined};
             }
         }
-        return {actorCategory, actorId};
+        return {actorCategory, actorId, actorAddress};
     }
 
     static _query(req: Request) {
@@ -82,29 +91,29 @@ export class AbstractController {
     static _notFound(res: Response, details) {
         const detailsAsString = AbstractController._errorDetails(details);
         logger.debug('_notFound: ', detailsAsString);
-        return res.status(404).jsonp({status: detailsAsString});
+        return res.status(404).jsonp({error: detailsAsString});
     }
 
     static _badRequest(res: Response, details) {
         const detailsAsString = AbstractController._errorDetails(details);
         logger.error('_badRequest: ', detailsAsString);
-        return res.status(details?.code ? details.code : 400).jsonp({status: detailsAsString});
+        return res.status(details?.code ? details.code : 400).jsonp({error: detailsAsString});
     }
 
     static _internalProblem(res: Response, details) {
         const detailsAsString = AbstractController._errorDetails(details);
         logger.error('_internalProblem: ', detailsAsString);
-        return res.status(details?.code ? details.code : 500).jsonp({status: detailsAsString.substring(0, 20) + '...'});
+        return res.status(details?.code ? details.code : 500).jsonp({error: detailsAsString.substring(0, 20) + '...'});
     }
 
     static _notAuthenticated(res: Response, details) {
         const detailsAsString = details || 'not authenticated';
-        return res.status(details?.code ? details.code : 401).jsonp({status: detailsAsString});
+        return res.status(details?.code ? details.code : 401).jsonp({error: detailsAsString});
     }
 
     static _notAuthorized(res: Response, details) {
         const detailsAsString = details || 'not authorized';
-        return res.status(details?.code ? details.code : 403).jsonp({status: detailsAsString});
+        return res.status(details?.code ? details.code : 403).jsonp({error: detailsAsString});
     }
 
 }

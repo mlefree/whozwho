@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2025-04-22
+
+### Added
+- Enhanced actor management capabilities
+- Improved admin controls
+- Updated environment configurations
+
+### Technical
+- Updated dependencies
+- Improved test coverage
+
 ## [1.0.3] - 2025-03-24
 
 ### Fixed
@@ -44,6 +55,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.0.3...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.0...HEAD
+[1.1.0]: https://github.com/mlefree/whozwho/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/mlefree/whozwho/compare/v1.0.0...v1.0.3
 [1.0.0]: https://github.com/mlefree/whozwho/releases/tag/v1.0.0

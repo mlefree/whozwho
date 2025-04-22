@@ -43,7 +43,8 @@ export interface IConfig {
         mailTo: string,
     },
     whozwho: {
-        url: string;
+        serverUrl: string;
+        myUrl: string;
         category: string;
         id: number;
         weight: number;
@@ -85,7 +86,8 @@ export const defaultConfig: IConfig = {
     },
     whozwho: {
         disabled: (defaultString(process.env.WHOZWHO_DISABLED, 'false') === 'true'),
-        url: defaultString(process.env.WHOZWHO_URL, 'http://localhost:3003'),
+        serverUrl: defaultString(process.env.WHOZWHO_SERVER_URL, 'http://localhost:3003'),
+        myUrl: defaultString(process.env.WHOZWHO_MY_URL, 'http://localhost:3003'),
         category: defaultString(process.env.WHOZWHO_MY_CATEGORY, 'whozwho'),
         id: parseInt(defaultString(process.env.WHOZWHO_MY_ID, '1'), 10),
         weight: parseInt(defaultString(process.env.WHOZWHO_MY_WEIGHT, '1'), 10),

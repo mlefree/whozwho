@@ -64,7 +64,8 @@ describe(`${version} as an Actor`, function () {
         const res = await agent(await $app)
             .post('/hi')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .send(hi)
             .expect(204);
         expect(res).not.eq(null);
@@ -83,13 +84,48 @@ describe(`${version} as an Actor`, function () {
         const res = await agent(await $app)
             .post('/actors')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .send(principalQuestion)
             .expect('Content-Type', /application\/json/)
             .expect(200);
 
         // Verify actor:1 is assigned principal role
         expect(res.body.answer).to.eq(ActorAnswer.yes);
+    });
+
+    it('Scenario: Verify actors addresses', async () => {
+        // Create requests to get actor's address
+        const allAddressesQuestion = {
+            category: 'actor',
+            question: ActorQuestion.ADDRESS_ALL
+        };
+        const principalAddressQuestion = {
+            category: 'actor',
+            question: ActorQuestion.ADDRESS_PRINCIPAL
+        };
+
+        let res = await agent(await $app)
+            .post('/actors')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(allAddressesQuestion)
+            .expect('Content-Type', /application\/json/)
+            .expect(200);
+
+        expect(JSON.stringify(res.body.answer)).to.eq('{"1":"http://localhost:987"}');
+
+        res = await agent(await $app)
+            .post('/actors')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(principalAddressQuestion)
+            .expect('Content-Type', /application\/json/)
+            .expect(200);
+
+        expect(JSON.stringify(res.body.answer)).to.eq('{"1":"http://localhost:987"}');
     });
 
     /**
@@ -106,7 +142,8 @@ describe(`${version} as an Actor`, function () {
         await agent(await $app)
             .post('/hi')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:2')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=2')
             .send(hi)
             .expect(204);
 
@@ -120,7 +157,8 @@ describe(`${version} as an Actor`, function () {
         const res = await agent(await $app)
             .post('/actors')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:2')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=2')
             .send(principalQuestion)
             .expect('Content-Type', /application\/json/)
             .expect(200);
@@ -148,7 +186,8 @@ describe(`${version} as an Actor`, function () {
             await agent(await $app)
                 .post('/hi')
                 .set('Content-Type', 'application/json')
-                .set('Host', 'actor:2')
+                .set('Host', 'http://localhost:987')
+                .set('Forwarded', 'for=actor;by=2')
                 .send(hi)
                 .expect(204);
 
@@ -161,7 +200,8 @@ describe(`${version} as an Actor`, function () {
             const res = await agent(await $app)
                 .post('/actors')
                 .set('Content-Type', 'application/json')
-                .set('Host', 'actor:2')
+                .set('Host', 'http://localhost:987')
+                .set('Forwarded', 'for=actor;by=2')
                 .send(principalQuestion)
                 .expect('Content-Type', /application\/json/)
                 .expect(200);
@@ -189,7 +229,8 @@ describe(`${version} as an Actor`, function () {
         const res1 = await agent(await $app)
             .post('/hi')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:9871')
+            .set('Forwarded', 'for=actor;by=1')
             .send(hi)
             .expect(204);
         expect(res1).not.eq(null);
@@ -198,10 +239,43 @@ describe(`${version} as an Actor`, function () {
         const res2 = await agent(await $app)
             .post('/hi')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:2')
+            .set('Host', 'http://localhost:9862')
+            .set('Forwarded', 'for=actor;by=2')
             .send(hi)
             .expect(204);
         expect(res1).not.eq(null);
+    });
+
+    it('Scenario: Verify actors last addresses', async () => {
+        // Create requests to get actor's address
+        const allAddressesQuestion = {
+            category: 'actor',
+            question: ActorQuestion.ADDRESS_ALL
+        };
+        const principalAddressQuestion = {
+            category: 'actor',
+            question: ActorQuestion.ADDRESS_PRINCIPAL
+        };
+
+        let res = await agent(await $app)
+            .post('/actors')
+            .set('Content-Type', 'application/json')
+            .send(allAddressesQuestion)
+            .expect('Content-Type', /application\/json/)
+            .expect(200);
+
+        expect(JSON.stringify(res.body.answer)).to.eq('{"1":"http://localhost:9871","2":"http://localhost:9862"}');
+
+        res = await agent(await $app)
+            .post('/actors')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(principalAddressQuestion)
+            .expect('Content-Type', /application\/json/)
+            .expect(200);
+
+        expect(JSON.stringify(res.body.answer)).to.eq('{"2":"http://localhost:9862"}');
     });
 
     /**
@@ -212,7 +286,8 @@ describe(`${version} as an Actor`, function () {
         const res = await agent(await $app)
             .get('/advices')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .expect(404);
 
         expect(res).not.eq(null);
@@ -232,7 +307,8 @@ describe(`${version} as an Actor`, function () {
         const res = await agent(await $app)
             .post('/advices')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .send(advice)
             .expect('Content-Type', /application\/json/)
             .expect(200);
@@ -250,7 +326,8 @@ describe(`${version} as an Actor`, function () {
         // Check if actor:1 (lowest weight) receives update advice
         let res = await agent(await $app)
             .get('/advices')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .expect('Content-Type', /application\/json/)
             .expect(200);   // lightest actor => update
 
@@ -263,13 +340,15 @@ describe(`${version} as an Actor`, function () {
         // Verify actor:2 (higher weight) doesn't receive advice yet
         res = await agent(await $app)
             .get('/advices')
-            .set('Host', 'actor:2')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=2')
             .expect(404); // wait for first actor update
 
         // Update advice status to ONGOING for actor:1
         res = await agent(await $app)
             .put('/advices/' + updateAdvice.id)
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .send({status: AdviceStatus.ONGOING})
             .expect('Content-Type', /application\/json/)
             .expect(200);
@@ -289,7 +368,8 @@ describe(`${version} as an Actor`, function () {
         await agent(await $app)
             .post('/hi')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .send(updatedHi)
             .expect(204);
 
@@ -297,7 +377,8 @@ describe(`${version} as an Actor`, function () {
         let res = await agent(await $app)
             .get('/advices')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:1')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
             .expect(404);
 
         expect(res).not.eq(null);
@@ -306,7 +387,8 @@ describe(`${version} as an Actor`, function () {
         res = await agent(await $app)
             .get('/advices')
             .set('Content-Type', 'application/json')
-            .set('Host', 'actor:2')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=2')
             .expect('Content-Type', /application\/json/)
             .expect(200);
 

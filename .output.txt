@@ -1,0 +1,627 @@
+
+> free.mle.whozwho@1.1.0 test
+> npm run test-mocha-integration
+> free.mle.whozwho@1.1.0 test-mocha-integration
+> env NODE_ENV=test mocha --require ts-node/register "./specs/**/*.spec.ts" --exit
+### WHOZWHO App db to start...
+### WHOZWHO App _configEnv:  test {
+    "mongodb": {
+        "uri": "mongodb://mRoot:mRoot7651234890@localhost:37007/whozwho-dev?&authSource=admin",
+        "isMocked": true,
+        "mockedPort": 54303,
+        "sandboxData": true
+    },
+    "cache": {
+        "uniqueName": "whozwho-",
+        "disabled": true,
+        "uri": "redis://default:7651234890@localhost:36009"
+    },
+    "deploy": {
+        "port": 3003,
+        "env": "test",
+        "version": "v1.0.5",
+        "isInTestMode": true,
+        "isInTraceMode": true,
+        "traceConsoleLevel": "debug",
+        "traceLogLevel": "info"
+    },
+    "integration": {
+        "threadStrategy": "direct",
+        "mailUser": "",
+        "mailPwd": "",
+        "mailTo": ""
+    },
+    "whozwho": {
+        "disabled": true,
+        "serverUrl": "http://localhost:3003",
+        "myUrl": "http://localhost:3003",
+        "category": "whozwho",
+        "id": 3001,
+        "weight": 1,
+        "alivePeriodInSec": 60
+    }
+}
+2025-04-22 22:54:16.963 - info: App trace enabled: ,true
+2025-04-22 22:54:16.964 - info: App version: ,test,v1.0.5
+2025-04-22 22:54:17.713 - info: ### App 58781 launching...
+2025-04-22 22:54:17.713 - info: ### App 58781 should be ready soon...
+2025-04-22 22:54:17.735 - info: ### App routed.
+  v1 as an Actor
+2025-04-22 22:54:18.715 - info: ### App mongodb.uri: mongodb://mRoot:mRoot7651234890@localhost:37007/whozwho-dev?&authSource=admin - true
+2025-04-22 22:54:18.742 - info: ### App 58781 has been connected
+2025-04-22 22:54:18.745 - debug: Mongoose debug : advice.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.746 - debug: Mongoose debug : actors.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.746 - debug: Mongoose debug : advice.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.747 - debug: Mongoose debug : advice.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.748 - debug: Mongoose debug : actors.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.748 - debug: Mongoose debug : advice.createIndex : "createIndex" - {"expireAfterSeconds":2592000,"background":true}
+2025-04-22 22:54:18.749 - debug: Mongoose debug : actors.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.749 - debug: Mongoose debug : status.createIndex : "createIndex" - {"expireAfterSeconds":2592000,"background":true}
+2025-04-22 22:54:18.749 - debug: Mongoose debug : advice.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.750 - debug: Mongoose debug : actors.createIndex : "createIndex" - {"expireAfterSeconds":2592000,"background":true}
+2025-04-22 22:54:18.750 - debug: Mongoose debug : status.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.751 - debug: Mongoose debug : actors.createIndex : "createIndex" - {"background":true}
+2025-04-22 22:54:18.763 - info: ### App init Done.
+2025-04-22 22:54:18.764 - warn: ### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. true
+2025-04-22 22:54:18.766 - debug: Mongoose debug : actors.deleteMany : "deleteMany" - {}
+2025-04-22 22:54:18.770 - debug: Mongoose debug : advice.deleteMany : "deleteMany" - {}
+2025-04-22 22:54:18.792 - info: ### App init Done.
+2025-04-22 22:54:18.807 - debug: GET /status [STARTED]
+2025-04-22 22:54:18.809 - info: @cache no,"/status"
+2025-04-22 22:54:18.814 - debug: Express debug: ,GET /status 200 108 - 5.623 ms
+2025-04-22 22:54:18.820 - debug: GET /status [FINISHED] 7.045 ms
+2025-04-22 22:54:18.820 - debug: GET /status [CLOSED] 12.789 ms
+2025-04-22 22:54:18.822 - debug: Mongoose debug : status.insertOne : "insertOne" - {}
+    ✔ Scenario: Check API status endpoint
+2025-04-22 22:54:18.834 - debug: POST /hi [STARTED]
+2025-04-22 22:54:18.835 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 1 true
+2025-04-22 22:54:18.842 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:18.845 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:18.852 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:18.851Z"},"$set":{"updatedAt":"2025-04-22T20:54:18.851Z","status":"done"}}
+2025-04-22 22:54:18.855 - debug: Express debug: ,POST /hi 204 - - 26.214 ms
+2025-04-22 22:54:18.855 - debug: POST /hi [FINISHED] 21.574 ms
+2025-04-22 22:54:18.856 - debug: POST /hi [CLOSED] 21.815 ms
+    ✔ Scenario: Register actor:1 with basic weight
+2025-04-22 22:54:18.858 - debug: POST /actors [STARTED]
+2025-04-22 22:54:18.858 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:18.860 - debug: Express debug: ,POST /actors 200 16 - 2.380 ms
+2025-04-22 22:54:18.860 - debug: POST /actors [FINISHED] 2.259 ms
+2025-04-22 22:54:18.860 - debug: POST /actors [CLOSED] 2.292 ms
+    ✔ Scenario: Verify actor:1 gets principal role as first actor
+2025-04-22 22:54:18.862 - debug: POST /actors [STARTED]
+2025-04-22 22:54:18.862 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:18.865 - debug: Express debug: ,POST /actors 200 39 - 3.122 ms
+2025-04-22 22:54:18.865 - debug: POST /actors [FINISHED] 3.24 ms
+2025-04-22 22:54:18.865 - debug: POST /actors [CLOSED] 3.288 ms
+2025-04-22 22:54:18.867 - debug: POST /actors [STARTED]
+2025-04-22 22:54:18.867 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+aliveActors [
+  {
+    _id: new ObjectId("680801fa62fc821f7b4cb395"),
+    actorCategory: 'actor',
+    actorId: 1,
+    actorAddress: 'http://localhost:987',
+    weight: 1,
+    alivePeriodInSec: 2,
+    isPrincipal: true,
+    version: '1.2.3',
+    last100Errors: [ 'date1:info...', 'date2:info...' ],
+    createdAt: 2025-04-22T20:54:18.841Z,
+    updatedAt: 2025-04-22T20:54:18.841Z,
+    __v: 0
+  }
+]
+2025-04-22 22:54:18.871 - debug: Express debug: ,POST /actors 200 39 - 4.811 ms
+2025-04-22 22:54:18.871 - debug: POST /actors [FINISHED] 4.794 ms
+2025-04-22 22:54:18.872 - debug: POST /actors [CLOSED] 4.841 ms
+    ✔ Scenario: Verify actors addresses
+2025-04-22 22:54:18.874 - debug: POST /hi [STARTED]
+2025-04-22 22:54:18.874 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 2 false
+2025-04-22 22:54:18.876 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:18.877 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:18.879 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:18.878Z"},"$set":{"updatedAt":"2025-04-22T20:54:18.878Z","status":"done"}}
+2025-04-22 22:54:18.881 - debug: Express debug: ,POST /hi 204 - - 6.953 ms
+2025-04-22 22:54:18.881 - debug: POST /hi [FINISHED] 6.921 ms
+2025-04-22 22:54:18.881 - debug: POST /hi [CLOSED] 6.951 ms
+2025-04-22 22:54:18.882 - debug: POST /actors [STARTED]
+2025-04-22 22:54:18.882 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:18.884 - debug: Express debug: ,POST /actors 200 15 - 1.670 ms
+2025-04-22 22:54:18.884 - debug: POST /actors [FINISHED] 1.757 ms
+2025-04-22 22:54:18.884 - debug: POST /actors [CLOSED] 1.787 ms
+    ✔ Scenario: Register actor:2 with higher weight but verify no immediate principal role
+### WHOZWHO App db started mongodb://127.0.0.1:54303/
+2025-04-22 22:54:21.888 - debug: POST /hi [STARTED]
+2025-04-22 22:54:21.888 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 2 true
+2025-04-22 22:54:21.893 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.894 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.896 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:21.896Z"},"$set":{"updatedAt":"2025-04-22T20:54:21.896Z","status":"done"}}
+2025-04-22 22:54:21.898 - debug: Express debug: ,POST /hi 204 - - 10.424 ms
+2025-04-22 22:54:21.898 - debug: POST /hi [FINISHED] 10.254 ms
+2025-04-22 22:54:21.898 - debug: POST /hi [CLOSED] 10.298 ms
+2025-04-22 22:54:21.900 - debug: POST /actors [STARTED]
+2025-04-22 22:54:21.901 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.902 - debug: Express debug: ,POST /actors 200 16 - 1.950 ms
+2025-04-22 22:54:21.902 - debug: POST /actors [FINISHED] 1.915 ms
+2025-04-22 22:54:21.902 - debug: POST /actors [CLOSED] 1.953 ms
+    ✔ Scenario: Verify actor:2 becomes principal after alive period timeout (3019ms)
+2025-04-22 22:54:21.905 - debug: POST /hi [STARTED]
+2025-04-22 22:54:21.905 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 1 false
+2025-04-22 22:54:21.907 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.908 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.910 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:21.910Z"},"$set":{"updatedAt":"2025-04-22T20:54:21.910Z","status":"done"}}
+2025-04-22 22:54:21.911 - debug: Express debug: ,POST /hi 204 - - 6.444 ms
+2025-04-22 22:54:21.911 - debug: POST /hi [FINISHED] 6.149 ms
+2025-04-22 22:54:21.911 - debug: POST /hi [CLOSED] 6.183 ms
+2025-04-22 22:54:21.912 - debug: POST /hi [STARTED]
+2025-04-22 22:54:21.912 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 2 true
+2025-04-22 22:54:21.913 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.914 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.915 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:21.915Z"},"$set":{"updatedAt":"2025-04-22T20:54:21.915Z","status":"done"}}
+2025-04-22 22:54:21.916 - debug: Express debug: ,POST /hi 204 - - 4.363 ms
+2025-04-22 22:54:21.916 - debug: POST /hi [FINISHED] 4.318 ms
+2025-04-22 22:54:21.916 - debug: POST /hi [CLOSED] 4.353 ms
+    ✔ Scenario: Keep all actors alive with heartbeat
+2025-04-22 22:54:21.917 - debug: POST /actors [STARTED]
+2025-04-22 22:54:21.917 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.919 - debug: Express debug: ,POST /actors 200 68 - 1.351 ms
+2025-04-22 22:54:21.919 - debug: POST /actors [FINISHED] 1.31 ms
+2025-04-22 22:54:21.919 - debug: POST /actors [CLOSED] 1.339 ms
+2025-04-22 22:54:21.919 - debug: POST /actors [STARTED]
+2025-04-22 22:54:21.920 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+aliveActors [
+  {
+    _id: new ObjectId("680801fd62fc821f7b4cb3a9"),
+    actorCategory: 'actor',
+    actorId: 1,
+    actorAddress: 'http://localhost:9871',
+    weight: 1,
+    alivePeriodInSec: 2,
+    isPrincipal: false,
+    version: '1.2.3',
+    last100Errors: [ 'date1:info...', 'date2:info...' ],
+    createdAt: 2025-04-22T20:54:21.907Z,
+    updatedAt: 2025-04-22T20:54:21.907Z,
+    __v: 0
+  },
+  {
+    _id: new ObjectId("680801fd62fc821f7b4cb3ae"),
+    actorCategory: 'actor',
+    actorId: 2,
+    actorAddress: 'http://localhost:9862',
+    weight: 1,
+    alivePeriodInSec: 2,
+    isPrincipal: true,
+    version: '1.2.3',
+    last100Errors: [ 'date1:info...', 'date2:info...' ],
+    createdAt: 2025-04-22T20:54:21.913Z,
+    updatedAt: 2025-04-22T20:54:21.913Z,
+    __v: 0
+  }
+]
+2025-04-22 22:54:21.921 - debug: Express debug: ,POST /actors 200 40 - 1.740 ms
+2025-04-22 22:54:21.921 - debug: POST /actors [FINISHED] 1.726 ms
+2025-04-22 22:54:21.921 - debug: POST /actors [CLOSED] 1.753 ms
+    ✔ Scenario: Verify actors last addresses
+2025-04-22 22:54:21.922 - debug: GET /advices [STARTED]
+2025-04-22 22:54:21.923 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.924 - debug: Mongoose debug : advice.find : "find" - {"sort":{"createdAt":-1}}
+2025-04-22 22:54:21.925 - debug: Express debug: ,GET /advices 404 - - 2.417 ms
+2025-04-22 22:54:21.925 - debug: GET /advices [FINISHED] 2.457 ms
+2025-04-22 22:54:21.925 - debug: GET /advices [CLOSED] 2.496 ms
+    ✔ Scenario: Verify no initial advice exists
+2025-04-22 22:54:21.926 - debug: POST /advices [STARTED]
+2025-04-22 22:54:21.926 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.927 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.928 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.929 - debug: Mongoose debug : advice.findOne : "findOne" - {}
+2025-04-22 22:54:21.930 - debug: Mongoose debug : advice.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.932 - debug: Express debug: ,POST /advices 200 75 - 5.923 ms
+2025-04-22 22:54:21.932 - debug: POST /advices [FINISHED] 5.909 ms
+2025-04-22 22:54:21.932 - debug: POST /advices [CLOSED] 5.94 ms
+    ✔ Scenario: Create update advice for actors
+2025-04-22 22:54:21.933 - debug: GET /advices [STARTED]
+2025-04-22 22:54:21.933 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.935 - debug: Mongoose debug : advice.find : "find" - {"sort":{"createdAt":-1}}
+2025-04-22 22:54:21.936 - debug: Express debug: ,GET /advices 200 75 - 2.349 ms
+2025-04-22 22:54:21.936 - debug: GET /advices [FINISHED] 2.411 ms
+2025-04-22 22:54:21.936 - debug: GET /advices [CLOSED] 2.443 ms
+2025-04-22 22:54:21.936 - debug: GET /advices [STARTED]
+2025-04-22 22:54:21.937 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.938 - debug: Mongoose debug : advice.find : "find" - {"sort":{"createdAt":-1}}
+2025-04-22 22:54:21.939 - debug: Express debug: ,GET /advices 404 - - 2.642 ms
+2025-04-22 22:54:21.939 - debug: GET /advices [FINISHED] 2.76 ms
+2025-04-22 22:54:21.939 - debug: GET /advices [CLOSED] 2.799 ms
+2025-04-22 22:54:21.940 - debug: PUT /advices/680801fd62fc821f7b4cb3ba [STARTED]
+2025-04-22 22:54:21.941 - debug: Mongoose debug : advice.findOne : "findOne" - {}
+2025-04-22 22:54:21.943 - debug: Mongoose debug : advice.updateOne : "updateOne" - {"$set":{"status":"onGoing","updatedAt":"2025-04-22T20:54:21.943Z"}}
+2025-04-22 22:54:21.945 - debug: Express debug: ,PUT /advices/680801fd62fc821f7b4cb3ba 200 72 - 4.199 ms
+2025-04-22 22:54:21.945 - debug: PUT /advices/680801fd62fc821f7b4cb3ba [FINISHED] 4.172 ms
+2025-04-22 22:54:21.945 - debug: PUT /advices/680801fd62fc821f7b4cb3ba [CLOSED] 4.197 ms
+    ✔ Scenario: Verify advice distribution and status updates based on actor weight
+2025-04-22 22:54:21.947 - debug: POST /hi [STARTED]
+2025-04-22 22:54:21.947 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+PushHighFive: 1 false
+2025-04-22 22:54:21.949 - debug: Mongoose debug : actors.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.951 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.952 - debug: Mongoose debug : advice.updateMany : "updateMany" - {"$setOnInsert":{"createdAt":"2025-04-22T20:54:21.952Z"},"$set":{"updatedAt":"2025-04-22T20:54:21.952Z","status":"done"}}
+2025-04-22 22:54:21.954 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.955 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.956 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.957 - debug: Mongoose debug : advice.findOne : "findOne" - {}
+2025-04-22 22:54:21.959 - debug: Mongoose debug : advice.insertOne : "insertOne" - {}
+2025-04-22 22:54:21.960 - debug: Express debug: ,POST /hi 204 - - 13.351 ms
+2025-04-22 22:54:21.960 - debug: POST /hi [FINISHED] 13.355 ms
+2025-04-22 22:54:21.960 - debug: POST /hi [CLOSED] 13.4 ms
+2025-04-22 22:54:21.961 - debug: GET /advices [STARTED]
+2025-04-22 22:54:21.962 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.963 - debug: Mongoose debug : advice.find : "find" - {"sort":{"createdAt":-1}}
+2025-04-22 22:54:21.965 - debug: Express debug: ,GET /advices 404 - - 3.453 ms
+2025-04-22 22:54:21.965 - debug: GET /advices [FINISHED] 3.506 ms
+2025-04-22 22:54:21.965 - debug: GET /advices [CLOSED] 3.546 ms
+2025-04-22 22:54:21.966 - debug: GET /advices [STARTED]
+2025-04-22 22:54:21.966 - debug: Mongoose debug : actors.find : "find" - {"sort":{"createdAt":-1},"limit":1000}
+2025-04-22 22:54:21.968 - debug: Mongoose debug : advice.find : "find" - {"sort":{"createdAt":-1}}
+2025-04-22 22:54:21.969 - debug: Express debug: ,GET /advices 200 75 - 3.155 ms
+2025-04-22 22:54:21.969 - debug: GET /advices [FINISHED] 3.296 ms
+2025-04-22 22:54:21.969 - debug: GET /advices [CLOSED] 3.324 ms
+    ✔ Scenario: Complete update cycle and verify advice propagation to next actor
+  v1 as an Admin
+2025-04-22 22:54:21.970 - debug: Mongoose debug : actors.deleteMany : "deleteMany" - {}
+2025-04-22 22:54:21.971 - debug: Mongoose debug : advice.deleteMany : "deleteMany" - {}
+2025-04-22 22:54:21.993 - info: ### App init Done.
+    postHi Error Handling
+2025-04-22 22:54:21.995 - debug: POST /hi [STARTED]
+2025-04-22 22:54:21.998 - error: _badRequest: ,"needs an high five, actor category, id and address" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postHi (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:59:32)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:21.999 - debug: Express debug: ,POST /hi 400 - - 3.869 ms
+2025-04-22 22:54:21.999 - debug: POST /hi [FINISHED] 4.027 ms
+2025-04-22 22:54:21.999 - debug: POST /hi [CLOSED] 4.066 ms
+      ✔ should return 400 when missing required fields
+2025-04-22 22:54:22.001 - debug: POST /hi [STARTED]
+2025-04-22 22:54:22.001 - error: _badRequest: ,"needs an high five, actor category, id and address" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postHi (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:59:32)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:22.002 - debug: Express debug: ,POST /hi 400 - - 0.894 ms
+2025-04-22 22:54:22.002 - debug: POST /hi [FINISHED] 1.075 ms
+2025-04-22 22:54:22.002 - debug: POST /hi [CLOSED] 1.106 ms
+      ✔ should return 400 when missing actor information
+    postActor Error Handling
+2025-04-22 22:54:22.004 - debug: POST /actors [STARTED]
+2025-04-22 22:54:22.004 - error: _badRequest: ,"needs a question" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postActor (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:79:32)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:22.004 - debug: Express debug: ,POST /actors 400 - - 0.730 ms
+2025-04-22 22:54:22.004 - debug: POST /actors [FINISHED] 0.933 ms
+2025-04-22 22:54:22.004 - debug: POST /actors [CLOSED] 0.957 ms
+      ✔ should return 400 when missing question
+2025-04-22 22:54:22.005 - debug: POST /actors [STARTED]
+2025-04-22 22:54:22.006 - error: _badRequest: ,"needs a relevant question" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postActor (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:116:36)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:22.007 - debug: Express debug: ,POST /actors 400 - - 0.988 ms
+2025-04-22 22:54:22.007 - debug: POST /actors [FINISHED] 1.347 ms
+2025-04-22 22:54:22.007 - debug: POST /actors [CLOSED] 1.373 ms
+      ✔ should return 400 when missing actor info for PRINCIPAL question
+2025-04-22 22:54:22.008 - debug: POST /actors [STARTED]
+2025-04-22 22:54:22.008 - error: _badRequest: ,"needs a relevant question" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postActor (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:116:36)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:22.009 - debug: Express debug: ,POST /actors 400 - - 0.901 ms
+2025-04-22 22:54:22.009 - debug: POST /actors [FINISHED] 1.182 ms
+2025-04-22 22:54:22.009 - debug: POST /actors [CLOSED] 1.219 ms
+      ✔ should return 400 when missing category for ADDRESS questions
+    Advice Endpoints Error Handling
+2025-04-22 22:54:22.010 - debug: POST /advices [STARTED]
+2025-04-22 22:54:22.011 - error: _badRequest: ,"needs a advice type, actor category and id" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._badRequest (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:98:52)
+    at postAdvice (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:132:32)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:284:15
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at Function.handle (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:175:3)
+    at router (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:47:12)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimingMiddleware.ts:134:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/src/middlewares/TimeTrackingMiddleware.ts:54:13
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at compression (/Users/lep/Workspace/mlefree/whozwho/node_modules/compression/index.js:243:5)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at urlencodedParser (/Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/types/urlencoded.js:85:7)
+    at Layer.handle [as handle_request] (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/layer.js:95:5)
+    at trim_prefix (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:328:13)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:286:9
+    at Function.process_params (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:346:12)
+    at next (/Users/lep/Workspace/mlefree/whozwho/node_modules/express/lib/router/index.js:280:10)
+    at /Users/lep/Workspace/mlefree/whozwho/node_modules/body-parser/lib/read.js:137:5
+    at AsyncResource.runInAsyncScope (node:async_hooks:211:14)
+    at invokeCallback (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:238:16)
+    at done (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:227:7)
+    at IncomingMessage.onEnd (/Users/lep/Workspace/mlefree/whozwho/node_modules/raw-body/index.js:287:7)
+    at IncomingMessage.emit (node:events:518:28)
+    at endReadableNT (node:internal/streams/readable:1698:12)
+    at processTicksAndRejections (node:internal/process/task_queues:90:21)
+2025-04-22 22:54:22.011 - debug: Express debug: ,POST /advices 400 - - 0.812 ms
+2025-04-22 22:54:22.011 - debug: POST /advices [FINISHED] 1.035 ms
+2025-04-22 22:54:22.011 - debug: POST /advices [CLOSED] 1.063 ms
+      ✔ should return 400 when posting advice with missing fields
+2025-04-22 22:54:22.012 - debug: PUT /advices/invalidId [STARTED]
+2025-04-22 22:54:22.013 - debug: _notFound: ,"Need a valid adviceId" >> stack : Error:
+    at Function._errorDetails (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:67:19)
+    at Function._notFound (/Users/lep/Workspace/mlefree/whozwho/src/controllers/abstract.ts:92:52)
+    at loadAdviceId (/Users/lep/Workspace/mlefree/whozwho/src/controllers/admin.ts:164:32)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+2025-04-22 22:54:22.013 - debug: Express debug: ,PUT /advices/invalidId 404 428 - 0.785 ms
+2025-04-22 22:54:22.013 - debug: PUT /advices/invalidId [FINISHED] 0.752 ms
+2025-04-22 22:54:22.013 - debug: PUT /advices/invalidId [CLOSED] 0.775 ms
+      ✔ should return 404 when advice not found
+    Update Method
+2025-04-22 22:54:22.014 - warn: #UPDATE app with "npm run update"...
+      ✔ should return TODO message
+2025-04-22 22:54:22.014 - warn: #UPDATE app with "npm run update"...
+      ✔ should not call npm run update in test mode
+  21 passing (4s)
+### WHOZWHO App about to exit.
+2025-04-22 22:54:22.015 - info: ### App 58781 has been exited

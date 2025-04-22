@@ -20,6 +20,26 @@ This includes:
   date "+%Y-%m-%d"  # Verify this matches expected release date
   ```
 
+#### Date Management
+
+Always obtain the current date from the system using:
+
+```bash
+date "+%Y-%m-%d"
+```
+
+Important date-related guidelines:
+
+1. Never assume or guess dates
+2. Don't rely on conversation context for dates
+3. Don't ask humans for date confirmation when system date is available
+4. Use ISO 8601 format (YYYY-MM-DD) for all dates
+5. Verify system date before updating date-sensitive files:
+    - CHANGELOG.md
+    - Release tags
+    - Version updates
+    - Documentation timestamps
+
 ### Step-by-Step Process
 
 ⚠️ If any task fails, you must:

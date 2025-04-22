@@ -4,7 +4,7 @@ import {Whozwho} from 'whozwho-client';
 import {logger} from '../factories/logger';
 import {config} from '../config';
 import {AbstractController} from './abstract';
-import {ActorAnswer, ActorQuestion, ActorStatics} from '../models/actor';
+import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
 
 export class AdminController extends AbstractController {
@@ -47,20 +47,21 @@ export class AdminController extends AbstractController {
     }
 
     static async postHi(req: Request, res: Response) {
-        const {actorCategory, actorId} = AbstractController._host(req);
+        const {actorCategory, actorId, actorAddress} = AbstractController._host(req);
         const hi: {
             weight: number,
             alivePeriodInSec: number,
             version: string,
             last100Errors: string[]
         } = AbstractController._body(req);
-        if (!hi || Object.keys(hi).length !== 4 || !actorCategory || typeof actorId === 'undefined') {
-            AbstractController._badRequest(res, 'needs an high five, actor category and id');
+        if (!hi || Object.keys(hi).length !== 4 ||
+            !actorCategory || typeof actorId === 'undefined' || typeof actorAddress === 'undefined') {
+            AbstractController._badRequest(res, 'needs an high five, actor category, id and address');
             return;
         }
 
         try {
-            await ActorStatics.PushHighFive(actorCategory, actorId, hi);
+            await ActorStatics.PushHighFive(actorCategory, actorId, actorAddress, hi);
 
             await AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
         } catch (e) {
@@ -72,19 +73,48 @@ export class AdminController extends AbstractController {
     }
 
     static async postActor(req: Request, res: Response) {
-        const {actorCategory, actorId} = AbstractController._host(req);
+        const {actorCategory, actorId, actorAddress} = AbstractController._host(req);
         const body = AbstractController._body(req);
-        if (!body?.question || !actorCategory || typeof actorId === 'undefined') {
-            AbstractController._badRequest(res, 'needs a question, actor category and id');
+        if (!body?.question) {
+            AbstractController._badRequest(res, 'needs a question');
             return;
         }
 
-        let answer: ActorAnswer;
+        let answer: any;
         try {
 
             const question = body.question;
             if (question === ActorQuestion.PRINCIPAL) {
+                if (!actorCategory || typeof actorId === 'undefined') {
+                    AbstractController._badRequest(res, 'needs an actor category and id');
+                    return;
+                }
                 answer = await ActorStatics.HaveAPrincipalRole(actorCategory, actorId);
+            } else if (question === ActorQuestion.ADDRESS_ALL) {
+                if (!body.category) {
+                    AbstractController._badRequest(res, 'needs an actor category');
+                    return;
+                }
+                const actors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(body.category);
+
+                answer = {};
+                for (const actor of actors) {
+                    answer[actor.actorId] = actor.actorAddress;
+                }
+            } else if (question === ActorQuestion.ADDRESS_PRINCIPAL) {
+                if (!body.category) {
+                    AbstractController._badRequest(res, 'needs an actor category');
+                    return;
+                }
+                const actor = await ActorStatics.GetPrincipalActorFromCategory(body.category);
+
+                answer = {};
+                if (actor) {
+                    answer[actor.actorId] = actor.actorAddress;
+                }
+            } else {
+                AbstractController._badRequest(res, 'needs a relevant question');
+                return;
             }
 
         } catch (e) {
@@ -113,6 +143,9 @@ export class AdminController extends AbstractController {
                     AbstractController._badRequest(res, 'needs a valid sender and advice');
                     return;
                 }
+            } else {
+                AbstractController._badRequest(res, 'needs a valid advice');
+                return;
             }
 
         } catch (e) {

@@ -7,7 +7,7 @@ export const routes = async (router: Router) => {
     // Give me a High Five: to say that you're alive - and still acting !
     router.post('/hi', AdminController.postHi);
 
-    // Ask your preferred actor's question: Have I a principal role ?...
+    // Ask your preferred actor's question: Have I the principal role ? or needs an address ?...
     router.post('/actors', AdminController.postActor);
 
     // May I give you one advice ?
