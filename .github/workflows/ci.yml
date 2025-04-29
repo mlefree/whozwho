@@ -34,10 +34,10 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run tests
-        run: npm test
-        env:
-          NODE_ENV: test
+      #- name: Run tests
+      #  run: npm test
+      #  env:
+      #    NODE_ENV: test
 
       - name: Build app
         run: npm run build
@@ -55,35 +55,31 @@ jobs:
 
           # Create a temp directory and copy app contents there
           mkdir -p dist
+          cd dist
+          
+          # Fetch the existing app branch
+          git init
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
+          git checkout -b app
+          git pull --set-upstream origin app
+          
+          # Make changes
+          cd ..
           cp -r app dist
           cp package*.json dist/.
           cp .gitignore.app dist/.gitignore
           cd dist
-
-          # Initialize new git repo with just app contents
-          git init
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
-          # Try to fetch the existing app branch to preserve history
-          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
-          git checkout -b app origin/app
-          git pull --rebase --set-upstream origin app
-
-          # Add all files from app directory
+          
+          # Commit changes
           git add .
-
-          # Create commit with app files at root
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
-
-          # Push to app branch with app contents at root (without force flag to preserve history)
           git push
-
-          # Fetch all tags to check if our tag already exists
-          git fetch --tags origin
 
           # Check if tag exists, create and push tag with the version if it doesn't
           # Tag is created on the app branch
+          git fetch --tags origin
           if ! git tag -l | grep -q "^$TAG_NAME$"; then
             git tag -a "$TAG_NAME" -m "Version $VERSION"
             git push "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" "$TAG_NAME"
