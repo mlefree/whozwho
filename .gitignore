@@ -76,3 +76,5 @@ app/
 *gitignored
 
 .DS_store
+.output.txt
+.outputs.txt

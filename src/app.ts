@@ -26,7 +26,7 @@ const listen = async () => {
 export const $app = (async () => {
     logger.info(`### App ${process.pid} should be ready soon...`);
 
-    await sleep(1000);
+    await sleep(5000); // make sure that DB's started
     const mongoose = await $mongoose;
     const expressApp = await $express;
     try {

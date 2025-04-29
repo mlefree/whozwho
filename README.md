@@ -19,6 +19,23 @@
 
 For detailed feature information, see [CHANGELOG.md](CHANGELOG.md) and [specs/REQUIREMENTS.md](specs/REQUIREMENTS.md).
 
+## 📚 Documentation
+
+### Memory Bank
+
+This project uses a Memory Bank for comprehensive documentation and context retention. The Memory Bank is located in the
+`.memory-bank` directory and contains the following files:
+
+- `memory-bank-rules.md`: Rules to follow and to consider in all contexts
+- `projectbrief.md`: Overview of the project, core requirements, and goals
+- `productContext.md`: Why the project exists, problems it solves, and how it works
+- `systemPatterns.md`: System architecture, key technical decisions, and design patterns
+- `techContext.md`: Technologies used, development setup, and technical constraints
+- `activeContext.md`: Current work focus, recent changes, and next steps
+- `progress.md`: What works, what's left to build, and known issues
+
+=> !! These files should always be considered as a context and kept up-to-date !!
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -92,7 +109,8 @@ PUT /advices/:adviceId    # Update advice status
 
 The advice system currently supports `UPDATE` for coordinating version updates across actors.
 
-For detailed API specifications and future planned advice types, see [specs/REQUIREMENTS.md](specs/REQUIREMENTS.md#api-requirements).
+For detailed API specifications and future planned advice types,
+see [specs/REQUIREMENTS.md](specs/REQUIREMENTS.md#api-requirements).
 
 ## 🏗 Architecture
 
@@ -154,7 +172,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Current version: 1.1.0 (Released 2025-04-22)
 
-See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and version history, and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release procedures.
+See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and version history,
+and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release procedures.
 
 ---
 

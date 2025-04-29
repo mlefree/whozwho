@@ -15,6 +15,11 @@ if (process.env.NODE_ENV === 'test') {
     _config = require('./env/development').defaultConfig;
 }
 
+if (cluster.isPrimary && worker_threads.isMainThread) {
+    console.log('### WHOZWHO App _configEnv: ', process.env.NODE_ENV,
+        JSON.stringify(_config, null, 4));
+}
+
 if (cluster.isPrimary && worker_threads.isMainThread && _config.mongodb.isMocked) {
     const {MongoMemoryServer} = require('mongodb-memory-server');
     console.log('### WHOZWHO App db to start...');
@@ -27,11 +32,6 @@ if (cluster.isPrimary && worker_threads.isMainThread && _config.mongodb.isMocked
         console.warn('### WHOZWHO App about to exit.');
         await mongoServer.stop();
     });
-}
-
-if (cluster.isPrimary && worker_threads.isMainThread) {
-    console.log('### WHOZWHO App _configEnv: ', process.env.NODE_ENV,
-        JSON.stringify(_config, null, 4));
 }
 
 export const config = _config;

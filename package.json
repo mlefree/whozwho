@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.1.0",
+  "version": "1.1.2",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
@@ -24,12 +24,12 @@
     "compression": "^1.7.4",
     "dotenv": "^16.4.5",
     "express": "^4.21.2",
-    "mle-tools-node": "^1.11.16",
+    "mle-tools-node": "^1.12.3",
     "mongodb-memory-server": "^10.1.2",
     "mongoose": "^7.8.1",
     "morgan": "^1.9.1",
     "npm-run": "^5.0.1",
-    "whozwho-client": "^1.1.1",
+    "whozwho-client": "^1.1.2",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
