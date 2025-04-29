@@ -52,7 +52,7 @@ jobs:
         run: |
           # Extract version from package.json
           VERSION=$(node -p "require('./package.json').version")
-          TAG_NAME="v$VERSION"
+          TAG_NAME="app.v$VERSION"
 
           # Create a temp directory and copy app contents there
           mkdir -p dist
