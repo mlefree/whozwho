@@ -158,6 +158,31 @@ For detailed technical requirements, see [specs/REQUIREMENTS.md](specs/REQUIREME
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+## Release process
+
+1. Make sure documentation is up to date before releasing:
+   - README.md (badges, version numbers)
+   - CHANGELOG.md (add new version with changes)
+   - Memory bank files
+
+2. Run the release script to bump version, commit, and push changes:
+   ```bash
+   npm run release
+   ```
+
+This will:
+- Increment the patch version in package.json
+- Update the build.ts file with the new version
+- Add all changed files to git
+- Commit with a standardized message
+- Push to the main branch
+
+The CI workflow will then:
+- Run tests
+- Build the application
+- Push the compiled output to the app branch
+- Create version tags on both app and main branches
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
@@ -173,7 +198,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Current version: 1.1.0 (Released 2025-04-22)
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and version history,
-and [RELEASE_PROCESS.md](RELEASE_PROCESS.md) for release procedures.
 
 ---
 

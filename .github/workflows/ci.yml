@@ -50,25 +50,80 @@ jobs:
 
       - name: Push app directory to app branch
         run: |
+          # Extract version from package.json
+          VERSION=$(node -p "require('./package.json').version")
+          TAG_NAME="v$VERSION"
+
           # Create a temp directory and copy app contents there
           mkdir -p dist
           cp -r app dist
           cp package*.json dist/.
           cp .gitignore.app dist/.gitignore
           cd dist
-          
+
           # Initialize new git repo with just app contents
           git init
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
+          # Try to fetch the existing app branch to preserve history
+          git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
+          git fetch origin app || echo "App branch doesn't exist yet, will create it"
+
+          # If app branch exists, check it out to preserve history
+          if git branch -r | grep -q "origin/app"; then
+            git checkout -b app origin/app
+            # Clean the working directory to ensure we have only our new files
+            git rm -rf .
+          else
+            # Create a new app branch if it doesn't exist
+            git checkout -b app
+          fi
+
           # Add all files from app directory
           git add .
-          
+
           # Create commit with app files at root
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
-          
-          # Push to app branch with app contents at root
-          git push -f "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" HEAD:app
+
+          # Push to app branch with app contents at root (without force flag to preserve history)
+          git push "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" app:app
+
+          # Fetch all tags to check if our tag already exists
+          git fetch --tags origin
+
+          # Check if tag exists, create and push tag with the version if it doesn't
+          # Tag is created on the app branch
+          if ! git tag -l | grep -q "^$TAG_NAME$"; then
+            git tag -a "$TAG_NAME" -m "Version $VERSION"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" "$TAG_NAME"
+            echo "Created and pushed tag $TAG_NAME on app branch"
+          else
+            echo "Tag $TAG_NAME already exists, skipping tag creation"
+          fi
+
+          # Return to the main repository directory
+          cd ..
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag main branch with version
+        run: |
+          # Extract version from package.json
+          VERSION=$(node -p "require('./package.json').version")
+          TAG_NAME="v$VERSION"
+
+          # Fetch all tags to check if our tag already exists
+          git fetch --tags origin
+
+          # Check if tag exists, create and push tag with the version if it doesn't
+          # Tag is created on the main branch
+          if ! git tag -l | grep -q "^$TAG_NAME$"; then
+            git tag -a "$TAG_NAME" -m "Version $VERSION"
+            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" "$TAG_NAME"
+            echo "Created and pushed tag $TAG_NAME on main branch"
+          else
+            echo "Tag $TAG_NAME already exists, skipping tag creation"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
