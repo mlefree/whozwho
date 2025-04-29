@@ -1,0 +1,59 @@
+{
+  "name": "free.mle.whozwho",
+  "version": "1.1.4",
+  "description": "whozwho",
+  "author": "mlefree",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.x"
+  },
+  "scripts": {
+    "_clean": "rm -rf package-lock.json node_modules .gen .logs .nyc_output && npm i",
+    "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\" && echo \"export const appBuildInfo={version:'$VERSION'}\" > ./src/config/build.ts",
+    "build": "rm -rf app && npx tsc",
+    "test": "npm run test-mocha-integration",
+    "start": "npm run build && npm run start-app",
+    "start-app": "node app/app.js",
+    "start-in-docker": "node app/app.js",
+    "test-mocha-integration": "env NODE_ENV=test mocha --require ts-node/register \"./specs/**/*.spec.ts\" --exit",
+    "update": "git reset --hard HEAD && git pull --rebase --force && npm i --omit=dev",
+    "release": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main"
+  },
+  "dependencies": {
+    "axios": "^1.8.4",
+    "body-parser": "^1.20.2",
+    "compression": "^1.7.4",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "mle-tools-node": "^1.12.3",
+    "mongodb-memory-server": "^10.1.2",
+    "mongoose": "^7.8.1",
+    "morgan": "^1.9.1",
+    "npm-run": "^5.0.1",
+    "whozwho-client": "^1.1.3",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^5.2.0",
+    "@types/compression": "^1.7.5",
+    "@types/express": "^5.0.0",
+    "@types/mocha": "^10.0.1",
+    "@types/mongoose": "^5.11.97",
+    "@types/morgan": "^1.9.9",
+    "@types/npm-run": "^5.0.3",
+    "@types/sinon": "^17.0.4",
+    "@types/supertest": "^6.0.2",
+    "chai": "^4.3.7",
+    "chai-as-promised": "^7.1.1",
+    "chai-spies": "^1.0.0",
+    "dotenv-cli": "^7.4.2",
+    "eslint": "^7.6.0",
+    "mocha": "^10.2.0",
+    "sinon": "^20.0.0",
+    "supertest": "^6.1.1",
+    "ts-node": "^8.10.2",
+    "tslint": "^6.1.3",
+    "typescript": "^5.0.4"
+  }
+}
