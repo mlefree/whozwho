@@ -68,6 +68,7 @@ jobs:
           # Try to fetch the existing app branch to preserve history
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
           git checkout -b app
+          git pull --set-upstream origin app
 
           # Add all files from app directory
           git add .
@@ -76,7 +77,6 @@ jobs:
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
 
           # Push to app branch with app contents at root (without force flag to preserve history)
-          git pull
           git push --set-upstream origin app
 
           # Fetch all tags to check if our tag already exists
