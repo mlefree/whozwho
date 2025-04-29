@@ -1,11 +1,11 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
   "engines": {
-    "node": ">=22.x"
+    "node": ">=18.x"
   },
   "scripts": {
     "_clean": "rm -rf package-lock.json node_modules .gen .logs .nyc_output && npm i",
