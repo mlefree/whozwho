@@ -72,7 +72,8 @@ jobs:
 
           # If app branch exists, check it out to preserve history
           if git branch -r | grep -q "origin/app"; then
-            git checkout -b app origin/app
+            # Force checkout to overwrite any untracked files
+            git checkout -f -b app origin/app
             # Clean the working directory to ensure we have only our new files
             git rm -rf .
           else
