@@ -1,1 +1,1 @@
-export const appBuildInfo={version:'v1.1.5'}
+export const appBuildInfo={version:'v1.1.6'}

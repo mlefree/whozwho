@@ -77,7 +77,7 @@ jobs:
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
 
           # Push to app branch with app contents at root (without force flag to preserve history)
-          git push --set-upstream origin app
+          git push
 
           # Fetch all tags to check if our tag already exists
           git fetch --tags origin
