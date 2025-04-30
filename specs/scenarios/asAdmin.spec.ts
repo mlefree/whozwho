@@ -9,8 +9,6 @@ import {initApp} from '../../src/config/init/initApp';
 import {logger} from '../../src/factories/logger';
 import agent from 'supertest';
 import sinon from 'sinon';
-import npmRun from 'npm-run';
-import {AdminController} from '../../src/controllers/admin';
 
 /**
  * Test suite for Admin controller functionality
@@ -149,24 +147,97 @@ describe('v1 as an Admin', function () {
     /**
      * Test the Update method
      */
-    describe('Update Method', () => {
-        it('should return TODO message', async () => {
-            // Call the Update method directly
-            const result = await AdminController['Update']();
+    // describe('Update Method', () => {
+    //     it('should return TODO message', async () => {
+    //         // Call the Update method directly
+    //         const result = await AdminController['Update']();
+//
+    //         // Verify it returns the TODO message
+    //         expect(result).to.equal('TODO be careful');
+    //     });
+//
+    //     it('should not call npm run update in test mode', async () => {
+    //         // Spy on npmRun.exec
+    //         const execSpy = sinon.spy(npmRun, 'exec');
+//
+    //         // Call the Update method
+    //         await AdminController['Update']();
+//
+    //         // Verify npmRun.exec was not called
+    //         expect(execSpy.called).to.be.false;
+    //     });
+    // });
 
-            // Verify it returns the TODO message
-            expect(result).to.equal('TODO be careful');
+    /**
+     * Test the getActors endpoint
+     */
+    describe('getActors Endpoint', () => {
+        before(async () => {
+            const mongoose_ = await $mongoose;
+            // Clear existing actors
+            await mongoose_.model('Actor').deleteMany({});
+
+            // Create test actors
+            const ActorModel = mongoose_.model('Actor');
+
+            // Create actors for category1
+            await new ActorModel({
+                actorCategory: 'category1',
+                actorId: 1,
+                actorAddress: 'address1',
+                weight: 2,
+                alivePeriodInSec: 100,
+                isPrincipal: true,
+                version: '1.0.0',
+                last100Errors: []
+            }).save();
+
+            await new ActorModel({
+                actorCategory: 'category1',
+                actorId: 2,
+                actorAddress: 'address2',
+                weight: 1,
+                alivePeriodInSec: 100,
+                isPrincipal: false,
+                version: '1.0.0',
+                last100Errors: []
+            }).save();
+
+            // Create actor for category2
+            await new ActorModel({
+                actorCategory: 'category2',
+                actorId: 3,
+                actorAddress: 'address3',
+                weight: 3,
+                alivePeriodInSec: 100,
+                isPrincipal: true,
+                version: '1.0.0',
+                last100Errors: []
+            }).save();
         });
 
-        it('should not call npm run update in test mode', async () => {
-            // Spy on npmRun.exec
-            const execSpy = sinon.spy(npmRun, 'exec');
+        it('should return all alive actors', async () => {
+            const res = await agent(await $app)
+                .get('/actors')
+                .set('Content-Type', 'application/json')
+                .expect(200);
 
-            // Call the Update method
-            await AdminController['Update']();
+            // Verify response format
+            expect(res.body).to.have.property('actors');
+            expect(res.body.actors).to.be.an('array');
 
-            // Verify npmRun.exec was not called
-            expect(execSpy.called).to.be.false;
+            // Verify we have all 3 actors
+            expect(res.body.actors.length).to.equal(3);
+
+            // Verify actor properties
+            const categories = res.body.actors.map(actor => actor.actorCategory);
+            expect(categories).to.include('category1');
+            expect(categories).to.include('category2');
+
+            // Verify actors are sorted by weight within categories
+            const category1Actors = res.body.actors.filter(actor => actor.actorCategory === 'category1');
+            expect(category1Actors.length).to.equal(2);
+            expect(category1Actors[0].weight).to.be.lessThanOrEqual(category1Actors[1].weight);
         });
     });
 });

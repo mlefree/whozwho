@@ -13,19 +13,27 @@ The current focus of the WhozWho project is on maintaining and enhancing the exi
 
 Based on the CHANGELOG.md, the most recent changes to the project include:
 
+### Version 1.1.8 (2025-05-01)
+- Improved CI workflow stability
+- Updated dependencies
+
+### Version 1.1.7 (2025-04-29)
+- Enhanced CI process
+- Fixed minor issues
+
+### Version 1.1.6 (2025-04-27)
+- Continued improvements to CI workflow
+- Updated build process
+
+### Version 1.1.5 (2025-04-25)
+- Updated CI workflow to use new tag naming convention (app.v$VERSION)
+
 ### Version 1.1.0 (2025-04-22)
 - Enhanced actor management capabilities
 - Improved admin controls
 - Updated environment configurations
 - Updated dependencies
 - Improved test coverage
-
-### Version 1.0.3 (2025-03-24)
-- Fixed API endpoint issues
-- Resolved test failures across all scenarios
-- Corrected Content-Type header fields in responses
-- Fixed actor registration and role verification
-- Resolved advice distribution and update cycle issues
 
 ## Next Steps
 

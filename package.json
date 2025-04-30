@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.1.7",
+  "version": "1.1.9",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
@@ -9,15 +9,15 @@
   },
   "scripts": {
     "_clean": "rm -rf package-lock.json node_modules .gen .logs .nyc_output && npm i",
-    "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\" && echo \"export const appBuildInfo={version:'$VERSION'}\" > ./src/config/build.ts",
+    "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\" && npm i && echo \"export const appBuildInfo={version:'$VERSION'}\" > ./src/config/build.ts",
+    "release": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main",
     "build": "rm -rf app && npx tsc",
     "test": "npm run test-mocha-integration",
     "start": "npm run build && npm run start-app",
     "start-app": "node app/app.js",
     "start-in-docker": "node app/app.js",
     "test-mocha-integration": "env NODE_ENV=test mocha --require ts-node/register \"./specs/**/*.spec.ts\" --exit",
-    "update": "git reset --hard HEAD && git pull --rebase --force && npm i --omit=dev",
-    "release": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main"
+    "update": "git reset --hard HEAD && git pull --rebase --force && npm i"
   },
   "dependencies": {
     "axios": "^1.8.4",

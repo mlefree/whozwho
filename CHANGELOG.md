@@ -7,6 +7,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.8] - 2025-05-01
+
+### Changed
+- Improved CI workflow stability
+- Updated dependencies
+
+## [1.1.7] - 2025-04-29
+
+### Changed
+- Enhanced CI process
+- Fixed minor issues
+
+## [1.1.6] - 2025-04-27
+
+### Changed
+- Continued improvements to CI workflow
+- Updated build process
+
 ## [1.1.5] - 2025-04-25
 
 ### Changed
@@ -60,7 +78,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.5...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.8...HEAD
+[1.1.8]: https://github.com/mlefree/whozwho/compare/v1.1.7...v1.1.8
+[1.1.7]: https://github.com/mlefree/whozwho/compare/v1.1.6...v1.1.7
+[1.1.6]: https://github.com/mlefree/whozwho/compare/v1.1.5...v1.1.6
 [1.1.5]: https://github.com/mlefree/whozwho/compare/v1.1.0...v1.1.5
 [1.1.0]: https://github.com/mlefree/whozwho/compare/v1.0.3...v1.1.0
 [1.0.3]: https://github.com/mlefree/whozwho/compare/v1.0.0...v1.0.3

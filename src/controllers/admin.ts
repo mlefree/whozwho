@@ -2,7 +2,7 @@ import {Request, Response} from 'express';
 import npmRun from 'npm-run';
 import {Whozwho} from 'whozwho-client';
 import {logger} from '../factories/logger';
-import {config} from '../config';
+import {whozwhoConfig} from '../config';
 import {AbstractController} from './abstract';
 import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
@@ -13,10 +13,10 @@ export class AdminController extends AbstractController {
         let status: any = {};
         try {
             const {StatusStatics} = require('../models/status');
-            status = await StatusStatics.BuildSummarizedStatus(config.deploy.version);
+            status = await StatusStatics.BuildSummarizedStatus(whozwhoConfig.deploy.version);
 
-            if (!config.whozwho.disabled) {
-                const whozwho = new Whozwho(config);
+            if (!whozwhoConfig.whozwho.disabled) {
+                const whozwho = new Whozwho(whozwhoConfig);
                 const advices = await whozwho.getAdvices();
                 for (const advice of (advices || [])) {
                     if (advice.type === AdviceType.UPDATE) {
@@ -211,15 +211,37 @@ export class AdminController extends AbstractController {
         }
     }
 
+    static async getActors(req: Request, res: Response) {
+        try {
+            // Get all actor categories
+            const categories = await ActorStatics.GetAllCategories();
+
+            // Array to store all alive actors
+            let allAliveActors: any[] = [];
+
+            // For each category, get all alive actors
+            for (const category of categories) {
+                const actorsInCategory = await ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
+                allAliveActors = allAliveActors.concat(actorsInCategory);
+            }
+
+            // Return the actors in the expected format
+            res.status(200).type('application/json').send({actors: allAliveActors});
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+        }
+    }
+
     protected static async Update() {
-        logger.warn('#UPDATE app with "npm run update"...');
-        return 'TODO be careful';
+        logger.warn('#UPDATE app with "npm run update" (only in production) ...');
+        if (whozwhoConfig.deploy.env !== 'production') {
+            return;
+        }
 
         npmRun.exec('npm run update', {}, async (err, stdout, stderr) => {
             logger.warn(`#UPDATE ${process.pid} update: `, err, stdout, stderr);
             process.exit(0);
         });
-
     }
 
 }

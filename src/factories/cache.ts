@@ -1,20 +1,20 @@
 import {CACHE_COUNT, CACHE_STORE, CACHE_TTL, cacheFactory, lru} from 'mle-tools-node';
-import {config} from '../config';
+import {whozwhoConfig} from '../config';
 import {Tools} from '../shared/tools';
 
-const cacheType = config.cache.uri ? CACHE_STORE.REDIS : CACHE_STORE.MEMORY;
-const cacheStore = config.cache.disabled ? CACHE_STORE.NONE : cacheType;
+const cacheType = whozwhoConfig.cache.uri ? CACHE_STORE.REDIS : CACHE_STORE.MEMORY;
+const cacheStore = whozwhoConfig.cache.disabled ? CACHE_STORE.NONE : cacheType;
 
 const cacheOptionsLRU = {
-    instanceName: config.cache.uniqueName + Tools.GetHostname(),
+    instanceName: whozwhoConfig.cache.uniqueName + Tools.GetHostname(),
     store: cacheStore,
     ttl: CACHE_TTL.TEN_MINUTES,
     max: CACHE_COUNT.LARGE,
-    redisUrl: config.cache.uri
+    redisUrl: whozwhoConfig.cache.uri
 };
 const cacheOptionsFast = {
     ...cacheOptionsLRU,
-    ttl: CACHE_TTL.MINUTE,
+    ttl: 15 * 1000,
 };
 const cacheOptionsLong = {
     ...cacheOptionsLRU,

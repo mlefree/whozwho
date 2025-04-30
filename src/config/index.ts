@@ -34,4 +34,4 @@ if (cluster.isPrimary && worker_threads.isMainThread && _config.mongodb.isMocked
     });
 }
 
-export const config = _config;
+export const whozwhoConfig = _config;

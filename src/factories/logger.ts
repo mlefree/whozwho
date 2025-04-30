@@ -1,13 +1,13 @@
 import {Logger, loggerFactory, LoggerLevels} from 'mle-tools-node';
-import {config} from '../config';
+import {whozwhoConfig} from '../config';
 
 loggerFactory.setUp(
-    config.deploy.isInTraceMode,
-    config.deploy.traceConsoleLevel as LoggerLevels,
-    config.deploy.traceLogLevel as LoggerLevels,
-    config.integration.mailUser,
-    config.integration.mailPwd,
-    config.integration.mailTo,
+    whozwhoConfig.deploy.isInTraceMode,
+    whozwhoConfig.deploy.traceConsoleLevel as LoggerLevels,
+    whozwhoConfig.deploy.traceLogLevel as LoggerLevels,
+    whozwhoConfig.integration.mailUser,
+    whozwhoConfig.integration.mailPwd,
+    whozwhoConfig.integration.mailTo,
 );
 
 const logger: Logger = loggerFactory.getLogger();

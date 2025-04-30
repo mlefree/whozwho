@@ -12,6 +12,10 @@ export const routes = async (router: Router) => {
     //  => { answer : { actorId: 'result...', ...}}
     router.post('/actors', AdminController.postActor);
 
+    // Get all alive actors
+    //  => {actors: [{<ActorSchema>}, {...}]}
+    router.get('/actors', AdminController.getActors);
+
     // May I give you one advice ?
     // => { advices: [{id:12  type:'UPDATE'}, {...}] }
     router.post('/advices', AdminController.postAdvice);

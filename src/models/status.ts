@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import {config} from '../config';
+import {whozwhoConfig} from '../config';
 import {cacheFactory, cacheStore} from '../factories/cache';
 
 export const StatusSchema: any = {
@@ -30,7 +30,7 @@ export const StatusStatics = {
         const ok = true;
         const status = {
             version,
-            env: '' + config.deploy.env,
+            env: '' + whozwhoConfig.deploy.env,
             cache: {
                 store: cacheStore,
                 ok: cacheFactory.isOk(),
