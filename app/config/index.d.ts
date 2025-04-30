@@ -1,2 +1,2 @@
 import { IConfig } from './env/_default';
-export declare const config: IConfig;
+export declare const whozwhoConfig: IConfig;

@@ -5,20 +5,20 @@ const mle_tools_node_1 = require("mle-tools-node");
 Object.defineProperty(exports, "cacheFactory", { enumerable: true, get: function () { return mle_tools_node_1.cacheFactory; } });
 const config_1 = require("../config");
 const tools_1 = require("../shared/tools");
-const cacheType = config_1.config.cache.uri ? mle_tools_node_1.CACHE_STORE.REDIS : mle_tools_node_1.CACHE_STORE.MEMORY;
-const cacheStore = config_1.config.cache.disabled ? mle_tools_node_1.CACHE_STORE.NONE : cacheType;
+const cacheType = config_1.whozwhoConfig.cache.uri ? mle_tools_node_1.CACHE_STORE.REDIS : mle_tools_node_1.CACHE_STORE.MEMORY;
+const cacheStore = config_1.whozwhoConfig.cache.disabled ? mle_tools_node_1.CACHE_STORE.NONE : cacheType;
 exports.cacheStore = cacheStore;
 const cacheOptionsLRU = {
-    instanceName: config_1.config.cache.uniqueName + tools_1.Tools.GetHostname(),
+    instanceName: config_1.whozwhoConfig.cache.uniqueName + tools_1.Tools.GetHostname(),
     store: cacheStore,
     ttl: mle_tools_node_1.CACHE_TTL.TEN_MINUTES,
     max: mle_tools_node_1.CACHE_COUNT.LARGE,
-    redisUrl: config_1.config.cache.uri
+    redisUrl: config_1.whozwhoConfig.cache.uri
 };
 exports.cacheOptionsLRU = cacheOptionsLRU;
 const cacheOptionsFast = {
     ...cacheOptionsLRU,
-    ttl: mle_tools_node_1.CACHE_TTL.MINUTE,
+    ttl: 15 * 1000,
 };
 exports.cacheOptionsFast = cacheOptionsFast;
 const cacheOptionsLong = {

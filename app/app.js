@@ -13,12 +13,12 @@ const listen = async () => {
     const mongoose = await mongoose_1.$mongoose;
     const expressApp = await express_1.$express;
     await (0, initApp_1.initApp)(expressApp, mongoose, logger_1.logger);
-    if (config_1.config.deploy.isInTestMode) {
-        logger_1.logger.warn(`### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. ${config_1.config.deploy.isInTestMode}`);
+    if (config_1.whozwhoConfig.deploy.isInTestMode) {
+        logger_1.logger.warn(`### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. ${config_1.whozwhoConfig.deploy.isInTestMode}`);
         return;
     }
-    expressApp.listen(config_1.config.deploy.port);
-    logger_1.logger.info(`### App ${process.pid} listen on port ${config_1.config.deploy.port}`);
+    expressApp.listen(config_1.whozwhoConfig.deploy.port);
+    logger_1.logger.info(`### App ${process.pid} listen on port ${config_1.whozwhoConfig.deploy.port}`);
 };
 exports.$app = (async () => {
     logger_1.logger.info(`### App ${process.pid} should be ready soon...`);
@@ -26,9 +26,9 @@ exports.$app = (async () => {
     const mongoose = await mongoose_1.$mongoose;
     const expressApp = await express_1.$express;
     try {
-        const dbUri = config_1.config.getDbUri();
-        logger_1.logger.info(`### App mongodb.uri: ${dbUri} - ${config_1.config.deploy.isInTestMode}`);
-        if (config_1.config.deploy.isInTraceMode) {
+        const dbUri = config_1.whozwhoConfig.getDbUri();
+        logger_1.logger.info(`### App mongodb.uri: ${dbUri} - ${config_1.whozwhoConfig.deploy.isInTestMode}`);
+        if (config_1.whozwhoConfig.deploy.isInTraceMode) {
             mongoose.set('debug', (collectionName, method, query, doc) => {
                 var _a, _b;
                 if (logger_1.logger.getLevel() === logger_1.LoggerLevels.DEBUG) {

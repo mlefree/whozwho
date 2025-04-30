@@ -13,9 +13,9 @@ const config_1 = require("../config");
 const logger_1 = require("./logger");
 const _app = (0, express_1.default)();
 exports.$express = (async () => {
-    logger_1.logger.info('App trace enabled: ', config_1.config.deploy.isInTraceMode);
-    logger_1.logger.info('App version: ', config_1.config.deploy.env, config_1.config.deploy.version);
-    if (config_1.config.deploy.isInTraceMode) {
+    logger_1.logger.info('App trace enabled: ', config_1.whozwhoConfig.deploy.isInTraceMode);
+    logger_1.logger.info('App version: ', config_1.whozwhoConfig.deploy.env, config_1.whozwhoConfig.deploy.version);
+    if (config_1.whozwhoConfig.deploy.isInTraceMode) {
         const log = {
             stream: {
                 write: (message) => {
@@ -30,7 +30,7 @@ exports.$express = (async () => {
     _app.use((0, compression_1.default)());
     _app.use((0, mle_tools_node_1.timeTracking)({ milliSecBeforeWarning: 1000 })); // use: setMetric(
     _app.use((0, mle_tools_node_1.timing)()); // use: res.startTime('file', 'File IO metric'; ...  res.endTime('file';
-    if (config_1.config.deploy.version.startsWith('v1.')) {
+    if (config_1.whozwhoConfig.deploy.version.startsWith('v1.')) {
         const { routes } = require('../config/routes/routes.v1');
         const $routesV1 = await routes(express_1.default.Router());
         _app.use($routesV1);

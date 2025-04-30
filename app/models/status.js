@@ -30,7 +30,7 @@ exports.StatusStatics = {
         const ok = true;
         const status = {
             version,
-            env: '' + config_1.config.deploy.env,
+            env: '' + config_1.whozwhoConfig.deploy.env,
             cache: {
                 store: cache_1.cacheStore,
                 ok: cache_1.cacheFactory.isOk(),

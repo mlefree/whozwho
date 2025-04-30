@@ -16,9 +16,9 @@ class AdminController extends abstract_1.AbstractController {
         let status = {};
         try {
             const { StatusStatics } = require('../models/status');
-            status = await StatusStatics.BuildSummarizedStatus(config_1.config.deploy.version);
-            if (!config_1.config.whozwho.disabled) {
-                const whozwho = new whozwho_client_1.Whozwho(config_1.config);
+            status = await StatusStatics.BuildSummarizedStatus(config_1.whozwhoConfig.deploy.version);
+            if (!config_1.whozwhoConfig.whozwho.disabled) {
+                const whozwho = new whozwho_client_1.Whozwho(config_1.whozwhoConfig);
                 const advices = await whozwho.getAdvices();
                 for (const advice of (advices || [])) {
                     if (advice.type === advice_1.AdviceType.UPDATE) {
@@ -189,9 +189,29 @@ class AdminController extends abstract_1.AbstractController {
             abstract_1.AbstractController._internalProblem(res, e);
         }
     }
+    static async getActors(req, res) {
+        try {
+            // Get all actor categories
+            const categories = await actor_1.ActorStatics.GetAllCategories();
+            // Array to store all alive actors
+            let allAliveActors = [];
+            // For each category, get all alive actors
+            for (const category of categories) {
+                const actorsInCategory = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
+                allAliveActors = allAliveActors.concat(actorsInCategory);
+            }
+            // Return the actors in the expected format
+            res.status(200).type('application/json').send({ actors: allAliveActors });
+        }
+        catch (e) {
+            abstract_1.AbstractController._internalProblem(res, e);
+        }
+    }
     static async Update() {
-        logger_1.logger.warn('#UPDATE app with "npm run update"...');
-        return 'TODO be careful';
+        logger_1.logger.warn('#UPDATE app with "npm run update" (only in production) ...');
+        if (config_1.whozwhoConfig.deploy.env !== 'production') {
+            return;
+        }
         npm_run_1.default.exec('npm run update', {}, async (err, stdout, stderr) => {
             logger_1.logger.warn(`#UPDATE ${process.pid} update: `, err, stdout, stderr);
             process.exit(0);

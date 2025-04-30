@@ -8,7 +8,7 @@ declare const cacheOptionsLRU: {
     redisUrl: string;
 };
 declare const cacheOptionsFast: {
-    ttl: CACHE_TTL;
+    ttl: number;
     instanceName: string;
     store: CACHE_STORE;
     max: CACHE_COUNT;

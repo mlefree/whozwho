@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
+exports.whozwhoConfig = void 0;
 const node_cluster_1 = __importDefault(require("node:cluster"));
 const node_worker_threads_1 = __importDefault(require("node:worker_threads"));
 const node_path_1 = require("node:path");
@@ -34,5 +34,5 @@ if (node_cluster_1.default.isPrimary && node_worker_threads_1.default.isMainThre
         await mongoServer.stop();
     });
 }
-exports.config = _config;
+exports.whozwhoConfig = _config;
 //# sourceMappingURL=index.js.map
