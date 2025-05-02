@@ -11,8 +11,8 @@ exports.StatusSchema = {
     json: { type: String, default: '{}' }, // all the details
 };
 const schema = new mongoose_1.default.Schema(exports.StatusSchema, { timestamps: true });
-const after30days = 30 * 24 * 60 * 60; // equivalent in sec
-schema.index({ createdAt: -1 }, { expireAfterSeconds: after30days });
+const after60minutes = 60 * 60; // equivalent in sec
+schema.index({ createdAt: -1 }, { expireAfterSeconds: after60minutes });
 schema.index({ updatedAt: -1 });
 schema.set('toJSON', {
     getters: true,

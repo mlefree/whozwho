@@ -22,12 +22,15 @@ class AdminController extends abstract_1.AbstractController {
                 const advices = await whozwho.getAdvices();
                 for (const advice of (advices || [])) {
                     if (advice.type === advice_1.AdviceType.UPDATE) {
-                        await whozwho.mentionThatAdviceIsOnGoing(advice);
-                        await AdminController.Update();
-                        status = {
-                            version: status.version,
-                            update: 'update is launched...'
-                        };
+                        const IAmTheLastToBeUpdated = await advice_1.AdviceStatics.OnGoingAdvicesCount() <= 1;
+                        if (IAmTheLastToBeUpdated) {
+                            await whozwho.mentionThatAdviceIsOnGoing(advice);
+                            await AdminController.Update();
+                            status = {
+                                version: status.version,
+                                update: 'update is launched...'
+                            };
+                        }
                     }
                 }
                 status.isPrincipal = await whozwho.isPrincipal();

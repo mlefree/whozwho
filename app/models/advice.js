@@ -54,8 +54,8 @@ exports.AdviceSchema = {
     status: { type: String, default: AdviceStatus.TODO },
 };
 const schema = new mongoose_1.default.Schema(exports.AdviceSchema, { timestamps: true });
-const after30days = 30 * 24 * 60 * 60; // equivalent in sec
-schema.index({ createdAt: -1 }, { expireAfterSeconds: after30days });
+const after60minutes = 60 * 60; // equivalent in sec
+schema.index({ createdAt: -1 }, { expireAfterSeconds: after60minutes });
 schema.index({ updatedAt: -1 });
 exports.AdviceMethods = {};
 exports.AdviceStatics = {
@@ -139,6 +139,10 @@ exports.AdviceStatics = {
         if (updated === null || updated === void 0 ? void 0 : updated.modifiedCount) {
             await this.AskToUpdate(actorCategory, actorId, actorCategory);
         }
+    },
+    async OnGoingAdvicesCount() {
+        return await exports.AdviceModel
+            .count({ status: AdviceStatus.TODO }).exec();
     }
 };
 schema.methods = exports.AdviceMethods;

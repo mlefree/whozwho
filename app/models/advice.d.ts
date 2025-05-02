@@ -19,6 +19,7 @@ export declare const AdviceStatics: {
     }[]>;
     GetTrickyAdvices(actorCategory: string, actorId: number): Promise<any>;
     FinishPotentialOngoingAdvices(actorCategory: string, actorId: number): Promise<any>;
+    OnGoingAdvicesCount(): Promise<number>;
 };
 export declare const AdviceModel: mongoose.Model<any, {}, {}, {}, any, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;

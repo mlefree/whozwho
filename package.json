@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
@@ -10,7 +10,7 @@
   "scripts": {
     "_clean": "rm -rf package-lock.json node_modules .gen .logs .nyc_output && npm i",
     "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\" && npm i && echo \"export const appBuildInfo={version:'$VERSION'}\" > ./src/config/build.ts",
-    "release": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main",
+    "release-with-bump": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main",
     "build": "rm -rf app && npx tsc",
     "test": "npm run test-mocha-integration",
     "start": "npm run build && npm run start-app",
