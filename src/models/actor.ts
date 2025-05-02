@@ -13,8 +13,8 @@ export const ActorSchema: any = {
 
 const schema = new mongoose.Schema(ActorSchema, {timestamps: true});
 
-const after30days = 30 * 24 * 60 * 60; // equivalent in sec
-schema.index({createdAt: -1}, {expireAfterSeconds: after30days});
+const after60minutes = 60 * 60; // equivalent in sec
+schema.index({createdAt: -1}, {expireAfterSeconds: after60minutes});
 schema.index({updatedAt: -1});
 
 export enum ActorQuestion {

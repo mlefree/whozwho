@@ -20,12 +20,15 @@ export class AdminController extends AbstractController {
                 const advices = await whozwho.getAdvices();
                 for (const advice of (advices || [])) {
                     if (advice.type === AdviceType.UPDATE) {
-                        await whozwho.mentionThatAdviceIsOnGoing(advice);
-                        await AdminController.Update();
-                        status = {
-                            version: status.version,
-                            update: 'update is launched...'
-                        };
+                        const IAmTheLastToBeUpdated = await AdviceStatics.OnGoingAdvicesCount() <= 1;
+                        if (IAmTheLastToBeUpdated) {
+                            await whozwho.mentionThatAdviceIsOnGoing(advice);
+                            await AdminController.Update();
+                            status = {
+                                version: status.version,
+                                update: 'update is launched...'
+                            };
+                        }
                     }
                 }
                 status.isPrincipal = await whozwho.isPrincipal();

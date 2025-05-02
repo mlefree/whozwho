@@ -161,9 +161,10 @@ For detailed technical requirements, see [specs/REQUIREMENTS.md](specs/REQUIREME
 ## Release process
 
 1. Make sure documentation is up to date before releasing:
-   - README.md (badges, version numbers)
-   - CHANGELOG.md (add new version with changes)
-   - Memory bank files
+    - README.md (badges, version numbers)
+    - CHANGELOG.md (anticipate the version that will bump, documentate changes, make sure dates are corrects based on
+      git tag history)
+    - Memory bank files
 
 2. Run the release script to bump version, commit, and push changes:
    ```bash
@@ -171,6 +172,7 @@ For detailed technical requirements, see [specs/REQUIREMENTS.md](specs/REQUIREME
    ```
 
 This will:
+
 - Increment the patch version in package.json
 - Update the build.ts file with the new version
 - Add all changed files to git
@@ -178,6 +180,7 @@ This will:
 - Push to the main branch
 
 The CI workflow will then:
+
 - Run tests
 - Build the application
 - Push the compiled output to the app branch

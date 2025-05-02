@@ -21,8 +21,8 @@ export const AdviceSchema: any = {
 
 const schema = new mongoose.Schema(AdviceSchema, {timestamps: true});
 
-const after30days = 30 * 24 * 60 * 60; // equivalent in sec
-schema.index({createdAt: -1}, {expireAfterSeconds: after30days});
+const after60minutes = 60 * 60; // equivalent in sec
+schema.index({createdAt: -1}, {expireAfterSeconds: after60minutes});
 schema.index({updatedAt: -1});
 
 export const AdviceMethods = {};
@@ -133,6 +133,13 @@ export const AdviceStatics = {
         if (updated?.modifiedCount) {
             await this.AskToUpdate(actorCategory, actorId, actorCategory);
         }
+    },
+
+    async OnGoingAdvicesCount() {
+        return await AdviceModel
+            .count(
+                {status: AdviceStatus.TODO}
+            ).exec();
     }
 };
 

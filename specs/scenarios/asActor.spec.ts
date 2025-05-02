@@ -48,9 +48,6 @@ describe(`${version} as an Actor`, function () {
         expect(res.body.env).to.eq('test');
     });
 
-    /**
-     * Test actor registration with weight=1
-     */
     it('Scenario: Register actor:1 with basic weight', async () => {
         // Initialize actor with minimal weight and basic configuration
         const hi = {
@@ -66,6 +63,26 @@ describe(`${version} as an Actor`, function () {
             .set('Content-Type', 'application/json')
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=actor;by=1')
+            .send(hi)
+            .expect(204);
+        expect(res).not.eq(null);
+    });
+
+    it('Scenario: Register bad-actor:1, same id but different category', async () => {
+        // Initialize actor with minimal weight and basic configuration
+        const hi = {
+            weight: 10,
+            alivePeriodInSec,
+            version: '1.2.b',
+            last100Errors: ['date1:info...', 'date2:info...']
+        };
+
+        // Register actor:1 in the system
+        const res = await agent(await $app)
+            .post('/hi')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=bad-actor;by=1')
             .send(hi)
             .expect(204);
         expect(res).not.eq(null);
