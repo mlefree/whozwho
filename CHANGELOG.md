@@ -7,11 +7,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.1] - 2025-05-05
+
 ### Added
 
 - Added filtering capabilities to GET /actors endpoint:
     - Filter actors by category using ?category=... parameter
     - Get principal actor from a category using ?category=...&principal=true parameters
+
+### Changed
+
+- Updated whozwho-client dependency from v1.1.3 to v1.2.0
+- Added new `release` script for simplified deployment without version bumping
 
 ## [1.1.10] - 2025-05-02
 
