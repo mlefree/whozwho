@@ -239,5 +239,47 @@ describe('v1 as an Admin', function () {
             expect(category1Actors.length).to.equal(2);
             expect(category1Actors[0].weight).to.be.lessThanOrEqual(category1Actors[1].weight);
         });
+
+        it('should filter actors by category', async () => {
+            const res = await agent(await $app)
+                .get('/actors?category=category1')
+                .set('Content-Type', 'application/json')
+                .expect(200);
+
+            // Verify response format
+            expect(res.body).to.have.property('actors');
+            expect(res.body.actors).to.be.an('array');
+
+            // Verify we only have actors from category1
+            expect(res.body.actors.length).to.equal(2);
+
+            // All actors should be from category1
+            res.body.actors.forEach(actor => {
+                expect(actor.actorCategory).to.equal('category1');
+            });
+
+            // Verify actors are sorted by weight
+            expect(res.body.actors[0].weight).to.be.lessThanOrEqual(res.body.actors[1].weight);
+        });
+
+        it('should return principal actor from a category', async () => {
+            const res = await agent(await $app)
+                .get('/actors?category=category1&principal=true')
+                .set('Content-Type', 'application/json')
+                .expect(200);
+
+            // Verify response format
+            expect(res.body).to.have.property('actors');
+            expect(res.body.actors).to.be.an('array');
+
+            // Verify we only have one actor (the principal one)
+            expect(res.body.actors.length).to.equal(1);
+
+            // Verify it's from the requested category
+            expect(res.body.actors[0].actorCategory).to.equal('category1');
+
+            // Verify it's the principal actor
+            expect(res.body.actors[0].isPrincipal).to.eq(true);
+        });
     });
 });

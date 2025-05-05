@@ -14,14 +14,16 @@ export const routes = async (router: Router) => {
 
     // Get all alive actors
     //  => {actors: [{<ActorSchema>}, {...}]}
-    router.get('/actors', AdminController.getActors);
+    // Get all alive actors from a category   ?category=...
+    // Get principal actor from a category   ?category=...&principal=true
+    router.get('/actors', cacheLruFast, AdminController.getActors);
 
     // May I give you one advice ?
     // => { advices: [{id:12  type:'UPDATE'}, {...}] }
     router.post('/advices', AdminController.postAdvice);
 
     // Receive one advice for the current situation: Do I need an update ?...
-    router.get('/advices', AdminController.getAdvices);
+    router.get('/advices', cacheLruFast, AdminController.getAdvices);
 
     // To let me know where you are in this advice
     router.param('adviceId', AdminController.loadAdviceId);

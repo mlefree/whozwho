@@ -216,16 +216,34 @@ export class AdminController extends AbstractController {
 
     static async getActors(req: Request, res: Response) {
         try {
-            // Get all actor categories
-            const categories = await ActorStatics.GetAllCategories();
+            // Extract query parameters
+            const categoryFilter = req.query.category as string;
+            const isPrincipal = req.query.principal === 'true';
 
             // Array to store all alive actors
             let allAliveActors: any[] = [];
 
-            // For each category, get all alive actors
-            for (const category of categories) {
-                const actorsInCategory = await ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
-                allAliveActors = allAliveActors.concat(actorsInCategory);
+            // If category is specified
+            if (categoryFilter) {
+                if (isPrincipal) {
+                    // Get principal actor from the specified category
+                    const principalActor = await ActorStatics.GetPrincipalActorFromCategory(categoryFilter);
+                    if (principalActor) {
+                        allAliveActors = [principalActor];
+                    }
+                } else {
+                    // Get all alive actors from the specified category
+                    allAliveActors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
+                }
+            } else {
+                // Get all actor categories
+                const categories = await ActorStatics.GetAllCategories();
+
+                // For each category, get all alive actors
+                for (const category of categories) {
+                    const actorsInCategory = await ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
+                    allAliveActors = allAliveActors.concat(actorsInCategory);
+                }
             }
 
             // Return the actors in the expected format

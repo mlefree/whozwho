@@ -14,7 +14,7 @@ const cacheOptionsLRU = {
 };
 const cacheOptionsFast = {
     ...cacheOptionsLRU,
-    ttl: 15 * 1000,
+    ttl: 10 * 1000, // 10 sec
 };
 const cacheOptionsLong = {
     ...cacheOptionsLRU,

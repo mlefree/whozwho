@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added filtering capabilities to GET /actors endpoint:
+    - Filter actors by category using ?category=... parameter
+    - Get principal actor from a category using ?category=...&principal=true parameters
+
+## [1.1.10] - 2025-05-02
+
 ### Changed
 
 - Reduced data retention period from 30 days to 60 minutes for actor, advice, and status records
@@ -106,7 +114,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.9...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.10...HEAD
+
+[1.1.10]: https://github.com/mlefree/whozwho/compare/v1.1.9...v1.1.10
 
 [1.1.9]: https://github.com/mlefree/whozwho/compare/v1.1.8...v1.1.9
 
