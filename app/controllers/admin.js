@@ -194,14 +194,33 @@ class AdminController extends abstract_1.AbstractController {
     }
     static async getActors(req, res) {
         try {
-            // Get all actor categories
-            const categories = await actor_1.ActorStatics.GetAllCategories();
+            // Extract query parameters
+            const categoryFilter = req.query.category;
+            const isPrincipal = req.query.principal === 'true';
             // Array to store all alive actors
             let allAliveActors = [];
-            // For each category, get all alive actors
-            for (const category of categories) {
-                const actorsInCategory = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
-                allAliveActors = allAliveActors.concat(actorsInCategory);
+            // If category is specified
+            if (categoryFilter) {
+                if (isPrincipal) {
+                    // Get principal actor from the specified category
+                    const principalActor = await actor_1.ActorStatics.GetPrincipalActorFromCategory(categoryFilter);
+                    if (principalActor) {
+                        allAliveActors = [principalActor];
+                    }
+                }
+                else {
+                    // Get all alive actors from the specified category
+                    allAliveActors = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
+                }
+            }
+            else {
+                // Get all actor categories
+                const categories = await actor_1.ActorStatics.GetAllCategories();
+                // For each category, get all alive actors
+                for (const category of categories) {
+                    const actorsInCategory = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
+                    allAliveActors = allAliveActors.concat(actorsInCategory);
+                }
             }
             // Return the actors in the expected format
             res.status(200).type('application/json').send({ actors: allAliveActors });
