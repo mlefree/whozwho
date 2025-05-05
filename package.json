@@ -10,7 +10,8 @@
   "scripts": {
     "_clean": "rm -rf package-lock.json node_modules .gen .logs .nyc_output && npm i",
     "bump": "VERSION=\"$(npm version patch --no-git-tag-version)\" && npm i && echo \"export const appBuildInfo={version:'$VERSION'}\" > ./src/config/build.ts",
-    "release-with-bump": "npm run bump && git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main",
+    "release": "git add . && git commit -m \"chore: release v$(node -p \"require('./package.json').version\")\" && git push origin main",
+    "release-with-bump": "npm run bump && npm run release",
     "build": "rm -rf app && npx tsc",
     "test": "npm run test-mocha-integration",
     "start": "npm run build && npm run start-app",
@@ -30,7 +31,7 @@
     "mongoose": "^7.8.1",
     "morgan": "^1.9.1",
     "npm-run": "^5.0.1",
-    "whozwho-client": "^1.1.3",
+    "whozwho-client": "^1.2.0",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
   },
