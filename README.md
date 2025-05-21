@@ -87,7 +87,8 @@ The project uses GitHub Actions for continuous integration and deployment:
 ### Branches
 
 - `main`: Main development branch
-- `app`: Contains only the compiled TypeScript output (app/ directory, auto-updated by CI)
+- `sandbox`: Contains ???
+- `deployed-to-sandbox`: Contains ??
 
 ## 🎯 API Endpoints
 
@@ -185,8 +186,8 @@ The CI workflow will then:
 
 - Run tests
 - Build the application
-- Push the compiled output to the app branch
-- Create version tags on both app and main branches
+- Push the compiled output to the deployed-in-sandbox branch
+- Create version tags on both deployed-in-sandbox and main branches
 
 ## 📄 License
 
