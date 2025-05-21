@@ -37,7 +37,6 @@ export const ActorStatics = {
         const answer = await ActorStatics.HaveAPrincipalRole(actorCategory, actorId);
         const isPrincipal = answer === ActorAnswer.yes;
 
-        console.warn('PushHighFive:', actorId, isPrincipal,);
         const actor = new ActorModel({
             actorCategory,
             actorId,
@@ -85,8 +84,6 @@ export const ActorStatics = {
     async HaveAPrincipalRole(actorCategory: string, actorId: number) {
         const lastActors = await this._getLastActorsFromCategory(actorCategory);
         const {aliveActors, maxAliveWeight} = await this._filterAliveActors(lastActors);
-        console.log('aliveActors principal', actorCategory, aliveActors);
-
         if (aliveActors.length === 0) {
             return ActorAnswer.yes;
         }
@@ -148,7 +145,6 @@ export const ActorStatics = {
     async GetPrincipalActorFromCategory(actorCategory: string) {
         const lastActors = await this._getLastActorsFromCategory(actorCategory);
         const {aliveActors} = await this._filterAliveActors(lastActors);
-        console.log('aliveActors', actorCategory, aliveActors);
         const principals = aliveActors.filter(a => a.isPrincipal);
         if (principals.length === 1) {
             return principals[0];

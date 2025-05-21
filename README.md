@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-4.x-black?style=flat-square&logo=express)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com)
-[![Version](https://img.shields.io/badge/version-1.1.8-blue?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2.3-blue?style=flat-square)](CHANGELOG.md)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -166,18 +166,20 @@ For detailed technical requirements, see [specs/REQUIREMENTS.md](specs/REQUIREME
       git tag history)
     - Memory bank files
 
-2. Run the release script to bump version, commit, and push changes:
+2. Run the following scripts to bump version, commit, and push changes:
    ```bash
-   npm run release
+   npm run bp:bump        # Bump version, update bpInfo.ts, and create a new branch
+   npm run bp:branch:push # Commit changes with standardized message and push
    ```
 
 This will:
 
 - Increment the patch version in package.json
-- Update the build.ts file with the new version
+- Update the bpInfo.ts file with the new version
+- Create a new branch with the version name
 - Add all changed files to git
 - Commit with a standardized message
-- Push to the main branch
+- Push to the new branch
 
 The CI workflow will then:
 
@@ -198,7 +200,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📋 Changelog
 
-Current version: 1.1.8 (Released 2025-05-01)
+Current version: 1.2.3 (Released 2025-05-21)
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and version history,
 

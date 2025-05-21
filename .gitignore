@@ -78,3 +78,14 @@ app/
 .DS_store
 .output.txt
 .outputs.txt
+
+# Added by mle-best-practices
+.idea/
+.vscode/
+logs/
+.DS_Store
+coverage/
+.nyc_output/
+typings/
+dist/
+.gen/

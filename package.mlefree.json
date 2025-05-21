@@ -1,0 +1,8 @@
+{
+  "local.dependencies": {
+    "whozwho-client": "file:../whozwho-client/dist"
+  },
+  "remote.dependencies": {
+    "whozwho-client": "^1.2.1"
+  }
+}

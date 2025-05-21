@@ -1,5 +1,5 @@
 import process from 'node:process';
-import {appBuildInfo} from '../build';
+import {bpInfo} from '../../bpInfo';
 
 export const defaultString = (d: string, v: string) => {
     return d || v;
@@ -72,7 +72,7 @@ export const defaultConfig: IConfig = {
     deploy: {
         port: parseInt(defaultString(process.env.PORT, '3003'), 10),
         env: defaultString(process.env.NODE_ENV, 'development'),
-        version: appBuildInfo.version,
+        version: bpInfo.version,
         isInTestMode: (defaultString(process.env.IS_TESTED, 'false') === 'true'),
         isInTraceMode: (defaultString(process.env.TRACE_ENABLED, 'false') === 'true'),
         traceConsoleLevel: (defaultString(process.env.TRACE_CONSOLE_LEVEL, 'info')),

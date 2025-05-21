@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Updated build process scripts in bpstatus.json
+- Updated Node.js version to 22.x in CI workflow
+- Enhanced environment configuration settings
+
+### Technical
+
+- Updated dependencies including whozwho-client to v1.2.1
+
+## [1.2.2] - 2025-05-05
+
+### Changed
+
+- Improved CI workflow for more reliable deployments
+- Enhanced tag naming convention in CI process
+
 ## [1.2.1] - 2025-05-05
 
 ### Added
@@ -33,7 +50,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New method `OnGoingAdvicesCount()` to track pending advice records
 - New test case for registering actors with same ID but different category
 
-## [1.1.9] - 2025-05-01
+## [1.1.9] - 2025-04-30
 
 ### Changed
 
@@ -54,14 +71,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Enhanced CI process
 - Fixed minor issues
 
-## [1.1.6] - 2025-04-27
+## [1.1.6] - 2025-04-29
 
 ### Changed
 
 - Continued improvements to CI workflow
 - Updated build process
 
-## [1.1.5] - 2025-04-25
+## [1.1.5] - 2025-04-29
 
 ### Changed
 
@@ -121,7 +138,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.1.10...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.3...HEAD
+
+[1.2.3]: https://github.com/mlefree/whozwho/compare/v1.2.2...v1.2.3
+
+[1.2.2]: https://github.com/mlefree/whozwho/compare/v1.2.1...v1.2.2
+
+[1.2.1]: https://github.com/mlefree/whozwho/compare/v1.1.10...v1.2.1
 
 [1.1.10]: https://github.com/mlefree/whozwho/compare/v1.1.9...v1.1.10
 

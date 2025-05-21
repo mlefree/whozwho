@@ -2,9 +2,7 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ sandbox ]
 
 permissions:
   contents: write
@@ -31,23 +29,18 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
+      - run: npm install
+      - run: npm test
         env:
           NODE_ENV: test
-
-      - name: Build app
-        run: npm run build
+      - run: npm run build
 
       - name: Configure Git
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
 
-      - name: Push app directory to app branch
+      - name: Push app directory to deployed-in-sandbox branch
         run: |
           # Extract version from package.json
           VERSION=$(node -p "require('./package.json').version")
@@ -62,8 +55,8 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
-          git checkout -b app
-          git pull --set-upstream origin app
+          git checkout -b deployed-in-sandbox
+          git pull --set-upstream origin deployed-in-sandbox
           
           # Make changes
           cd ..
@@ -90,26 +83,5 @@ jobs:
 
           # Return to the main repository directory
           cd ..
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Tag main branch with version
-        run: |
-          # Extract version from package.json
-          VERSION=$(node -p "require('./package.json').version")
-          TAG_NAME="v$VERSION"
-
-          # Fetch all tags to check if our tag already exists
-          git fetch --tags origin
-
-          # Check if tag exists, create and push tag with the version if it doesn't
-          # Tag is created on the main branch
-          if ! git tag -l | grep -q "^$TAG_NAME$"; then
-            git tag -a "$TAG_NAME" -m "Version $VERSION"
-            git push "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git" "$TAG_NAME"
-            echo "Created and pushed tag $TAG_NAME on main branch"
-          else
-            echo "Tag $TAG_NAME already exists, skipping tag creation"
-          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
