@@ -68,7 +68,7 @@ jobs:
           # Commit changes
           git add .
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
-          git push
+          git push --set-upstream origin deployed-in-sandbox
 
           # Check if tag exists, create and push tag with the version if it doesn't
           # Tag is created on the app branch
