@@ -49,22 +49,22 @@ jobs:
           # Create a temp directory to copy app contents there
           mkdir -p dist
           cd dist
-          
-          # Fetch the existing app branch
+
+          # Fetch the existing app branch: we need to force if "deployed-in-sandbox" branch doesn't exist
           git init
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git remote add origin "https://x-access-token:${GITHUB_TOKEN}@github.com/mlefree/whozwho.git"
           git checkout -b deployed-in-sandbox
-          git pull --set-upstream origin deployed-in-sandbox
-          
+          git pull --set-upstream origin deployed-in-sandbox || echo "Branch deployed-in-sandbox doesn't exist yet, creating new branch"
+
           # Make changes
           cd ..
           cp -r app dist
           cp package*.json dist/.
           cp .gitignore.app dist/.gitignore
           cd dist
-          
+
           # Commit changes
           git add .
           git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
