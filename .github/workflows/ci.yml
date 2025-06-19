@@ -55,10 +55,11 @@ jobs:
 
           # Make changes
           cd ..
-          cp -r dist disti/app
-          cp package*.json disti/.
-          cp .gitignore disti/.
+          cp -rf dist disti/app
+          cp -f package*.json disti/.
+          cp -f .gitignore disti/.
           cd disti
+          ls -al
 
           # Commit changes
           git add .
