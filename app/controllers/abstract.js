@@ -14,9 +14,12 @@ class AbstractController {
             if (body === null || body === void 0 ? void 0 : body.data) {
                 body = body.data;
             }
-            body = JSON.parse(body);
+            if (typeof body === 'string') {
+                body = JSON.parse(body);
+            }
         }
         catch (ignored) {
+            // Silently ignore JSON parsing errors as we'll use the original body
         }
         return body;
     }
@@ -51,16 +54,16 @@ class AbstractController {
         return req.query;
     }
     static _errorDetails(details) {
-        var _a;
         let detailsAsString = details ? '' + details : '[no detail]';
         let detailsStack;
-        if (details === null || details === void 0 ? void 0 : details.stack) {
-            detailsStack = details.stack.toString();
+        // Type guard to check if details is an object with a stack property
+        if (details && typeof details === 'object' && 'stack' in details && details.stack) {
+            detailsStack = String(details.stack);
         }
         else {
             const myObject = {};
             Error.captureStackTrace(myObject);
-            detailsStack = (_a = myObject.stack) === null || _a === void 0 ? void 0 : _a.toString();
+            detailsStack = myObject.stack;
         }
         try {
             const detailsStringified = JSON.stringify(details);
@@ -69,6 +72,7 @@ class AbstractController {
             }
         }
         catch (ignored) {
+            // Silently ignore JSON stringify errors and continue with the original string representation
         }
         detailsAsString = detailsAsString.substring(0, 1000);
         if (detailsAsString.length === 1000) {
@@ -92,7 +96,9 @@ class AbstractController {
     static _internalProblem(res, details) {
         const detailsAsString = AbstractController._errorDetails(details);
         logger_1.logger.error('_internalProblem: ', detailsAsString);
-        return res.status((details === null || details === void 0 ? void 0 : details.code) ? details.code : 500).jsonp({ error: detailsAsString.substring(0, 20) + '...' });
+        return res
+            .status((details === null || details === void 0 ? void 0 : details.code) ? details.code : 500)
+            .jsonp({ error: detailsAsString.substring(0, 20) + '...' });
     }
     static _notAuthenticated(res, details) {
         const detailsAsString = details || 'not authenticated';

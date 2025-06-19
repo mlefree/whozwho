@@ -24,7 +24,7 @@ const routes = async (router) => {
     router.param('adviceId', admin_1.AdminController.loadAdviceId);
     router.put('/advices/:adviceId', admin_1.AdminController.putAdvice);
     // What is the current status ?
-    router.get('/status', cache_1.cacheLruFast, admin_1.AdminController.getStatus);
+    router.get('/status', admin_1.AdminController.getStatus);
     return router;
 };
 exports.routes = routes;

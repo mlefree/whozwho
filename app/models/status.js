@@ -35,10 +35,9 @@ exports.StatusStatics = {
                 store: cache_1.cacheStore,
                 ok: cache_1.cacheFactory.isOk(),
             },
-            ok
+            ok,
         };
-        exports.StatusStatics.StoreStatus(status).then(ignored => {
-        });
+        exports.StatusStatics.StoreStatus(status).then((ignored) => { });
         return status;
     },
     async StoreStatus(details) {

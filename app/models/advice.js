@@ -70,7 +70,7 @@ exports.AdviceStatics = {
         return exports.AdviceModel.find({
             toActorId: actorId,
             toActorCategory: actorCategory,
-            status
+            status,
         }).sort({ createdAt: -1 });
     },
     async _findOrCreateAdvice(fromActor, toActorId, toActorCategory, type, status) {
@@ -79,7 +79,7 @@ exports.AdviceStatics = {
             fromActor,
             toActorId,
             toActorCategory,
-            status
+            status,
         });
         if (adviceFound) {
             return adviceFound;
@@ -89,7 +89,7 @@ exports.AdviceStatics = {
             fromActor,
             toActorId,
             toActorCategory,
-            status
+            status,
         });
         await adviceCreated.save();
         return { id: adviceCreated.id, type: adviceCreated.type };
@@ -99,18 +99,21 @@ exports.AdviceStatics = {
         const fromActor = await this._getAndValidateActor(fromActorCategory, fromActorId);
         const actorCategories = await actor_1.ActorStatics.GetAllCategories();
         for (const actorCategory of actorCategories) {
-            if (!!toCategory && actorCategory !== toCategory)
+            if (!!toCategory && actorCategory !== toCategory) {
                 continue;
+            }
             const actors = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(actorCategory);
-            if (actors.length === 0)
+            if (actors.length === 0) {
                 continue;
-            const currentPos = actors.map(a => a.id).indexOf(fromActor === null || fromActor === void 0 ? void 0 : fromActor.id);
+            }
+            const currentPos = actors.map((a) => a.id).indexOf(fromActor === null || fromActor === void 0 ? void 0 : fromActor.id);
             let toActorId = actors[0].actorId;
             let toActorCategory = actors[0].actorCategory;
             if (currentPos > -1) {
                 const nextPos = currentPos + 1;
-                if (nextPos >= actors.length)
+                if (nextPos >= actors.length) {
                     continue;
+                }
                 toActorId = actors[nextPos].actorId;
                 toActorCategory = actors[nextPos].actorCategory;
             }
@@ -121,29 +124,29 @@ exports.AdviceStatics = {
     },
     async GetTrickyAdvices(actorCategory, actorId) {
         const actor = await this._getAndValidateActor(actorCategory, actorId);
-        if (!actor)
+        if (!actor) {
             return null;
+        }
         const advices = await this._findAdvicesByActorCriteria(actor.actorId, actor.actorCategory, AdviceStatus.TODO);
-        return advices.map(a => ({ id: a.id, type: a.type }));
+        return advices.map((a) => ({ id: a.id, type: a.type }));
     },
     async FinishPotentialOngoingAdvices(actorCategory, actorId) {
         const actor = await this._getAndValidateActor(actorCategory, actorId);
-        if (!actor)
+        if (!actor) {
             return null;
-        const updated = await exports.AdviceModel
-            .updateMany({
+        }
+        const updated = await exports.AdviceModel.updateMany({
             toActorId: actor.actorId,
             toActorCategory: actor.actorCategory,
-            status: AdviceStatus.ONGOING
+            status: AdviceStatus.ONGOING,
         }, { status: AdviceStatus.DONE }).exec();
         if (updated === null || updated === void 0 ? void 0 : updated.modifiedCount) {
             await this.AskToUpdate(actorCategory, actorId, actorCategory);
         }
     },
-    async OnGoingAdvicesCount() {
-        return await exports.AdviceModel
-            .count({ status: AdviceStatus.TODO }).exec();
-    }
+    async toDoAdvicesCount() {
+        return await exports.AdviceModel.count({ status: AdviceStatus.TODO }).exec();
+    },
 };
 schema.methods = exports.AdviceMethods;
 schema.statics = exports.AdviceStatics;

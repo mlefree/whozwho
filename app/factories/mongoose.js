@@ -12,7 +12,7 @@ exports.$mongoose = (async () => {
     const models = (0, node_path_1.join)(__dirname, '../models');
     const regex = /.*\.(js|ts)$/;
     (0, node_fs_1.readdirSync)(models)
-        .filter(file => regex.test(file))
+        .filter((file) => regex.test(file))
         .forEach((file) => {
         if (file.indexOf('.spec') < 0 && file.indexOf('.d.ts') < 0) {
             return require((0, node_path_1.join)(models, file));

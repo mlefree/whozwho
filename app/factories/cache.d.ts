@@ -17,4 +17,4 @@ declare const cacheOptionsFast: {
 declare const cacheLru: (req: any, res: any, next: (err?: any) => void) => Promise<void>;
 declare const cacheLruFast: (req: any, res: any, next: (err?: any) => void) => Promise<void>;
 declare const cacheLruLong: (req: any, res: any, next: (err?: any) => void) => Promise<void>;
-export { cacheFactory, cacheStore, cacheLru, cacheLruFast, cacheOptionsLRU, cacheOptionsFast, cacheLruLong };
+export { cacheFactory, cacheStore, cacheLru, cacheLruFast, cacheOptionsLRU, cacheOptionsFast, cacheLruLong, };

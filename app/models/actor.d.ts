@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-export declare const ActorSchema: any;
+export declare const ActorSchema: Record<string, mongoose.SchemaDefinitionProperty<unknown>>;
 export declare enum ActorQuestion {
     PRINCIPAL = "have I the principal role for my category ?",
     ADDRESS_ALL = "what is all actors (from a category) addresses ?",
@@ -16,20 +16,96 @@ export declare const ActorStatics: {
         alivePeriodInSec: number;
         version: string;
         last100Errors: string[];
-    }): Promise<any>;
+    }): Promise<mongoose.Document<unknown, {}, {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    }> & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    } & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     _getLastActorsFromCategory(actorCategory: string): Promise<{}>;
-    _filterAliveActors(actors: Record<string, any>): Promise<{
-        aliveActors: any[];
+    _filterAliveActors(actors: Record<string, {
+        actorId: number;
+        actorCategory: string;
+        actorAddress?: string;
+        weight: number;
+        alivePeriodInSec: number;
+        isPrincipal: boolean;
+        version?: string;
+        last100Errors?: string[];
+        createdAt: Date;
+    }>): Promise<{
+        aliveActors: {
+            actorId: number;
+            actorCategory: string;
+            actorAddress?: string;
+            weight: number;
+            alivePeriodInSec: number;
+            isPrincipal: boolean;
+            version?: string;
+            last100Errors?: string[];
+            createdAt: Date;
+        }[];
         maxAliveWeight: number;
     }>;
     HaveAPrincipalRole(actorCategory: string, actorId: number): Promise<ActorAnswer>;
-    GetLastActor(actorCategory: string, actorId: number): Promise<any>;
+    GetLastActor(actorCategory: string, actorId: number): Promise<mongoose.Document<unknown, {}, {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    }> & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    } & {
+        _id: mongoose.Types.ObjectId;
+    }>;
     GetAllCategories(): Promise<string[]>;
     GetAllActorsFromCategorySortedByWeight(actorCategory: string): Promise<any>;
     GetPrincipalActorFromCategory(actorCategory: string): Promise<any>;
 };
-export declare const ActorModel: mongoose.Model<any, {}, {}, {}, any, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
+export declare const ActorModel: mongoose.Model<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}, {}, {}, {}, mongoose.Document<unknown, {}, {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}> & {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+} & {
+    _id: mongoose.Types.ObjectId;
+}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
-}, any, mongoose.Document<unknown, {}, mongoose.FlatRecord<any>> & mongoose.FlatRecord<any> & Required<{
-    _id: unknown;
-}>>>;
+}, {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}>> & mongoose.FlatRecord<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}> & {
+    _id: mongoose.Types.ObjectId;
+}>>;

@@ -13,7 +13,7 @@ const cacheOptionsLRU = {
     store: cacheStore,
     ttl: mle_tools_node_1.CACHE_TTL.TEN_MINUTES,
     max: mle_tools_node_1.CACHE_COUNT.LARGE,
-    redisUrl: config_1.whozwhoConfig.cache.uri
+    redisUrl: config_1.whozwhoConfig.cache.uri,
 };
 exports.cacheOptionsLRU = cacheOptionsLRU;
 const cacheOptionsFast = {
@@ -23,7 +23,7 @@ const cacheOptionsFast = {
 exports.cacheOptionsFast = cacheOptionsFast;
 const cacheOptionsLong = {
     ...cacheOptionsLRU,
-    ttl: mle_tools_node_1.CACHE_TTL.DAY
+    ttl: mle_tools_node_1.CACHE_TTL.DAY,
 };
 // set up
 mle_tools_node_1.cacheFactory.setUp(cacheOptionsLong);

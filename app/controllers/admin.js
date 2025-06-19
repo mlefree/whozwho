@@ -20,15 +20,15 @@ class AdminController extends abstract_1.AbstractController {
             if (!config_1.whozwhoConfig.whozwho.disabled) {
                 const whozwho = new whozwho_client_1.Whozwho(config_1.whozwhoConfig);
                 const advices = await whozwho.getAdvices();
-                for (const advice of (advices || [])) {
+                for (const advice of advices || []) {
                     if (advice.type === advice_1.AdviceType.UPDATE) {
-                        const IAmTheLastToBeUpdated = await advice_1.AdviceStatics.OnGoingAdvicesCount() <= 1;
+                        const IAmTheLastToBeUpdated = (await advice_1.AdviceStatics.toDoAdvicesCount()) <= 1;
                         if (IAmTheLastToBeUpdated) {
                             await whozwho.mentionThatAdviceIsOnGoing(advice);
                             await AdminController.Update();
                             status = {
                                 version: status.version,
-                                update: 'update is launched...'
+                                update: 'update is launched...',
                             };
                         }
                     }
@@ -50,13 +50,23 @@ class AdminController extends abstract_1.AbstractController {
     }
     static async postHi(req, res) {
         const { actorCategory, actorId, actorAddress } = abstract_1.AbstractController._host(req);
-        const hi = abstract_1.AbstractController._body(req);
-        if (!hi || Object.keys(hi).length !== 4 ||
-            !actorCategory || typeof actorId === 'undefined' || typeof actorAddress === 'undefined') {
-            abstract_1.AbstractController._badRequest(res, 'needs an high five, actor category, id and address');
+        const body = abstract_1.AbstractController._body(req);
+        if (Object.keys(body).length !== 4 ||
+            !actorCategory ||
+            typeof actorId === 'undefined' ||
+            typeof actorAddress === 'undefined') {
+            abstract_1.AbstractController._badRequest(res, 'needs a valid high five, actor category, id and address');
             return;
         }
         try {
+            const hi = {
+                weight: Number(body.weight),
+                alivePeriodInSec: Number(body.alivePeriodInSec),
+                version: String(body.version),
+                last100Errors: Array.isArray(body.last100Errors)
+                    ? body.last100Errors.map(String)
+                    : [],
+            };
             await actor_1.ActorStatics.PushHighFive(actorCategory, actorId, actorAddress, hi);
             await advice_1.AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
         }
@@ -88,7 +98,7 @@ class AdminController extends abstract_1.AbstractController {
                     abstract_1.AbstractController._badRequest(res, 'needs an actor category');
                     return;
                 }
-                const actors = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(body.category);
+                const actors = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(String(body.category));
                 answer = {};
                 for (const actor of actors) {
                     answer[actor.actorId] = actor.actorAddress;
@@ -99,7 +109,7 @@ class AdminController extends abstract_1.AbstractController {
                     abstract_1.AbstractController._badRequest(res, 'needs an actor category');
                     return;
                 }
-                const actor = await actor_1.ActorStatics.GetPrincipalActorFromCategory(body.category);
+                const actor = await actor_1.ActorStatics.GetPrincipalActorFromCategory(String(body.category));
                 answer = {};
                 if (actor) {
                     answer[actor.actorId] = actor.actorAddress;
@@ -127,7 +137,7 @@ class AdminController extends abstract_1.AbstractController {
         try {
             const adviceType = body.type;
             if (adviceType === advice_1.AdviceType.UPDATE) {
-                advices = await advice_1.AdviceStatics.AskToUpdate('admin', 0, body.category);
+                advices = await advice_1.AdviceStatics.AskToUpdate('admin', -1, body.category ? String(body.category) : undefined);
                 if (advices.length === 0) {
                     abstract_1.AbstractController._badRequest(res, 'needs a valid sender and advice');
                     return;
@@ -165,7 +175,7 @@ class AdminController extends abstract_1.AbstractController {
             const adviceFound = req['loadedAdvice'];
             advice.id = adviceFound.id;
             advice.type = adviceFound.type;
-            adviceFound.status = body.status;
+            adviceFound.status = String(body.status);
             await adviceFound.save();
         }
         catch (e) {
@@ -210,7 +220,8 @@ class AdminController extends abstract_1.AbstractController {
                 }
                 else {
                     // Get all alive actors from the specified category
-                    allAliveActors = await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
+                    allAliveActors =
+                        await actor_1.ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
                 }
             }
             else {
@@ -230,8 +241,9 @@ class AdminController extends abstract_1.AbstractController {
         }
     }
     static async Update() {
-        logger_1.logger.warn('#UPDATE app with "npm run update" (only in production) ...');
-        if (config_1.whozwhoConfig.deploy.env !== 'production') {
+        logger_1.logger.warn(`#UPDATE app with "npm run update" (bypass ? ${config_1.whozwhoConfig.deploy.bypassUpdate}) ...`);
+        if (config_1.whozwhoConfig.deploy.bypassUpdate) {
+            logger_1.logger.warn(`#UPDATE ${process.pid} update bypassed...`);
             return;
         }
         npm_run_1.default.exec('npm run update', {}, async (err, stdout, stderr) => {

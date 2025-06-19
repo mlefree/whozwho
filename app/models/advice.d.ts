@@ -7,22 +7,93 @@ export declare enum AdviceStatus {
     ONGOING = "onGoing",
     DONE = "done"
 }
-export declare const AdviceSchema: any;
+export declare const AdviceSchema: Record<string, mongoose.SchemaDefinitionProperty<unknown>>;
 export declare const AdviceMethods: {};
 export declare const AdviceStatics: {
-    _getAndValidateActor(actorCategory: string, actorId: number): Promise<any>;
-    _findAdvicesByActorCriteria(actorId: number, actorCategory: string, status: AdviceStatus): Promise<any[]>;
-    _findOrCreateAdvice(fromActor: any, toActorId: number, toActorCategory: string, type: AdviceType, status: AdviceStatus): Promise<any>;
+    _getAndValidateActor(actorCategory: string, actorId: number): Promise<mongoose.Document<unknown, {}, {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    }> & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    } & {
+        _id: mongoose.Types.ObjectId;
+    }>;
+    _findAdvicesByActorCriteria(actorId: number, actorCategory: string, status: AdviceStatus): Promise<(mongoose.Document<unknown, {}, {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    }> & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    } & {
+        _id: mongoose.Types.ObjectId;
+    })[]>;
+    _findOrCreateAdvice(fromActor: mongoose.Types.ObjectId | mongoose.Document, toActorId: number, toActorCategory: string, type: AdviceType, status: AdviceStatus): Promise<(mongoose.Document<unknown, {}, {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    }> & {
+        createdAt: NativeDate;
+        updatedAt: NativeDate;
+    } & {
+        [x: string]: any;
+    } & {
+        _id: mongoose.Types.ObjectId;
+    }) | {
+        id: any;
+        type: any;
+    }>;
     AskToUpdate(fromActorCategory: string, fromActorId: number, toCategory?: string): Promise<{
         id: string;
         type: string;
     }[]>;
     GetTrickyAdvices(actorCategory: string, actorId: number): Promise<any>;
     FinishPotentialOngoingAdvices(actorCategory: string, actorId: number): Promise<any>;
-    OnGoingAdvicesCount(): Promise<number>;
+    toDoAdvicesCount(): Promise<number>;
 };
-export declare const AdviceModel: mongoose.Model<any, {}, {}, {}, any, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
+export declare const AdviceModel: mongoose.Model<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}, {}, {}, {}, mongoose.Document<unknown, {}, {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}> & {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+} & {
+    _id: mongoose.Types.ObjectId;
+}, mongoose.Schema<any, mongoose.Model<any, any, any, any, any, any>, {}, {}, {}, {}, {
     timestamps: true;
-}, any, mongoose.Document<unknown, {}, mongoose.FlatRecord<any>> & mongoose.FlatRecord<any> & Required<{
-    _id: unknown;
-}>>>;
+}, {
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}, mongoose.Document<unknown, {}, mongoose.FlatRecord<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}>> & mongoose.FlatRecord<{
+    createdAt: NativeDate;
+    updatedAt: NativeDate;
+} & {
+    [x: string]: any;
+}> & {
+    _id: mongoose.Types.ObjectId;
+}>>;

@@ -20,6 +20,7 @@ export interface IConfig {
         isInTraceMode: boolean;
         traceConsoleLevel: string;
         traceLogLevel: string;
+        bypassUpdate: boolean;
     };
     integration: {
         threadStrategy: string;

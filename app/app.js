@@ -47,7 +47,7 @@ exports.$app = (async () => {
         const mongoOptions = {
             maxPoolSize: 10, // Maximum number of connections in the pool
             minPoolSize: 5, // Minimum number of connections in the pool
-            socketTimeoutMS: 30000 // Maximum wait time for a connection in the queue in milliseconds
+            socketTimeoutMS: 30000, // Maximum wait time for a connection in the queue in milliseconds
         };
         await mongoose.connect(dbUri, mongoOptions);
         logger_1.logger.info(`### App ${process.pid} has been connected`);

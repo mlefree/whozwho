@@ -50,7 +50,8 @@ exports.ActorStatics = {
     },
     async _getLastActorsFromCategory(actorCategory) {
         const lastActorsFromType = await exports.ActorModel.find({ actorCategory })
-            .sort({ createdAt: -1 }).limit(1000);
+            .sort({ createdAt: -1 })
+            .limit(1000);
         const lastActors = {};
         for (const actor of lastActorsFromType) {
             if (typeof lastActors[actor.actorId] === 'undefined') {
@@ -79,7 +80,7 @@ exports.ActorStatics = {
         if (aliveActors.length === 0) {
             return ActorAnswer.yes;
         }
-        const foundCurrentActorAsAlive = aliveActors.filter(a => a.actorId === actorId);
+        const foundCurrentActorAsAlive = aliveActors.filter((a) => a.actorId === actorId);
         if (foundCurrentActorAsAlive.length !== 1) {
             return ActorAnswer.no;
         }
@@ -101,15 +102,15 @@ exports.ActorStatics = {
     },
     async GetLastActor(actorCategory, actorId) {
         const actors = await exports.ActorModel.find({ actorCategory, actorId })
-            .sort({ createdAt: -1 }).limit(1000);
+            .sort({ createdAt: -1 })
+            .limit(1000);
         if (actors.length > 0) {
             return actors[0];
         }
         return null;
     },
     async GetAllCategories() {
-        const lastActors = await exports.ActorModel.find()
-            .sort({ createdAt: -1 }).limit(1000);
+        const lastActors = await exports.ActorModel.find().sort({ createdAt: -1 }).limit(1000);
         const categories = new Set();
         for (const actor of lastActors) {
             categories.add('' + actor.actorCategory);
@@ -124,12 +125,12 @@ exports.ActorStatics = {
     async GetPrincipalActorFromCategory(actorCategory) {
         const lastActors = await this._getLastActorsFromCategory(actorCategory);
         const { aliveActors } = await this._filterAliveActors(lastActors);
-        const principals = aliveActors.filter(a => a.isPrincipal);
+        const principals = aliveActors.filter((a) => a.isPrincipal);
         if (principals.length === 1) {
             return principals[0];
         }
         return null;
-    }
+    },
 };
 schema.methods = exports.ActorMethods;
 schema.statics = exports.ActorStatics;
