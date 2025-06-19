@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.5] - 2025-06-20
+
+### Changed
+
+- Updated CHANGELOG.md, README.md, and memory bank documentation
+- Ensured all documentation is consistent with the latest version
+
+### Technical
+
+- Updated dependencies to latest versions
+
+## [1.2.4] - 2025-06-19
+
 ### Changed
 
 - Updated build process scripts in bpstatus.json
@@ -138,7 +151,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.3...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.5...HEAD
+
+[1.2.5]: https://github.com/mlefree/whozwho/compare/v1.2.4...v1.2.5
+
+[1.2.4]: https://github.com/mlefree/whozwho/compare/v1.2.3...v1.2.4
 
 [1.2.3]: https://github.com/mlefree/whozwho/compare/v1.2.2...v1.2.3
 

@@ -13,27 +13,32 @@ The current focus of the WhozWho project is on maintaining and enhancing the exi
 
 Based on the CHANGELOG.md, the most recent changes to the project include:
 
-### Version 1.1.8 (2025-05-01)
-- Improved CI workflow stability
-- Updated dependencies
+### Version 1.2.5 (2025-06-20)
+- Updated CHANGELOG.md, README.md, and memory bank documentation
+- Ensured all documentation is consistent with the latest version
+- Updated dependencies to latest versions
 
-### Version 1.1.7 (2025-04-29)
-- Enhanced CI process
-- Fixed minor issues
+### Version 1.2.4 (2025-06-19)
+- Updated build process scripts in bpstatus.json
+- Updated Node.js version to 22.x in CI workflow
+- Enhanced environment configuration settings
+- Updated dependencies including whozwho-client to v1.2.1
 
-### Version 1.1.6 (2025-04-27)
-- Continued improvements to CI workflow
-- Updated build process
+### Version 1.2.2 (2025-05-05)
+- Improved CI workflow for more reliable deployments
+- Enhanced tag naming convention in CI process
 
-### Version 1.1.5 (2025-04-25)
-- Updated CI workflow to use new tag naming convention (app.v$VERSION)
+### Version 1.2.1 (2025-05-05)
+- Added filtering capabilities to GET /actors endpoint
+- Updated whozwho-client dependency from v1.1.3 to v1.2.0
+- Added new `release` script for simplified deployment without version bumping
 
-### Version 1.1.0 (2025-04-22)
-- Enhanced actor management capabilities
-- Improved admin controls
-- Updated environment configurations
-- Updated dependencies
-- Improved test coverage
+### Version 1.1.10 (2025-05-02)
+- Reduced data retention period from 30 days to 60 minutes for actor, advice, and status records
+- Enhanced update process to only trigger when it's the last actor to be updated
+- Improved release process documentation in README.md
+- New method `toDoAdvicesCount()` to track pending advice records
+- New test case for registering actors with same ID but different category
 
 ## Next Steps
 

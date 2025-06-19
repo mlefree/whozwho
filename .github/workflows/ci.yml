@@ -35,11 +35,6 @@ jobs:
           NODE_ENV: test
       - run: npm run build
 
-      - name: Configure Git
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-
       - name: Push app directory to deployed-in-sandbox branch
         run: |
           # Extract version from package.json
@@ -62,7 +57,7 @@ jobs:
           cd ..
           cp -r dist disti/app
           cp package*.json disti/.
-          cp .gitignore disti/
+          cp .gitignore disti/.
           cd disti
 
           # Commit changes

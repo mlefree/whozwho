@@ -45,11 +45,11 @@
 
 ## Current Status
 
-The WhozWho project is currently in a stable state with version 1.1.8 released on 2025-05-01. The core functionality is complete and working as expected, with recent improvements to CI workflow stability and updated dependencies.
+The WhozWho project is currently in a stable state with version 1.2.5 released on 2025-06-20. The core functionality is complete and working as expected, with recent updates to documentation and dependencies.
 
 ### Development Status
-- **Version**: 1.1.8
-- **Release Date**: 2025-05-01
+- **Version**: 1.2.5
+- **Release Date**: 2025-06-20
 - **Build Status**: [![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mlefree/whozwho/ci.yml?style=flat-square)](https://github.com/mlefree/whozwho/actions/workflows/ci.yml)
 - **Current Focus**: CI/CD improvements and documentation updates
 

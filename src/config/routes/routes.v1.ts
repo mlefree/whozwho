@@ -29,7 +29,7 @@ export const routes = async (router: Router) => {
     router.put('/advices/:adviceId', AdminController.putAdvice);
 
     // What is the current status ?
-    router.get('/status', cacheLruFast, AdminController.getStatus);
+    router.get('/status', AdminController.getStatus);
 
     return router;
 };

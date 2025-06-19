@@ -5,7 +5,7 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org)
 [![Express](https://img.shields.io/badge/Express-4.x-black?style=flat-square&logo=express)](https://expressjs.com)
 [![MongoDB](https://img.shields.io/badge/MongoDB-4.4+-green?style=flat-square&logo=mongodb)](https://www.mongodb.com)
-[![Version](https://img.shields.io/badge/version-1.2.3-blue?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.2.5-blue?style=flat-square)](CHANGELOG.md)
 
 > An actor-based system for managing distributed updates and role assignments.
 
@@ -201,7 +201,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📋 Changelog
 
-Current version: 1.2.3 (Released 2025-05-21)
+Current version: 1.2.5 (Released 2025-06-20)
 
 See [CHANGELOG.md](CHANGELOG.md) for detailed release notes and version history,
 
