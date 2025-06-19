@@ -1,8 +1,10 @@
 {
   "local.dependencies": {
+    "mle-tools-node": "file:../mle-tools-node/dist",
     "whozwho-client": "file:../whozwho-client/dist"
   },
   "remote.dependencies": {
-    "whozwho-client": "^1.2.1"
+    "mle-tools-node": "^1.12.13",
+    "whozwho-client": "^1.2.4"
   }
 }
