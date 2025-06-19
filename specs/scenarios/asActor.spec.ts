@@ -21,7 +21,6 @@ const version = 'v1';
  * Covers actor registration, role assignment, and update mechanisms
  */
 describe(`${version} as an Actor`, function () {
-
     this.timeout(100000);
 
     const alivePeriodInSec = 2;
@@ -54,7 +53,7 @@ describe(`${version} as an Actor`, function () {
             weight: 1,
             alivePeriodInSec,
             version: '1.2.3',
-            last100Errors: ['date1:info...', 'date2:info...']
+            last100Errors: ['date1:info...', 'date2:info...'],
         };
 
         // Register actor:1 in the system
@@ -74,7 +73,7 @@ describe(`${version} as an Actor`, function () {
             weight: 10,
             alivePeriodInSec,
             version: '1.2.b',
-            last100Errors: ['date1:info...', 'date2:info...']
+            last100Errors: ['date1:info...', 'date2:info...'],
         };
 
         // Register actor:1 in the system
@@ -94,7 +93,7 @@ describe(`${version} as an Actor`, function () {
     it('Scenario: Verify actor:1 gets principal role as first actor', async () => {
         // Create request to check if actor has principal role
         const principalQuestion = {
-            question: ActorQuestion.PRINCIPAL
+            question: ActorQuestion.PRINCIPAL,
         };
 
         // First registered actor should be assigned principal role
@@ -115,11 +114,11 @@ describe(`${version} as an Actor`, function () {
         // Create requests to get actor's address
         const allAddressesQuestion = {
             category: 'actor',
-            question: ActorQuestion.ADDRESS_ALL
+            question: ActorQuestion.ADDRESS_ALL,
         };
         const principalAddressQuestion = {
             category: 'actor',
-            question: ActorQuestion.ADDRESS_PRINCIPAL
+            question: ActorQuestion.ADDRESS_PRINCIPAL,
         };
 
         let res = await agent(await $app)
@@ -154,7 +153,7 @@ describe(`${version} as an Actor`, function () {
             weight: 10,
             alivePeriodInSec,
             version: '1.2.3',
-            last100Errors: ['date1:info_...', 'date2:info_...']
+            last100Errors: ['date1:info_...', 'date2:info_...'],
         };
         await agent(await $app)
             .post('/hi')
@@ -166,7 +165,7 @@ describe(`${version} as an Actor`, function () {
 
         // Check if actor:2 has principal role
         const principalQuestion = {
-            question: ActorQuestion.PRINCIPAL
+            question: ActorQuestion.PRINCIPAL,
         };
 
         // Despite higher weight, actor:2 should not be principal yet
@@ -195,7 +194,7 @@ describe(`${version} as an Actor`, function () {
             weight: 3,
             alivePeriodInSec,
             version: '1.2.3',
-            last100Errors: ['date1:info_...', 'date2:info_...']
+            last100Errors: ['date1:info_...', 'date2:info_...'],
         };
 
         try {
@@ -210,7 +209,7 @@ describe(`${version} as an Actor`, function () {
 
             // Check if actor:2 is now principal after timeout
             const principalQuestion = {
-                question: ActorQuestion.PRINCIPAL
+                question: ActorQuestion.PRINCIPAL,
             };
 
             // Actor:2 should now be principal as actor:1 has timed out
@@ -239,7 +238,7 @@ describe(`${version} as an Actor`, function () {
             weight: 1,
             alivePeriodInSec,
             version: '1.2.3',
-            last100Errors: ['date1:info...', 'date2:info...']
+            last100Errors: ['date1:info...', 'date2:info...'],
         };
 
         // Send heartbeat for actor:1
@@ -267,11 +266,11 @@ describe(`${version} as an Actor`, function () {
         // Create requests to get actor's address
         const allAddressesQuestion = {
             category: 'actor',
-            question: ActorQuestion.ADDRESS_ALL
+            question: ActorQuestion.ADDRESS_ALL,
         };
         const principalAddressQuestion = {
             category: 'actor',
-            question: ActorQuestion.ADDRESS_PRINCIPAL
+            question: ActorQuestion.ADDRESS_PRINCIPAL,
         };
 
         let res = await agent(await $app)
@@ -281,7 +280,9 @@ describe(`${version} as an Actor`, function () {
             .expect('Content-Type', /application\/json/)
             .expect(200);
 
-        expect(JSON.stringify(res.body.answer)).to.eq('{"1":"http://localhost:9871","2":"http://localhost:9862"}');
+        expect(JSON.stringify(res.body.answer)).to.eq(
+            '{"1":"http://localhost:9871","2":"http://localhost:9862"}'
+        );
 
         res = await agent(await $app)
             .post('/actors')
@@ -317,8 +318,8 @@ describe(`${version} as an Actor`, function () {
         // Create new update advice for actor category
         const advice = {
             type: AdviceType.UPDATE,
-            category: 'actor'
-        }
+            category: 'actor',
+        };
 
         // Post new advice and verify response
         const res = await agent(await $app)
@@ -346,7 +347,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=actor;by=1')
             .expect('Content-Type', /application\/json/)
-            .expect(200);   // lightest actor => update
+            .expect(200); // lightest actor => update
 
         // Verify advice details
         expect(res.body.advices.length).eq(1);
@@ -380,7 +381,7 @@ describe(`${version} as an Actor`, function () {
             weight: 1,
             alivePeriodInSec,
             version: 'no matter',
-            last100Errors: ['date1:info...', 'date2:info...']
+            last100Errors: ['date1:info...', 'date2:info...'],
         };
         await agent(await $app)
             .post('/hi')

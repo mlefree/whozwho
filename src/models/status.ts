@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import {whozwhoConfig} from '../config';
 import {cacheFactory, cacheStore} from '../factories/cache';
 
-export const StatusSchema: any = {
-    json: {type: String, default: '{}'},    // all the details
+export const StatusSchema: Record<string, mongoose.SchemaDefinitionProperty<unknown>> = {
+    json: {type: String, default: '{}'}, // all the details
 };
 
 const schema = new mongoose.Schema(StatusSchema, {timestamps: true});
@@ -35,19 +35,26 @@ export const StatusStatics = {
                 store: cacheStore,
                 ok: cacheFactory.isOk(),
             },
-            ok
+            ok,
         };
-        StatusStatics.StoreStatus(status).then(ignored => {
-        });
+        StatusStatics.StoreStatus(status).then((ignored) => {});
         return status;
     },
 
-    async StoreStatus(details: any) {
+    async StoreStatus(details: {
+        version: string;
+        env: string;
+        cache: {
+            store: unknown;
+            ok: boolean;
+        };
+        ok: boolean;
+        [key: string]: unknown;
+    }) {
         const json = JSON.stringify(details);
         const rec = new StatusModel({json});
         return rec.save();
     },
-
 };
 
 schema.methods = StatusMethods;

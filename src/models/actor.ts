@@ -1,14 +1,14 @@
 import mongoose from 'mongoose';
 
-export const ActorSchema: any = {
-    actorCategory: {type: String, required: 'Actor category needed', index: true},  // don't be offended
-    actorId: {type: Number, required: 'Actor id needed', index: true},              // again no judgment
-    actorAddress: {type: String},                                                   // To call you back
-    weight: {type: Number, default: 1},                                             // again no judgment (but 1 is worst)
-    alivePeriodInSec: {type: Number, default: 100},                                 // we consider you alive until ?
-    isPrincipal: {type: Boolean, default: false, index: true},                      // Flagged during the High Five
-    version: {type: String},                                                        // are you up-to-date ?
-    last100Errors: [String],                                                        // last logs...
+export const ActorSchema: Record<string, mongoose.SchemaDefinitionProperty<unknown>> = {
+    actorCategory: {type: String, required: 'Actor category needed', index: true}, // don't be offended
+    actorId: {type: Number, required: 'Actor id needed', index: true}, // again no judgment
+    actorAddress: {type: String}, // To call you back
+    weight: {type: Number, default: 1}, // again no judgment (but 1 is worst)
+    alivePeriodInSec: {type: Number, default: 100}, // we consider you alive until ?
+    isPrincipal: {type: Boolean, default: false, index: true}, // Flagged during the High Five
+    version: {type: String}, // are you up-to-date ?
+    last100Errors: [String], // last logs...
 };
 
 const schema = new mongoose.Schema(ActorSchema, {timestamps: true});
@@ -31,9 +31,12 @@ export enum ActorAnswer {
 export const ActorMethods = {};
 
 export const ActorStatics = {
-    async PushHighFive(actorCategory: string, actorId: number, actorAddress: string,
-                       hi: { weight: number; alivePeriodInSec: number; version: string; last100Errors: string[] }) {
-
+    async PushHighFive(
+        actorCategory: string,
+        actorId: number,
+        actorAddress: string,
+        hi: {weight: number; alivePeriodInSec: number; version: string; last100Errors: string[]}
+    ) {
         const answer = await ActorStatics.HaveAPrincipalRole(actorCategory, actorId);
         const isPrincipal = answer === ActorAnswer.yes;
 
@@ -53,7 +56,8 @@ export const ActorStatics = {
 
     async _getLastActorsFromCategory(actorCategory: string) {
         const lastActorsFromType = await ActorModel.find({actorCategory})
-            .sort({createdAt: -1}).limit(1000);
+            .sort({createdAt: -1})
+            .limit(1000);
 
         const lastActors = {};
         for (const actor of lastActorsFromType) {
@@ -64,9 +68,34 @@ export const ActorStatics = {
         return lastActors;
     },
 
-    async _filterAliveActors(actors: Record<string, any>) {
+    async _filterAliveActors(
+        actors: Record<
+            string,
+            {
+                actorId: number;
+                actorCategory: string;
+                actorAddress?: string;
+                weight: number;
+                alivePeriodInSec: number;
+                isPrincipal: boolean;
+                version?: string;
+                last100Errors?: string[];
+                createdAt: Date;
+            }
+        >
+    ) {
         const now = new Date();
-        const aliveActors: any[] = [];
+        const aliveActors: {
+            actorId: number;
+            actorCategory: string;
+            actorAddress?: string;
+            weight: number;
+            alivePeriodInSec: number;
+            isPrincipal: boolean;
+            version?: string;
+            last100Errors?: string[];
+            createdAt: Date;
+        }[] = [];
         let maxAliveWeight = 0;
 
         for (const id of Object.keys(actors)) {
@@ -88,7 +117,7 @@ export const ActorStatics = {
             return ActorAnswer.yes;
         }
 
-        const foundCurrentActorAsAlive = aliveActors.filter(a => a.actorId === actorId);
+        const foundCurrentActorAsAlive = aliveActors.filter((a) => a.actorId === actorId);
         if (foundCurrentActorAsAlive.length !== 1) {
             return ActorAnswer.no;
         }
@@ -115,7 +144,8 @@ export const ActorStatics = {
 
     async GetLastActor(actorCategory: string, actorId: number) {
         const actors = await ActorModel.find({actorCategory, actorId})
-            .sort({createdAt: -1}).limit(1000);
+            .sort({createdAt: -1})
+            .limit(1000);
 
         if (actors.length > 0) {
             return actors[0];
@@ -125,8 +155,7 @@ export const ActorStatics = {
     },
 
     async GetAllCategories() {
-        const lastActors = await ActorModel.find()
-            .sort({createdAt: -1}).limit(1000);
+        const lastActors = await ActorModel.find().sort({createdAt: -1}).limit(1000);
 
         const categories = new Set();
         for (const actor of lastActors) {
@@ -145,12 +174,12 @@ export const ActorStatics = {
     async GetPrincipalActorFromCategory(actorCategory: string) {
         const lastActors = await this._getLastActorsFromCategory(actorCategory);
         const {aliveActors} = await this._filterAliveActors(lastActors);
-        const principals = aliveActors.filter(a => a.isPrincipal);
+        const principals = aliveActors.filter((a) => a.isPrincipal);
         if (principals.length === 1) {
             return principals[0];
         }
         return null;
-    }
+    },
 };
 
 schema.methods = ActorMethods;

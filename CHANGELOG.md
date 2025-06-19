@@ -47,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- New method `OnGoingAdvicesCount()` to track pending advice records
+- New method `toDoAdvicesCount()` to track pending advice records
 - New test case for registering actors with same ID but different category
 
 ## [1.1.9] - 2025-04-30

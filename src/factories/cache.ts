@@ -10,7 +10,7 @@ const cacheOptionsLRU = {
     store: cacheStore,
     ttl: CACHE_TTL.TEN_MINUTES,
     max: CACHE_COUNT.LARGE,
-    redisUrl: whozwhoConfig.cache.uri
+    redisUrl: whozwhoConfig.cache.uri,
 };
 const cacheOptionsFast = {
     ...cacheOptionsLRU,
@@ -18,7 +18,7 @@ const cacheOptionsFast = {
 };
 const cacheOptionsLong = {
     ...cacheOptionsLRU,
-    ttl: CACHE_TTL.DAY
+    ttl: CACHE_TTL.DAY,
 };
 
 // set up
@@ -27,4 +27,12 @@ const cacheLru = lru(cacheOptionsLRU);
 const cacheLruFast = lru(cacheOptionsFast);
 const cacheLruLong = lru(cacheOptionsLong);
 
-export {cacheFactory, cacheStore, cacheLru, cacheLruFast, cacheOptionsLRU, cacheOptionsFast, cacheLruLong};
+export {
+    cacheFactory,
+    cacheStore,
+    cacheLru,
+    cacheLruFast,
+    cacheOptionsLRU,
+    cacheOptionsFast,
+    cacheLruLong,
+};

@@ -16,7 +16,9 @@ const listen = async () => {
     await initApp(expressApp, mongoose, logger);
 
     if (whozwhoConfig.deploy.isInTestMode) {
-        logger.warn(`### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. ${whozwhoConfig.deploy.isInTestMode}`);
+        logger.warn(
+            `### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. ${whozwhoConfig.deploy.isInTestMode}`
+        );
         return;
     }
     expressApp.listen(whozwhoConfig.deploy.port);
@@ -30,7 +32,6 @@ export const $app = (async () => {
     const mongoose = await $mongoose;
     const expressApp = await $express;
     try {
-
         const dbUri = whozwhoConfig.getDbUri();
         logger.info(`### App mongodb.uri: ${dbUri} - ${whozwhoConfig.deploy.isInTestMode}`);
 
@@ -45,7 +46,9 @@ export const $app = (async () => {
                     if (docAsString?.length === 1000) {
                         docAsString += ' (doc too long ...)';
                     }
-                    logger.write(`Mongoose debug : ${collectionName}.${method} : ${queryAsString} - ${docAsString}`);
+                    logger.write(
+                        `Mongoose debug : ${collectionName}.${method} : ${queryAsString} - ${docAsString}`
+                    );
                 }
             });
         }
@@ -53,7 +56,7 @@ export const $app = (async () => {
         const mongoOptions = {
             maxPoolSize: 10, // Maximum number of connections in the pool
             minPoolSize: 5, // Minimum number of connections in the pool
-            socketTimeoutMS: 30000 // Maximum wait time for a connection in the queue in milliseconds
+            socketTimeoutMS: 30000, // Maximum wait time for a connection in the queue in milliseconds
         };
         await mongoose.connect(dbUri, mongoOptions);
         logger.info(`### App ${process.pid} has been connected`);

@@ -7,7 +7,7 @@ loggerFactory.setUp(
     whozwhoConfig.deploy.traceLogLevel as LoggerLevels,
     whozwhoConfig.integration.mailUser,
     whozwhoConfig.integration.mailPwd,
-    whozwhoConfig.integration.mailTo,
+    whozwhoConfig.integration.mailTo
 );
 
 const logger: Logger = loggerFactory.getLogger();

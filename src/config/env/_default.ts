@@ -17,31 +17,32 @@ export const defaultArray = (a, v) => {
 
 export interface IConfig {
     mongodb: {
-        uri: string,
-        isMocked: boolean,
+        uri: string;
+        isMocked: boolean;
         mockedPort?: number;
-        sandboxData: boolean,
-    },
+        sandboxData: boolean;
+    };
     cache: {
         uniqueName: string;
-        disabled: boolean,
-        uri: string,
-    },
+        disabled: boolean;
+        uri: string;
+    };
     deploy: {
-        port: number,
-        env: string,
-        version: string,
-        isInTestMode: boolean,
-        isInTraceMode: boolean,
-        traceConsoleLevel: string,
-        traceLogLevel: string
-    },
+        port: number;
+        env: string;
+        version: string;
+        isInTestMode: boolean;
+        isInTraceMode: boolean;
+        traceConsoleLevel: string;
+        traceLogLevel: string;
+        bypassUpdate: boolean;
+    };
     integration: {
-        threadStrategy: string,
-        mailUser: string,
-        mailPwd: string,
-        mailTo: string,
-    },
+        threadStrategy: string;
+        mailUser: string;
+        mailPwd: string;
+        mailTo: string;
+    };
     whozwho: {
         serverUrl: string;
         myUrl: string;
@@ -55,37 +56,38 @@ export interface IConfig {
     getDbUri: () => string;
 }
 
-const dbUri = defaultString(process.env.MONGODB_URI, 'mongodb://127.0.0.1:54306/whozwho');
+const dbUri = defaultString(process.env.MONGODB_URI, 'mongodb://127.0.0.1:54303/whozwho');
 
 export const defaultConfig: IConfig = {
     mongodb: {
         uri: dbUri,
-        isMocked: (defaultString(process.env.MONGODB_MOCKED, 'false') === 'true'),
+        isMocked: defaultString(process.env.MONGODB_MOCKED, 'false') === 'true',
         mockedPort: parseInt(defaultString(process.env.MONGODB_MOCKED_PORT, '54303'), 10),
         sandboxData: false,
     },
     cache: {
         uniqueName: 'whozwho-',
-        disabled: (defaultString(process.env.REDIS_CACHE_DISABLED, 'false') === 'true'),
+        disabled: defaultString(process.env.REDIS_CACHE_DISABLED, 'false') === 'true',
         uri: defaultString(process.env.REDIS_URI, ''),
     },
     deploy: {
         port: parseInt(defaultString(process.env.PORT, '3003'), 10),
         env: defaultString(process.env.NODE_ENV, 'development'),
         version: bpInfo.version,
-        isInTestMode: (defaultString(process.env.IS_TESTED, 'false') === 'true'),
-        isInTraceMode: (defaultString(process.env.TRACE_ENABLED, 'false') === 'true'),
-        traceConsoleLevel: (defaultString(process.env.TRACE_CONSOLE_LEVEL, 'info')),
-        traceLogLevel: (defaultString(process.env.TRACE_LOG_LEVEL, 'info'))
+        isInTestMode: defaultString(process.env.IS_TESTED, 'false') === 'true',
+        isInTraceMode: defaultString(process.env.TRACE_ENABLED, 'false') === 'true',
+        traceConsoleLevel: defaultString(process.env.TRACE_CONSOLE_LEVEL, 'info'),
+        traceLogLevel: defaultString(process.env.TRACE_LOG_LEVEL, 'info'),
+        bypassUpdate: defaultString(process.env.BYPASS_UPDATE, 'true') === 'true',
     },
     integration: {
-        threadStrategy: (defaultString(process.env.THREAD_STRATEGY, 'direct')),
+        threadStrategy: defaultString(process.env.THREAD_STRATEGY, 'direct'),
         mailUser: defaultString(process.env.MAIL_USER, ''),
         mailPwd: defaultString(process.env.MAIL_PWD, ''),
         mailTo: defaultString(process.env.MAIL_TO, ''),
     },
     whozwho: {
-        disabled: (defaultString(process.env.WHOZWHO_DISABLED, 'false') === 'true'),
+        disabled: defaultString(process.env.WHOZWHO_DISABLED, 'false') === 'true',
         serverUrl: defaultString(process.env.WHOZWHO_SERVER_URL, 'http://localhost:3003'),
         myUrl: defaultString(process.env.WHOZWHO_MY_URL, 'http://localhost:3003'),
         category: defaultString(process.env.WHOZWHO_MY_CATEGORY, 'whozwho'),
@@ -95,10 +97,10 @@ export const defaultConfig: IConfig = {
     },
 
     getDbUri() {
-        return dbUri
-    }
+        return dbUri;
+    },
 };
 
 defaultConfig.getDbUri = () => {
     return defaultConfig.mongodb.uri;
-}
+};

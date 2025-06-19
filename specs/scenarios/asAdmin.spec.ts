@@ -15,7 +15,6 @@ import sinon from 'sinon';
  * Covers error handling paths and the Update method
  */
 describe('v1 as an Admin', function () {
-
     this.timeout(10000);
 
     // Setup: Clear existing data before tests
@@ -41,7 +40,7 @@ describe('v1 as an Admin', function () {
             const invalidHi = {
                 alivePeriodInSec: 2,
                 version: '1.2.3',
-                last100Errors: []
+                last100Errors: [],
             };
 
             const res = await agent(await $app)
@@ -61,7 +60,7 @@ describe('v1 as an Admin', function () {
                 weight: 1,
                 alivePeriodInSec: 2,
                 version: '1.2.3',
-                last100Errors: []
+                last100Errors: [],
             };
 
             const res = await agent(await $app)
@@ -151,18 +150,18 @@ describe('v1 as an Admin', function () {
     //     it('should return TODO message', async () => {
     //         // Call the Update method directly
     //         const result = await AdminController['Update']();
-//
+    //
     //         // Verify it returns the TODO message
     //         expect(result).to.equal('TODO be careful');
     //     });
-//
+    //
     //     it('should not call npm run update in test mode', async () => {
     //         // Spy on npmRun.exec
     //         const execSpy = sinon.spy(npmRun, 'exec');
-//
+    //
     //         // Call the Update method
     //         await AdminController['Update']();
-//
+    //
     //         // Verify npmRun.exec was not called
     //         expect(execSpy.called).to.be.false;
     //     });
@@ -189,7 +188,7 @@ describe('v1 as an Admin', function () {
                 alivePeriodInSec: 100,
                 isPrincipal: true,
                 version: '1.0.0',
-                last100Errors: []
+                last100Errors: [],
             }).save();
 
             await new ActorModel({
@@ -200,7 +199,7 @@ describe('v1 as an Admin', function () {
                 alivePeriodInSec: 100,
                 isPrincipal: false,
                 version: '1.0.0',
-                last100Errors: []
+                last100Errors: [],
             }).save();
 
             // Create actor for category2
@@ -212,7 +211,7 @@ describe('v1 as an Admin', function () {
                 alivePeriodInSec: 100,
                 isPrincipal: true,
                 version: '1.0.0',
-                last100Errors: []
+                last100Errors: [],
             }).save();
         });
 
@@ -230,12 +229,14 @@ describe('v1 as an Admin', function () {
             expect(res.body.actors.length).to.equal(3);
 
             // Verify actor properties
-            const categories = res.body.actors.map(actor => actor.actorCategory);
+            const categories = res.body.actors.map((actor) => actor.actorCategory);
             expect(categories).to.include('category1');
             expect(categories).to.include('category2');
 
             // Verify actors are sorted by weight within categories
-            const category1Actors = res.body.actors.filter(actor => actor.actorCategory === 'category1');
+            const category1Actors = res.body.actors.filter(
+                (actor) => actor.actorCategory === 'category1'
+            );
             expect(category1Actors.length).to.equal(2);
             expect(category1Actors[0].weight).to.be.lessThanOrEqual(category1Actors[1].weight);
         });
@@ -254,7 +255,7 @@ describe('v1 as an Admin', function () {
             expect(res.body.actors.length).to.equal(2);
 
             // All actors should be from category1
-            res.body.actors.forEach(actor => {
+            res.body.actors.forEach((actor) => {
                 expect(actor.actorCategory).to.equal('category1');
             });
 

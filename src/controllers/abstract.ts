@@ -3,28 +3,28 @@ import {$mongoose} from '../factories/mongoose';
 import {logger} from '../factories/logger';
 
 export class AbstractController {
-
     static async _m(modelName: string) {
         const mongoose = await $mongoose;
         return mongoose.model(modelName);
     }
 
     static _body(request: Request) {
-        let body: any = request?.body ? request.body : {};
+        let body: Record<string, unknown> = request?.body ? request.body : {};
         try {
             if (body?.data) {
-                body = body.data;
+                body = body.data as Record<string, unknown>;
             }
-            body = JSON.parse(body);
+            if (typeof body === 'string') {
+                body = JSON.parse(body) as Record<string, unknown>;
+            }
         } catch (ignored) {
+            // Silently ignore JSON parsing errors as we'll use the original body
         }
         return body;
     }
 
     static _host(request: Request) {
-        let actorCategory: string,
-            actorId: number,
-            actorAddress: string;
+        let actorCategory: string, actorId: number, actorAddress: string;
         const host = request?.header('Host') ? request.header('Host') : undefined;
         const forwarded = request?.header('Forwarded') ? request.header('Forwarded') : undefined;
         // Forwarded: `for=${this.config.whozwho.category};by=${this.config.whozwho.id}`,
@@ -36,7 +36,6 @@ export class AbstractController {
         if (forwarded) {
             const forwardedItems = forwarded.split(';');
             for (const item of forwardedItems) {
-
                 try {
                     if (item.startsWith('for=')) {
                         actorCategory = item.substring(4);
@@ -56,16 +55,17 @@ export class AbstractController {
         return req.query;
     }
 
-    static _errorDetails(details: any) {
+    static _errorDetails(details: unknown) {
         let detailsAsString = details ? '' + details : '[no detail]';
 
-        let detailsStack: any;
-        if (details?.stack) {
-            detailsStack = details.stack.toString();
+        let detailsStack: string | undefined;
+        // Type guard to check if details is an object with a stack property
+        if (details && typeof details === 'object' && 'stack' in details && details.stack) {
+            detailsStack = String(details.stack);
         } else {
-            const myObject: any = {};
+            const myObject: {stack?: string} = {};
             Error.captureStackTrace(myObject);
-            detailsStack = myObject.stack?.toString();
+            detailsStack = myObject.stack;
         }
 
         try {
@@ -74,6 +74,7 @@ export class AbstractController {
                 detailsAsString = detailsStringified;
             }
         } catch (ignored) {
+            // Silently ignore JSON stringify errors and continue with the original string representation
         }
 
         detailsAsString = detailsAsString.substring(0, 1000);
@@ -103,7 +104,9 @@ export class AbstractController {
     static _internalProblem(res: Response, details) {
         const detailsAsString = AbstractController._errorDetails(details);
         logger.error('_internalProblem: ', detailsAsString);
-        return res.status(details?.code ? details.code : 500).jsonp({error: detailsAsString.substring(0, 20) + '...'});
+        return res
+            .status(details?.code ? details.code : 500)
+            .jsonp({error: detailsAsString.substring(0, 20) + '...'});
     }
 
     static _notAuthenticated(res: Response, details) {
@@ -115,5 +118,4 @@ export class AbstractController {
         const detailsAsString = details || 'not authorized';
         return res.status(details?.code ? details.code : 403).jsonp({error: detailsAsString});
     }
-
 }

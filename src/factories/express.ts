@@ -9,14 +9,13 @@ import {logger} from './logger';
 const _app = express();
 
 export const $express = (async () => {
-
     logger.info('App trace enabled: ', whozwhoConfig.deploy.isInTraceMode);
     logger.info('App version: ', whozwhoConfig.deploy.env, whozwhoConfig.deploy.version);
 
     if (whozwhoConfig.deploy.isInTraceMode) {
         const log = {
             stream: {
-                write: (message: any) => {
+                write: (message: string) => {
                     return logger.debug('Express debug: ', message);
                 },
             },

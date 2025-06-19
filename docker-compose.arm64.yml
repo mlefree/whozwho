@@ -1,0 +1,52 @@
+name: whozwho-arm
+services:
+
+  whozwho1:
+    build:
+      context: ..
+      dockerfile: whozwho/node.arm64.Dockerfile
+    #restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3001/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: "production"
+      PORT: 3001
+      MONGODB_MOCKED_PORT: 54301
+      TRACE_ENABLED: true
+      WHOZWHO_SERVER_URL: "http://host.docker.internal:3003"
+      WHOZWHO_MY_URL: "http://localhost:3001"
+      WHOZWHO_MY_CATEGORY: "whozwho"
+      WHOZWHO_MY_ID: 3001
+      WHOZWHO_MY_WEIGHT: 10
+      WHOZWHO_MY_ALIVE_PERIOD: 60
+      MONGOMS_DOWNLOAD_URL: "https://fastdl.mongodb.org/linux/mongodb-linux-aarch64-amazon2023-7.0.14.tgz"
+
+  whozwho2:
+    build:
+      context: ..
+      dockerfile: whozwho/node.arm64.Dockerfile
+    #restart: always
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3002/status" ]
+      interval: 30s
+      timeout: 10s
+      retries: 2
+    ports:
+      - "3002:3002"
+    environment:
+      NODE_ENV: "production"
+      PORT: 3002
+      MONGODB_MOCKED_PORT: 54302
+      TRACE_ENABLED: true
+      WHOZWHO_SERVER_URL: "http://host.docker.internal:3003"
+      WHOZWHO_MY_URL: "http://localhost:3002"
+      WHOZWHO_MY_CATEGORY: "whozwho"
+      WHOZWHO_MY_ID: 3002
+      WHOZWHO_MY_WEIGHT: 10
+      WHOZWHO_MY_ALIVE_PERIOD: 60
+      MONGOMS_DOWNLOAD_URL: "https://fastdl.mongodb.org/linux/mongodb-linux-aarch64-amazon2023-7.0.14.tgz"

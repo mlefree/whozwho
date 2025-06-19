@@ -8,9 +8,8 @@ import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
 
 export class AdminController extends AbstractController {
-
     static async getStatus(req: Request, res: Response) {
-        let status: any = {};
+        let status: Record<string, unknown> = {};
         try {
             const {StatusStatics} = require('../models/status');
             status = await StatusStatics.BuildSummarizedStatus(whozwhoConfig.deploy.version);
@@ -18,15 +17,15 @@ export class AdminController extends AbstractController {
             if (!whozwhoConfig.whozwho.disabled) {
                 const whozwho = new Whozwho(whozwhoConfig);
                 const advices = await whozwho.getAdvices();
-                for (const advice of (advices || [])) {
+                for (const advice of advices || []) {
                     if (advice.type === AdviceType.UPDATE) {
-                        const IAmTheLastToBeUpdated = await AdviceStatics.OnGoingAdvicesCount() <= 1;
+                        const IAmTheLastToBeUpdated = (await AdviceStatics.toDoAdvicesCount()) <= 1;
                         if (IAmTheLastToBeUpdated) {
                             await whozwho.mentionThatAdviceIsOnGoing(advice);
                             await AdminController.Update();
                             status = {
                                 version: status.version,
-                                update: 'update is launched...'
+                                update: 'update is launched...',
                             };
                         }
                     }
@@ -51,19 +50,31 @@ export class AdminController extends AbstractController {
 
     static async postHi(req: Request, res: Response) {
         const {actorCategory, actorId, actorAddress} = AbstractController._host(req);
-        const hi: {
-            weight: number,
-            alivePeriodInSec: number,
-            version: string,
-            last100Errors: string[]
-        } = AbstractController._body(req);
-        if (!hi || Object.keys(hi).length !== 4 ||
-            !actorCategory || typeof actorId === 'undefined' || typeof actorAddress === 'undefined') {
-            AbstractController._badRequest(res, 'needs an high five, actor category, id and address');
+        const body = AbstractController._body(req);
+
+        if (
+            Object.keys(body).length !== 4 ||
+            !actorCategory ||
+            typeof actorId === 'undefined' ||
+            typeof actorAddress === 'undefined'
+        ) {
+            AbstractController._badRequest(
+                res,
+                'needs a valid high five, actor category, id and address'
+            );
             return;
         }
 
         try {
+            const hi = {
+                weight: Number(body.weight),
+                alivePeriodInSec: Number(body.alivePeriodInSec),
+                version: String(body.version),
+                last100Errors: Array.isArray(body.last100Errors)
+                    ? body.last100Errors.map(String)
+                    : [],
+            };
+
             await ActorStatics.PushHighFive(actorCategory, actorId, actorAddress, hi);
 
             await AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
@@ -83,9 +94,8 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        let answer: any;
+        let answer: boolean | Record<number, string> | undefined;
         try {
-
             const question = body.question;
             if (question === ActorQuestion.PRINCIPAL) {
                 if (!actorCategory || typeof actorId === 'undefined') {
@@ -98,7 +108,9 @@ export class AdminController extends AbstractController {
                     AbstractController._badRequest(res, 'needs an actor category');
                     return;
                 }
-                const actors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(body.category);
+                const actors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(
+                    String(body.category)
+                );
 
                 answer = {};
                 for (const actor of actors) {
@@ -109,7 +121,9 @@ export class AdminController extends AbstractController {
                     AbstractController._badRequest(res, 'needs an actor category');
                     return;
                 }
-                const actor = await ActorStatics.GetPrincipalActorFromCategory(body.category);
+                const actor = await ActorStatics.GetPrincipalActorFromCategory(
+                    String(body.category)
+                );
 
                 answer = {};
                 if (actor) {
@@ -119,7 +133,6 @@ export class AdminController extends AbstractController {
                 AbstractController._badRequest(res, 'needs a relevant question');
                 return;
             }
-
         } catch (e) {
             AbstractController._internalProblem(res, e);
             return;
@@ -136,12 +149,15 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        let advices: { id: string, type: string }[] = [];
+        let advices: {id: string; type: string}[] = [];
         try {
-
             const adviceType = body.type;
             if (adviceType === AdviceType.UPDATE) {
-                advices = await AdviceStatics.AskToUpdate('admin', 0, body.category);
+                advices = await AdviceStatics.AskToUpdate(
+                    'admin',
+                    -1,
+                    body.category ? String(body.category) : undefined
+                );
                 if (advices.length === 0) {
                     AbstractController._badRequest(res, 'needs a valid sender and advice');
                     return;
@@ -150,7 +166,6 @@ export class AdminController extends AbstractController {
                 AbstractController._badRequest(res, 'needs a valid advice');
                 return;
             }
-
         } catch (e) {
             AbstractController._internalProblem(res, e);
             return;
@@ -176,12 +191,17 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        const advice: { id: string, type: string } = {id: 'na', type: 'na'};
+        const advice: {id: string; type: string} = {id: 'na', type: 'na'};
         try {
-            const adviceFound: any = req['loadedAdvice'];
+            const adviceFound: {
+                id: string;
+                type: string;
+                status: string;
+                save: () => Promise<void>;
+            } = req['loadedAdvice'];
             advice.id = adviceFound.id;
             advice.type = adviceFound.type;
-            adviceFound.status = body.status;
+            adviceFound.status = String(body.status);
             await adviceFound.save();
         } catch (e) {
             AbstractController._internalProblem(res, e);
@@ -200,8 +220,8 @@ export class AdminController extends AbstractController {
 
         try {
             const advices: {
-                id: string,
-                type: string
+                id: string;
+                type: string;
             }[] = await AdviceStatics.GetTrickyAdvices(actorCategory, actorId);
             if (advices.length === 0) {
                 res.status(404).type('application/json').send();
@@ -221,19 +241,31 @@ export class AdminController extends AbstractController {
             const isPrincipal = req.query.principal === 'true';
 
             // Array to store all alive actors
-            let allAliveActors: any[] = [];
+            let allAliveActors: {
+                actorCategory: string;
+                actorId: number;
+                actorAddress?: string;
+                weight: number;
+                alivePeriodInSec: number;
+                isPrincipal: boolean;
+                version?: string;
+                last100Errors?: string[];
+                createdAt?: Date;
+            }[] = [];
 
             // If category is specified
             if (categoryFilter) {
                 if (isPrincipal) {
                     // Get principal actor from the specified category
-                    const principalActor = await ActorStatics.GetPrincipalActorFromCategory(categoryFilter);
+                    const principalActor =
+                        await ActorStatics.GetPrincipalActorFromCategory(categoryFilter);
                     if (principalActor) {
                         allAliveActors = [principalActor];
                     }
                 } else {
                     // Get all alive actors from the specified category
-                    allAliveActors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
+                    allAliveActors =
+                        await ActorStatics.GetAllActorsFromCategorySortedByWeight(categoryFilter);
                 }
             } else {
                 // Get all actor categories
@@ -241,7 +273,8 @@ export class AdminController extends AbstractController {
 
                 // For each category, get all alive actors
                 for (const category of categories) {
-                    const actorsInCategory = await ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
+                    const actorsInCategory =
+                        await ActorStatics.GetAllActorsFromCategorySortedByWeight(category);
                     allAliveActors = allAliveActors.concat(actorsInCategory);
                 }
             }
@@ -254,8 +287,11 @@ export class AdminController extends AbstractController {
     }
 
     protected static async Update() {
-        logger.warn('#UPDATE app with "npm run update" (only in production) ...');
-        if (whozwhoConfig.deploy.env !== 'production') {
+        logger.warn(
+            `#UPDATE app with "npm run update" (bypass ? ${whozwhoConfig.deploy.bypassUpdate}) ...`
+        );
+        if (whozwhoConfig.deploy.bypassUpdate) {
+            logger.warn(`#UPDATE ${process.pid} update bypassed...`);
             return;
         }
 
@@ -264,5 +300,4 @@ export class AdminController extends AbstractController {
             process.exit(0);
         });
     }
-
 }

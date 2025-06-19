@@ -16,8 +16,11 @@ if (process.env.NODE_ENV === 'test') {
 }
 
 if (cluster.isPrimary && worker_threads.isMainThread) {
-    console.log('### WHOZWHO App _configEnv: ', process.env.NODE_ENV,
-        JSON.stringify(_config, null, 4));
+    console.log(
+        '### WHOZWHO App _configEnv: ',
+        process.env.NODE_ENV,
+        JSON.stringify(_config, null, 4)
+    );
 }
 
 if (cluster.isPrimary && worker_threads.isMainThread && _config.mongodb.isMocked) {

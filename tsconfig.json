@@ -4,13 +4,12 @@
     "module": "commonjs",
     "declaration": true,
     "sourceMap": true,
-    "outDir": "app",
+    "outDir": "dist",
     "esModuleInterop": true
   },
   "exclude": [
     "node_modules",
-    "app",
-    "examples",
+    "dist",
     "specs",
     "coverage",
     ".coverage"

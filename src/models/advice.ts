@@ -11,7 +11,7 @@ export enum AdviceStatus {
     DONE = 'done',
 }
 
-export const AdviceSchema: any = {
+export const AdviceSchema: Record<string, mongoose.SchemaDefinitionProperty<unknown>> = {
     type: {type: String, required: 'AdviceType needed', index: true},
     fromActor: {type: Schema.Types.ObjectId, ref: 'Actor'},
     toActorId: {type: Number, index: true},
@@ -36,21 +36,31 @@ export const AdviceStatics = {
         return actor;
     },
 
-    async _findAdvicesByActorCriteria(actorId: number, actorCategory: string, status: AdviceStatus) {
+    async _findAdvicesByActorCriteria(
+        actorId: number,
+        actorCategory: string,
+        status: AdviceStatus
+    ) {
         return AdviceModel.find({
             toActorId: actorId,
             toActorCategory: actorCategory,
-            status
+            status,
         }).sort({createdAt: -1});
     },
 
-    async _findOrCreateAdvice(fromActor: any, toActorId: number, toActorCategory: string, type: AdviceType, status: AdviceStatus) {
+    async _findOrCreateAdvice(
+        fromActor: mongoose.Types.ObjectId | mongoose.Document,
+        toActorId: number,
+        toActorCategory: string,
+        type: AdviceType,
+        status: AdviceStatus
+    ) {
         const adviceFound = await AdviceModel.findOne({
             type,
             fromActor,
             toActorId,
             toActorCategory,
-            status
+            status,
         });
         if (adviceFound) {
             return adviceFound;
@@ -61,30 +71,36 @@ export const AdviceStatics = {
             fromActor,
             toActorId,
             toActorCategory,
-            status
+            status,
         });
         await adviceCreated.save();
         return {id: adviceCreated.id, type: adviceCreated.type};
     },
 
     async AskToUpdate(fromActorCategory: string, fromActorId: number, toCategory?: string) {
-        const advices: { id: string, type: string }[] = [];
+        const advices: {id: string; type: string}[] = [];
         const fromActor = await this._getAndValidateActor(fromActorCategory, fromActorId);
 
         const actorCategories = await ActorStatics.GetAllCategories();
         for (const actorCategory of actorCategories) {
-            if (!!toCategory && actorCategory !== toCategory) continue;
+            if (!!toCategory && actorCategory !== toCategory) {
+                continue;
+            }
 
             const actors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(actorCategory);
-            if (actors.length === 0) continue;
+            if (actors.length === 0) {
+                continue;
+            }
 
-            const currentPos = actors.map(a => a.id).indexOf(fromActor?.id);
+            const currentPos = actors.map((a) => a.id).indexOf(fromActor?.id);
             let toActorId = actors[0].actorId;
             let toActorCategory = actors[0].actorCategory;
 
             if (currentPos > -1) {
                 const nextPos = currentPos + 1;
-                if (nextPos >= actors.length) continue;
+                if (nextPos >= actors.length) {
+                    continue;
+                }
 
                 toActorId = actors[nextPos].actorId;
                 toActorCategory = actors[nextPos].actorCategory;
@@ -105,7 +121,9 @@ export const AdviceStatics = {
 
     async GetTrickyAdvices(actorCategory: string, actorId: number) {
         const actor = await this._getAndValidateActor(actorCategory, actorId);
-        if (!actor) return null;
+        if (!actor) {
+            return null;
+        }
 
         const advices = await this._findAdvicesByActorCriteria(
             actor.actorId,
@@ -113,34 +131,32 @@ export const AdviceStatics = {
             AdviceStatus.TODO
         );
 
-        return advices.map(a => ({id: a.id, type: a.type}));
+        return advices.map((a) => ({id: a.id, type: a.type}));
     },
 
     async FinishPotentialOngoingAdvices(actorCategory: string, actorId: number) {
         const actor = await this._getAndValidateActor(actorCategory, actorId);
-        if (!actor) return null;
+        if (!actor) {
+            return null;
+        }
 
-        const updated = await AdviceModel
-            .updateMany(
-                {
-                    toActorId: actor.actorId,
-                    toActorCategory: actor.actorCategory,
-                    status: AdviceStatus.ONGOING
-                },
-                {status: AdviceStatus.DONE}
-            ).exec();
+        const updated = await AdviceModel.updateMany(
+            {
+                toActorId: actor.actorId,
+                toActorCategory: actor.actorCategory,
+                status: AdviceStatus.ONGOING,
+            },
+            {status: AdviceStatus.DONE}
+        ).exec();
 
         if (updated?.modifiedCount) {
             await this.AskToUpdate(actorCategory, actorId, actorCategory);
         }
     },
 
-    async OnGoingAdvicesCount() {
-        return await AdviceModel
-            .count(
-                {status: AdviceStatus.TODO}
-            ).exec();
-    }
+    async toDoAdvicesCount() {
+        return await AdviceModel.count({status: AdviceStatus.TODO}).exec();
+    },
 };
 
 schema.methods = AdviceMethods;

@@ -47,8 +47,8 @@ jobs:
           TAG_NAME="app.v$VERSION"
 
           # Create a temp directory to copy app contents there
-          mkdir -p dist
-          cd dist
+          mkdir -p disti
+          cd disti
 
           # Fetch the existing app branch: we need to force if "deployed-in-sandbox" branch doesn't exist
           git init
@@ -60,14 +60,14 @@ jobs:
 
           # Make changes
           cd ..
-          cp -r app dist
-          cp package*.json dist/.
-          cp .gitignore.app dist/.gitignore
-          cd dist
+          cp -r dist disti/app
+          cp package*.json disti/.
+          cp .gitignore disti/
+          cd disti
 
           # Commit changes
           git add .
-          git commit -m "Update built app files - TypeScript compiled output [skip ci]" || echo "No changes to commit"
+          git commit -m "$VERSION pushed [skip ci]" || echo "No changes to commit"
           git push --set-upstream origin deployed-in-sandbox
 
           # Check if tag exists, create and push tag with the version if it doesn't

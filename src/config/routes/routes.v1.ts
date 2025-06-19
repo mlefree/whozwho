@@ -3,7 +3,6 @@ import {AdminController} from '../../controllers/admin';
 import {cacheLruFast} from '../../factories/cache';
 
 export const routes = async (router: Router) => {
-
     // Give me a High Five: to say that you're alive - and still acting !
     router.post('/hi', AdminController.postHi);
 
@@ -33,5 +32,4 @@ export const routes = async (router: Router) => {
     router.get('/status', cacheLruFast, AdminController.getStatus);
 
     return router;
-
 };
