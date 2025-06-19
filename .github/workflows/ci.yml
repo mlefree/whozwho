@@ -54,6 +54,7 @@ jobs:
           git pull --set-upstream origin deployed-in-sandbox || echo "Branch deployed-in-sandbox doesn't exist yet, creating new branch"
 
           # Make changes
+          rm -rf app
           cd ..
           cp -rf dist disti/app
           cp -f package*.json disti/.
