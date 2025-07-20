@@ -45,7 +45,7 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        res.status(206).send(status);
+        res.status(206).jsonp(status);
     }
 
     static async postHi(req: Request, res: Response) {
@@ -87,7 +87,7 @@ export class AdminController extends AbstractController {
     }
 
     static async postActor(req: Request, res: Response) {
-        const {actorCategory, actorId, actorAddress} = AbstractController._host(req);
+        const {actorCategory, actorId} = AbstractController._host(req);
         const body = AbstractController._body(req);
         if (!body?.question) {
             AbstractController._badRequest(res, 'needs a question');
@@ -138,7 +138,7 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        res.status(200).send({answer});
+        res.status(200).jsonp({answer});
     }
 
     static async postAdvice(req: Request, res: Response) {
@@ -171,7 +171,7 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        res.status(200).send({advices});
+        res.status(200).jsonp({advices});
     }
 
     static async loadAdviceId(req: Request, res: Response, next: () => void, _id: string) {
@@ -208,7 +208,7 @@ export class AdminController extends AbstractController {
             return;
         }
 
-        res.status(200).send({advice});
+        res.status(200).jsonp({advice});
     }
 
     static async getAdvices(req: Request, res: Response) {
@@ -228,7 +228,7 @@ export class AdminController extends AbstractController {
                 return;
             }
 
-            res.status(200).type('application/json').send({advices});
+            res.status(200).type('application/json').jsonp({advices});
         } catch (e) {
             AbstractController._internalProblem(res, e);
         }
@@ -280,7 +280,7 @@ export class AdminController extends AbstractController {
             }
 
             // Return the actors in the expected format
-            res.status(200).type('application/json').send({actors: allAliveActors});
+            res.status(200).type('application/json').jsonp({actors: allAliveActors});
         } catch (e) {
             AbstractController._internalProblem(res, e);
         }
