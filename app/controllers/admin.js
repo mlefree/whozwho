@@ -46,7 +46,7 @@ class AdminController extends abstract_1.AbstractController {
             abstract_1.AbstractController._internalProblem(res, e);
             return;
         }
-        res.status(206).send(status);
+        res.status(206).jsonp(status);
     }
     static async postHi(req, res) {
         const { actorCategory, actorId, actorAddress } = abstract_1.AbstractController._host(req);
@@ -77,7 +77,7 @@ class AdminController extends abstract_1.AbstractController {
         res.status(204).send();
     }
     static async postActor(req, res) {
-        const { actorCategory, actorId, actorAddress } = abstract_1.AbstractController._host(req);
+        const { actorCategory, actorId } = abstract_1.AbstractController._host(req);
         const body = abstract_1.AbstractController._body(req);
         if (!(body === null || body === void 0 ? void 0 : body.question)) {
             abstract_1.AbstractController._badRequest(res, 'needs a question');
@@ -124,7 +124,7 @@ class AdminController extends abstract_1.AbstractController {
             abstract_1.AbstractController._internalProblem(res, e);
             return;
         }
-        res.status(200).send({ answer });
+        res.status(200).jsonp({ answer });
     }
     static async postAdvice(req, res) {
         const { actorCategory, actorId } = abstract_1.AbstractController._host(req);
@@ -152,7 +152,7 @@ class AdminController extends abstract_1.AbstractController {
             abstract_1.AbstractController._internalProblem(res, e);
             return;
         }
-        res.status(200).send({ advices });
+        res.status(200).jsonp({ advices });
     }
     static async loadAdviceId(req, res, next, _id) {
         try {
@@ -182,7 +182,7 @@ class AdminController extends abstract_1.AbstractController {
             abstract_1.AbstractController._internalProblem(res, e);
             return;
         }
-        res.status(200).send({ advice });
+        res.status(200).jsonp({ advice });
     }
     static async getAdvices(req, res) {
         const { actorCategory, actorId } = abstract_1.AbstractController._host(req);
@@ -196,7 +196,7 @@ class AdminController extends abstract_1.AbstractController {
                 res.status(404).type('application/json').send();
                 return;
             }
-            res.status(200).type('application/json').send({ advices });
+            res.status(200).type('application/json').jsonp({ advices });
         }
         catch (e) {
             abstract_1.AbstractController._internalProblem(res, e);
@@ -234,7 +234,7 @@ class AdminController extends abstract_1.AbstractController {
                 }
             }
             // Return the actors in the expected format
-            res.status(200).type('application/json').send({ actors: allAliveActors });
+            res.status(200).type('application/json').jsonp({ actors: allAliveActors });
         }
         catch (e) {
             abstract_1.AbstractController._internalProblem(res, e);

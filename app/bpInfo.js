@@ -1,5 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bpInfo = void 0;
-exports.bpInfo = { version: 'v1.2.7' };
+exports.bpInfo = { version: 'v1.2.8' };
 //# sourceMappingURL=bpInfo.js.map
