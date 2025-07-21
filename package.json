@@ -1,6 +1,6 @@
 {
   "name": "free.mle.whozwho",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "description": "whozwho",
   "author": "mlefree",
   "license": "MIT",
@@ -25,7 +25,7 @@
     "start-app": "node dist/app.js",
     "start-in-docker": "node app/app.js",
     "test-mocha-integration": "env NODE_ENV=test mocha --require ts-node/register \"./specs/**/*.spec.ts\" --exit",
-    "update": "git reset --hard HEAD && git pull --rebase --force && npm i --omit=dev"
+    "update": "git reset --hard HEAD && git pull --rebase --force && npm i"
   },
   "dependencies": {
     "axios": "^1.8.4",

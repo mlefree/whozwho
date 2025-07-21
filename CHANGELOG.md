@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- revert update with `npm i --omit=dev` (only by users depending on their config)
+
+## [1.2.9] - 2025-07-20
+
+### Changed
+
 - update: npm i --omit=dev
 
 ## [1.2.8] - 2025-07-20
