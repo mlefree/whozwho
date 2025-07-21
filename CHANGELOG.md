@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- force update with `npm i --include=dev` (to prevent docker NODE_ENV=production forcing omitting dev)
+
+## [1.2.10] - 2025-07-21
+
+### Changed
+
 - revert update with `npm i --omit=dev` (only by users depending on their config)
 
 ## [1.2.9] - 2025-07-20
