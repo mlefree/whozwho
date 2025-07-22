@@ -17,7 +17,7 @@ const listen = async () => {
         logger_1.logger.warn(`### App warn - Be careful! We are in IS_TESTED’s mode, we do not listen on port. ${config_1.whozwhoConfig.deploy.isInTestMode}`);
         return;
     }
-    expressApp.listen(config_1.whozwhoConfig.deploy.port);
+    expressApp.listen(config_1.whozwhoConfig.deploy.port, '0.0.0.0');
     logger_1.logger.info(`### App ${process.pid} listen on port ${config_1.whozwhoConfig.deploy.port}`);
 };
 exports.$app = (async () => {
