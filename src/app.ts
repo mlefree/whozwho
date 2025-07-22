@@ -21,7 +21,7 @@ const listen = async () => {
         );
         return;
     }
-    expressApp.listen(whozwhoConfig.deploy.port);
+    expressApp.listen(whozwhoConfig.deploy.port, '0.0.0.0');
     logger.info(`### App ${process.pid} listen on port ${whozwhoConfig.deploy.port}`);
 };
 

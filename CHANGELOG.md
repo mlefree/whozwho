@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- revert `npm i --include=dev` (done with devops docker NODE_ENV=development)
+- binding all IP with '0.0.0.0'
+
+## [1.2.11] - 2025-07-21
+
+### Changed
+
 - force update with `npm i --include=dev` (to prevent docker NODE_ENV=production forcing omitting dev)
 
 ## [1.2.10] - 2025-07-21
