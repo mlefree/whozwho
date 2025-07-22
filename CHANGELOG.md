@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.12] - 2025-07-22
+
 ### Changed
 
 - revert `npm i --include=dev` (done with devops docker NODE_ENV=development)
