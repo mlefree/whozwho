@@ -11,6 +11,7 @@ const config_1 = require("../config");
 const abstract_1 = require("./abstract");
 const actor_1 = require("../models/actor");
 const advice_1 = require("../models/advice");
+const node_path_1 = require("node:path");
 class AdminController extends abstract_1.AbstractController {
     static async getStatus(req, res) {
         let status = {};
@@ -18,8 +19,10 @@ class AdminController extends abstract_1.AbstractController {
             const { StatusStatics } = require('../models/status');
             status = await StatusStatics.BuildSummarizedStatus(config_1.whozwhoConfig.deploy.version);
             if (!config_1.whozwhoConfig.whozwho.disabled) {
+                const parentPath = (0, node_path_1.join)(__dirname, '/../../');
+                const lastLogs = logger_1.logger.readLastLogs(parentPath);
                 const whozwho = new whozwho_client_1.Whozwho(config_1.whozwhoConfig);
-                const advices = await whozwho.getAdvices();
+                const advices = await whozwho.getAdvices(lastLogs);
                 for (const advice of advices || []) {
                     if (advice.type === advice_1.AdviceType.UPDATE) {
                         const IAmTheLastToBeUpdated = (await advice_1.AdviceStatics.toDoAdvicesCount()) <= 1;
