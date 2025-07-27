@@ -6,6 +6,7 @@ import {whozwhoConfig} from '../config';
 import {AbstractController} from './abstract';
 import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
+import {join} from 'node:path';
 
 export class AdminController extends AbstractController {
     static async getStatus(req: Request, res: Response) {
@@ -15,8 +16,10 @@ export class AdminController extends AbstractController {
             status = await StatusStatics.BuildSummarizedStatus(whozwhoConfig.deploy.version);
 
             if (!whozwhoConfig.whozwho.disabled) {
+                const parentPath = join(__dirname, '/../../');
+                const lastLogs = logger.readLastLogs(parentPath);
                 const whozwho = new Whozwho(whozwhoConfig);
-                const advices = await whozwho.getAdvices();
+                const advices = await whozwho.getAdvices(lastLogs);
                 for (const advice of advices || []) {
                     if (advice.type === AdviceType.UPDATE) {
                         const IAmTheLastToBeUpdated = (await AdviceStatics.toDoAdvicesCount()) <= 1;

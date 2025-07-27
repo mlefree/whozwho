@@ -142,6 +142,13 @@ npm test
 npm run test-mocha-integration
 ```
 
+### In docker
+
+```bash
+npm run build
+docker compose up -d --build --force-recreate
+```
+
 ## 📦 Dependencies
 
 - `express`: Web framework
