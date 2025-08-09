@@ -77,7 +77,7 @@ export const defaultConfig: IConfig = {
         isInTestMode: defaultString(process.env.IS_TESTED, 'false') === 'true',
         isInTraceMode: defaultString(process.env.TRACE_ENABLED, 'false') === 'true',
         traceConsoleLevel: defaultString(process.env.TRACE_CONSOLE_LEVEL, 'info'),
-        traceLogLevel: defaultString(process.env.TRACE_LOG_LEVEL, 'info'),
+        traceLogLevel: defaultString(process.env.TRACE_LOG_LEVEL, 'warn'),
         bypassUpdate: defaultString(process.env.BYPASS_UPDATE, 'true') === 'true',
     },
     integration: {
