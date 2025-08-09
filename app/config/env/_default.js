@@ -42,7 +42,7 @@ exports.defaultConfig = {
         isInTestMode: (0, exports.defaultString)(node_process_1.default.env.IS_TESTED, 'false') === 'true',
         isInTraceMode: (0, exports.defaultString)(node_process_1.default.env.TRACE_ENABLED, 'false') === 'true',
         traceConsoleLevel: (0, exports.defaultString)(node_process_1.default.env.TRACE_CONSOLE_LEVEL, 'info'),
-        traceLogLevel: (0, exports.defaultString)(node_process_1.default.env.TRACE_LOG_LEVEL, 'info'),
+        traceLogLevel: (0, exports.defaultString)(node_process_1.default.env.TRACE_LOG_LEVEL, 'warn'),
         bypassUpdate: (0, exports.defaultString)(node_process_1.default.env.BYPASS_UPDATE, 'true') === 'true',
     },
     integration: {
