@@ -2,6 +2,7 @@ import {Logger, loggerFactory, LoggerLevels} from 'mle-tools-node';
 import {whozwhoConfig} from '../config';
 
 loggerFactory.setUp({
+    label: 'whozwho',
     active: whozwhoConfig.deploy.isInTraceMode,
     consoleLevel: whozwhoConfig.deploy.traceConsoleLevel as LoggerLevels,
     logLevel: whozwhoConfig.deploy.traceLogLevel as LoggerLevels,

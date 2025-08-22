@@ -6,6 +6,7 @@ import {whozwhoConfig} from '../config';
 import {AbstractController} from './abstract';
 import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
+import {loggerFactory} from 'mle-tools-node';
 
 export class AdminController extends AbstractController {
     static async getStatus(req: Request, res: Response) {
@@ -16,7 +17,7 @@ export class AdminController extends AbstractController {
 
             if (!whozwhoConfig.whozwho.disabled) {
                 const parentPath = process.cwd();
-                const lastLogs = logger.readLastLogs(parentPath);
+                const lastLogs = loggerFactory.readLastLogs(parentPath);
                 const whozwho = new Whozwho(whozwhoConfig);
                 const advices = await whozwho.getAdvices(lastLogs);
                 for (const advice of advices || []) {
@@ -62,7 +63,7 @@ export class AdminController extends AbstractController {
         ) {
             AbstractController._badRequest(
                 res,
-                'needs a valid high five, actor category, id and address',
+                'needs a valid high five, actor category, id and address'
             );
             return;
         }
@@ -111,7 +112,7 @@ export class AdminController extends AbstractController {
                     return;
                 }
                 const actors = await ActorStatics.GetAllActorsFromCategorySortedByWeight(
-                    String(body.category),
+                    String(body.category)
                 );
 
                 answer = {};
@@ -124,7 +125,7 @@ export class AdminController extends AbstractController {
                     return;
                 }
                 const actor = await ActorStatics.GetPrincipalActorFromCategory(
-                    String(body.category),
+                    String(body.category)
                 );
 
                 answer = {};
@@ -158,7 +159,7 @@ export class AdminController extends AbstractController {
                 advices = await AdviceStatics.AskToUpdate(
                     'admin',
                     -1,
-                    body.category ? String(body.category) : undefined,
+                    body.category ? String(body.category) : undefined
                 );
                 if (advices.length === 0) {
                     AbstractController._badRequest(res, 'needs a valid sender and advice');
@@ -290,7 +291,7 @@ export class AdminController extends AbstractController {
 
     protected static async Update() {
         logger.warn(
-            `#UPDATE app with "npm run update" (bypass ? ${whozwhoConfig.deploy.bypassUpdate}) ...`,
+            `#UPDATE app with "npm run update" (bypass ? ${whozwhoConfig.deploy.bypassUpdate}) ...`
         );
         if (whozwhoConfig.deploy.bypassUpdate) {
             logger.warn(`#UPDATE ${process.pid} update bypassed...`);

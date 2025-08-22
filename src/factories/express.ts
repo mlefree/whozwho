@@ -23,8 +23,8 @@ export const $express = (async () => {
         _app.use(morgan('tiny', log));
     }
 
-    _app.use(bodyParser.json());
-    _app.use(bodyParser.urlencoded({extended: true}));
+    _app.use(bodyParser.json({limit: '10mb'}));
+    _app.use(bodyParser.urlencoded({extended: true, limit: '10mb'}));
     _app.use(compression());
     _app.use(timeTracking({milliSecBeforeWarning: 1000})); // use: setMetric(
     _app.use(timing()); // use: res.startTime('file', 'File IO metric'; ...  res.endTime('file';
