@@ -12,13 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Add logs label (deps++)
-- Fix 413..
+- Fix 413 ...
 
 ## [1.2.14] - 2025-08-09
 
 ### Changed
 
-- log only warn msg
+- loging only warn msg
 - logs from process.cwd()
 
 ## [1.2.13] - 2025-07-27
