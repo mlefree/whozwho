@@ -25,8 +25,8 @@ exports.$express = (async () => {
         };
         _app.use((0, morgan_1.default)('tiny', log));
     }
-    _app.use(body_parser_1.default.json());
-    _app.use(body_parser_1.default.urlencoded({ extended: true }));
+    _app.use(body_parser_1.default.json({ limit: '10mb' }));
+    _app.use(body_parser_1.default.urlencoded({ extended: true, limit: '10mb' }));
     _app.use((0, compression_1.default)());
     _app.use((0, mle_tools_node_1.timeTracking)({ milliSecBeforeWarning: 1000 })); // use: setMetric(
     _app.use((0, mle_tools_node_1.timing)()); // use: res.startTime('file', 'File IO metric'; ...  res.endTime('file';

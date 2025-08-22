@@ -6,6 +6,7 @@ Object.defineProperty(exports, "loggerFactory", { enumerable: true, get: functio
 Object.defineProperty(exports, "LoggerLevels", { enumerable: true, get: function () { return mle_tools_node_1.LoggerLevels; } });
 const config_1 = require("../config");
 mle_tools_node_1.loggerFactory.setUp({
+    label: 'whozwho',
     active: config_1.whozwhoConfig.deploy.isInTraceMode,
     consoleLevel: config_1.whozwhoConfig.deploy.traceConsoleLevel,
     logLevel: config_1.whozwhoConfig.deploy.traceLogLevel,

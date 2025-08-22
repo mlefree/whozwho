@@ -11,6 +11,7 @@ const config_1 = require("../config");
 const abstract_1 = require("./abstract");
 const actor_1 = require("../models/actor");
 const advice_1 = require("../models/advice");
+const mle_tools_node_1 = require("mle-tools-node");
 class AdminController extends abstract_1.AbstractController {
     static async getStatus(req, res) {
         let status = {};
@@ -19,7 +20,7 @@ class AdminController extends abstract_1.AbstractController {
             status = await StatusStatics.BuildSummarizedStatus(config_1.whozwhoConfig.deploy.version);
             if (!config_1.whozwhoConfig.whozwho.disabled) {
                 const parentPath = process.cwd();
-                const lastLogs = logger_1.logger.readLastLogs(parentPath);
+                const lastLogs = mle_tools_node_1.loggerFactory.readLastLogs(parentPath);
                 const whozwho = new whozwho_client_1.Whozwho(config_1.whozwhoConfig);
                 const advices = await whozwho.getAdvices(lastLogs);
                 for (const advice of advices || []) {
