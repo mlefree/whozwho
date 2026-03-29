@@ -16,8 +16,9 @@ schema.index({ category: 1, namespace: 1 }, { unique: true });
 exports.StoreStatics = {
     async Get(category, namespace) {
         const doc = await exports.StoreModel.findOne({ category, namespace });
-        if (!doc)
+        if (!doc) {
             return null;
+        }
         return { version: doc.get('version'), data: doc.get('data') };
     },
     async Put(category, namespace, data) {

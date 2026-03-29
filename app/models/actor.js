@@ -84,20 +84,21 @@ exports.ActorStatics = {
         if (foundCurrentActorAsAlive.length !== 1) {
             return ActorAnswer.no;
         }
-        // Is actor flagged as principal before ? if yes => yes
         const currentActor = foundCurrentActorAsAlive[0];
-        if (currentActor.isPrincipal) {
-            return ActorAnswer.yes;
-        }
         // Is actor part of the heaviest ? if no => no
         if (currentActor.weight < maxAliveWeight) {
             return ActorAnswer.no;
         }
-        // Is another actor is alive ? if yes => no
-        if (aliveActors.length > 1) {
+        // Actor has max weight — check if already principal
+        if (currentActor.isPrincipal) {
+            return ActorAnswer.yes;
+        }
+        // Actor has max weight but is not principal — check if another principal exists with same weight
+        const existingPrincipal = aliveActors.find((a) => a.isPrincipal && a.actorId !== actorId);
+        if (existingPrincipal && existingPrincipal.weight >= currentActor.weight) {
             return ActorAnswer.no;
         }
-        // Else => yes
+        // No principal with equal/higher weight — this actor becomes principal
         return ActorAnswer.yes;
     },
     async GetLastActor(actorCategory, actorId) {
