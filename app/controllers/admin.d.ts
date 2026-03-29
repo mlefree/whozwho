@@ -9,5 +9,7 @@ export declare class AdminController extends AbstractController {
     static putAdvice(req: Request, res: Response): Promise<void>;
     static getAdvices(req: Request, res: Response): Promise<void>;
     static getActors(req: Request, res: Response): Promise<void>;
+    static getStore(req: Request, res: Response): Promise<void>;
+    static putStore(req: Request, res: Response): Promise<void>;
     protected static Update(): Promise<void>;
 }

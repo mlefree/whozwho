@@ -23,6 +23,9 @@ const routes = async (router) => {
     // To let me know where you are in this advice
     router.param('adviceId', admin_1.AdminController.loadAdviceId);
     router.put('/advices/:adviceId', admin_1.AdminController.putAdvice);
+    // Shared store per category — last-write-wins, principal writes, others read
+    router.get('/store/:namespace', admin_1.AdminController.getStore);
+    router.put('/store/:namespace', admin_1.AdminController.putStore);
     // What is the current status ?
     router.get('/status', admin_1.AdminController.getStatus);
     return router;

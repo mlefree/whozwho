@@ -11,6 +11,7 @@ const config_1 = require("../config");
 const abstract_1 = require("./abstract");
 const actor_1 = require("../models/actor");
 const advice_1 = require("../models/advice");
+const store_1 = require("../models/store");
 const mle_tools_node_1 = require("mle-tools-node");
 class AdminController extends abstract_1.AbstractController {
     static async getStatus(req, res) {
@@ -72,12 +73,14 @@ class AdminController extends abstract_1.AbstractController {
             };
             await actor_1.ActorStatics.PushHighFive(actorCategory, actorId, actorAddress, hi);
             await advice_1.AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
+            const storeVersions = await store_1.StoreStatics.GetVersions(actorCategory);
+            res.status(200).jsonp({ storeVersions });
+            return;
         }
         catch (e) {
             abstract_1.AbstractController._internalProblem(res, e);
             return;
         }
-        res.status(204).send();
     }
     static async postActor(req, res) {
         const { actorCategory, actorId } = abstract_1.AbstractController._host(req);
@@ -238,6 +241,46 @@ class AdminController extends abstract_1.AbstractController {
             }
             // Return the actors in the expected format
             res.status(200).type('application/json').jsonp({ actors: allAliveActors });
+        }
+        catch (e) {
+            abstract_1.AbstractController._internalProblem(res, e);
+        }
+    }
+    static async getStore(req, res) {
+        const { actorCategory } = abstract_1.AbstractController._host(req);
+        const namespace = String(req.params.namespace);
+        if (!actorCategory || !namespace) {
+            abstract_1.AbstractController._badRequest(res, 'needs an actor category and namespace');
+            return;
+        }
+        try {
+            const store = await store_1.StoreStatics.Get(actorCategory, namespace);
+            if (!store) {
+                res.status(404).jsonp({ error: 'store not found' });
+                return;
+            }
+            res.status(200).jsonp(store);
+        }
+        catch (e) {
+            abstract_1.AbstractController._internalProblem(res, e);
+        }
+    }
+    static async putStore(req, res) {
+        const { actorCategory } = abstract_1.AbstractController._host(req);
+        const namespace = String(req.params.namespace);
+        // Use raw body directly to avoid _body() unwrapping the data field
+        const rawBody = req.body || {};
+        if (!actorCategory || !namespace) {
+            abstract_1.AbstractController._badRequest(res, 'needs an actor category and namespace');
+            return;
+        }
+        if (typeof rawBody.data === 'undefined') {
+            abstract_1.AbstractController._badRequest(res, 'needs a data field');
+            return;
+        }
+        try {
+            const result = await store_1.StoreStatics.Put(actorCategory, namespace, rawBody.data);
+            res.status(200).jsonp(result);
         }
         catch (e) {
             abstract_1.AbstractController._internalProblem(res, e);
