@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Shared store per category with namespace isolation (`GET/PUT /store/:namespace`)
+- `POST /hi` now returns `storeVersions` for the category (response changed from 204 to 200)
+
+### Changed
+
+- Store tests added to asActor spec
+
+## [1.2.16] - 2026-03-29
+
+### Changed
+
+- deps++
+
 ## [1.2.15] - 2025-08-22
 
 ### Changed
@@ -59,6 +74,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - mongodb-memory-server can be omitted
 - api cache fix
+
+## [1.2.7] - 2025-07-20
+
+### Changed
+
+- deps++
+
+## [1.2.6] - 2025-07-20
+
+### Changed
+
+- deps++
 
 ## [1.2.5] - 2025-06-20
 
@@ -204,7 +231,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.5...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.16...HEAD
+
+[1.2.16]: https://github.com/mlefree/whozwho/compare/v1.2.15...v1.2.16
+
+[1.2.15]: https://github.com/mlefree/whozwho/compare/v1.2.14...v1.2.15
+
+[1.2.14]: https://github.com/mlefree/whozwho/compare/v1.2.13...v1.2.14
+
+[1.2.13]: https://github.com/mlefree/whozwho/compare/v1.2.12...v1.2.13
+
+[1.2.12]: https://github.com/mlefree/whozwho/compare/v1.2.11...v1.2.12
+
+[1.2.11]: https://github.com/mlefree/whozwho/compare/v1.2.10...v1.2.11
+
+[1.2.10]: https://github.com/mlefree/whozwho/compare/v1.2.9...v1.2.10
+
+[1.2.9]: https://github.com/mlefree/whozwho/compare/v1.2.8...v1.2.9
+
+[1.2.8]: https://github.com/mlefree/whozwho/compare/v1.2.7...v1.2.8
+
+[1.2.7]: https://github.com/mlefree/whozwho/compare/v1.2.6...v1.2.7
+
+[1.2.6]: https://github.com/mlefree/whozwho/compare/v1.2.5...v1.2.6
 
 [1.2.5]: https://github.com/mlefree/whozwho/compare/v1.2.4...v1.2.5
 

@@ -6,6 +6,7 @@ import {whozwhoConfig} from '../config';
 import {AbstractController} from './abstract';
 import {ActorQuestion, ActorStatics} from '../models/actor';
 import {AdviceModel, AdviceStatics, AdviceType} from '../models/advice';
+import {StoreStatics} from '../models/store';
 import {loggerFactory} from 'mle-tools-node';
 
 export class AdminController extends AbstractController {
@@ -81,12 +82,14 @@ export class AdminController extends AbstractController {
             await ActorStatics.PushHighFive(actorCategory, actorId, actorAddress, hi);
 
             await AdviceStatics.FinishPotentialOngoingAdvices(actorCategory, actorId);
+
+            const storeVersions = await StoreStatics.GetVersions(actorCategory);
+            res.status(200).jsonp({storeVersions});
+            return;
         } catch (e) {
             AbstractController._internalProblem(res, e);
             return;
         }
-
-        res.status(204).send();
     }
 
     static async postActor(req: Request, res: Response) {
@@ -284,6 +287,51 @@ export class AdminController extends AbstractController {
 
             // Return the actors in the expected format
             res.status(200).type('application/json').jsonp({actors: allAliveActors});
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+        }
+    }
+
+    static async getStore(req: Request, res: Response) {
+        const {actorCategory} = AbstractController._host(req);
+        const namespace = String(req.params.namespace);
+
+        if (!actorCategory || !namespace) {
+            AbstractController._badRequest(res, 'needs an actor category and namespace');
+            return;
+        }
+
+        try {
+            const store = await StoreStatics.Get(actorCategory, namespace);
+            if (!store) {
+                res.status(404).jsonp({error: 'store not found'});
+                return;
+            }
+            res.status(200).jsonp(store);
+        } catch (e) {
+            AbstractController._internalProblem(res, e);
+        }
+    }
+
+    static async putStore(req: Request, res: Response) {
+        const {actorCategory} = AbstractController._host(req);
+        const namespace = String(req.params.namespace);
+        // Use raw body directly to avoid _body() unwrapping the data field
+        const rawBody = req.body || {};
+
+        if (!actorCategory || !namespace) {
+            AbstractController._badRequest(res, 'needs an actor category and namespace');
+            return;
+        }
+
+        if (typeof rawBody.data === 'undefined') {
+            AbstractController._badRequest(res, 'needs a data field');
+            return;
+        }
+
+        try {
+            const result = await StoreStatics.Put(actorCategory, namespace, rawBody.data);
+            res.status(200).jsonp(result);
         } catch (e) {
             AbstractController._internalProblem(res, e);
         }

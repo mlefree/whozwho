@@ -63,7 +63,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=actor;by=1')
             .send(hi)
-            .expect(204);
+            .expect(200);
         expect(res).not.eq(null);
     });
 
@@ -83,7 +83,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=bad-actor;by=1')
             .send(hi)
-            .expect(204);
+            .expect(200);
         expect(res).not.eq(null);
     });
 
@@ -161,7 +161,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=actor;by=2')
             .send(hi)
-            .expect(204);
+            .expect(200);
 
         // Check if actor:2 has principal role
         const principalQuestion = {
@@ -205,7 +205,7 @@ describe(`${version} as an Actor`, function () {
                 .set('Host', 'http://localhost:987')
                 .set('Forwarded', 'for=actor;by=2')
                 .send(hi)
-                .expect(204);
+                .expect(200);
 
             // Check if actor:2 is now principal after timeout
             const principalQuestion = {
@@ -248,7 +248,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:9871')
             .set('Forwarded', 'for=actor;by=1')
             .send(hi)
-            .expect(204);
+            .expect(200);
         expect(res1).not.eq(null);
 
         // Send heartbeat for actor:2
@@ -258,7 +258,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:9862')
             .set('Forwarded', 'for=actor;by=2')
             .send(hi)
-            .expect(204);
+            .expect(200);
         expect(res1).not.eq(null);
     });
 
@@ -389,7 +389,7 @@ describe(`${version} as an Actor`, function () {
             .set('Host', 'http://localhost:987')
             .set('Forwarded', 'for=actor;by=1')
             .send(updatedHi)
-            .expect(204);
+            .expect(200);
 
         // Verify actor:1 no longer needs update advice
         let res = await agent(await $app)
@@ -414,5 +414,137 @@ describe(`${version} as an Actor`, function () {
         expect(res.body.advices.length).eq(1);
         expect(res.body.advices[0].id).not.eq(null);
         expect(res.body.advices[0].type).eq(AdviceType.UPDATE);
+    });
+
+    // --- Store tests ---
+
+    it('Scenario: GET store returns 404 when no store exists', async () => {
+        await agent(await $app)
+            .get('/store/goals')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .expect(404);
+    });
+
+    it('Scenario: PUT store creates a new store entry', async () => {
+        const storeData = {
+            data: {goals: [{id: 'GOAL-01', title: 'Ship v2', status: 'in_progress'}]},
+        };
+
+        const res = await agent(await $app)
+            .put('/store/goals')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(storeData)
+            .expect(200);
+
+        expect(res.body.version).to.be.a('number');
+        expect(res.body.version).to.be.greaterThanOrEqual(1);
+    });
+
+    it('Scenario: GET store returns previously stored data', async () => {
+        const res = await agent(await $app)
+            .get('/store/goals')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .expect(200);
+
+        expect(res.body.version).to.be.a('number');
+        expect(res.body.data.goals).to.be.an('array');
+        expect(res.body.data.goals[0].id).to.eq('GOAL-01');
+    });
+
+    it('Scenario: PUT store increments version on update', async () => {
+        const res1 = await agent(await $app)
+            .get('/store/goals')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .expect(200);
+
+        const v1 = res1.body.version;
+
+        const storeData = {
+            data: {goals: [{id: 'GOAL-01', title: 'Ship v2', status: 'done'}]},
+        };
+
+        const res2 = await agent(await $app)
+            .put('/store/goals')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(storeData)
+            .expect(200);
+
+        expect(res2.body.version).to.eq(v1 + 1);
+    });
+
+    it('Scenario: Stores are isolated by namespace', async () => {
+        const storeData = {
+            data: {tasks: [{id: 'TASK-001', title: 'Fix bug'}]},
+        };
+
+        await agent(await $app)
+            .put('/store/tasks')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(storeData)
+            .expect(200);
+
+        const goalsRes = await agent(await $app)
+            .get('/store/goals')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .expect(200);
+
+        const tasksRes = await agent(await $app)
+            .get('/store/tasks')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .expect(200);
+
+        expect(goalsRes.body.data.goals).to.exist;
+        expect(tasksRes.body.data.tasks).to.exist;
+    });
+
+    it('Scenario: Stores are isolated by category', async () => {
+        // bad-actor category should not see actor's stores
+        await agent(await $app)
+            .get('/store/goals')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=bad-actor;by=1')
+            .expect(404);
+    });
+
+    it('Scenario: POST /hi returns storeVersions for the category', async () => {
+        const hi = {
+            weight: 1,
+            alivePeriodInSec: 10,
+            version: '1.2.3',
+            last100Errors: [],
+        };
+
+        const res = await agent(await $app)
+            .post('/hi')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send(hi)
+            .expect(200);
+
+        expect(res.body.storeVersions).to.be.an('object');
+        expect(res.body.storeVersions.goals).to.be.a('number');
+        expect(res.body.storeVersions.tasks).to.be.a('number');
+    });
+
+    it('Scenario: PUT store without data field returns 400', async () => {
+        await agent(await $app)
+            .put('/store/goals')
+            .set('Content-Type', 'application/json')
+            .set('Host', 'http://localhost:987')
+            .set('Forwarded', 'for=actor;by=1')
+            .send({notData: 'oops'})
+            .expect(400);
     });
 });

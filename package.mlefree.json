@@ -5,6 +5,6 @@
   },
   "remote.dependencies": {
     "mle-tools-node": "~1.16.9",
-    "whozwho-client": "~1.2.8"
+    "whozwho-client": "~1.2.9"
   }
 }

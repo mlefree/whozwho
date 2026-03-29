@@ -28,6 +28,10 @@ export const routes = async (router: Router) => {
     router.param('adviceId', AdminController.loadAdviceId);
     router.put('/advices/:adviceId', AdminController.putAdvice);
 
+    // Shared store per category — last-write-wins, principal writes, others read
+    router.get('/store/:namespace', AdminController.getStore);
+    router.put('/store/:namespace', AdminController.putStore);
+
     // What is the current status ?
     router.get('/status', AdminController.getStatus);
 
