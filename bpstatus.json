@@ -1,11 +1,10 @@
 {
-  "version": "0.0.14",
+  "version": "0.0.15",
   "type": "app",
   "status": {
     "find-projects": "2025-05-21 10:47",
-    "check-gitignore": "2025-06-17 06:31",
-    "check-memory-bank": "2025-05-21 10:47",
-    "check-scripts": "2025-06-13 07:41",
+    "check-gitignore": "2025-11-12 13:42",
+    "check-scripts": "2026-03-29 13:05",
     "check-project-type": "2025-05-21 10:56",
     "check-style": "2025-08-21 15:29"
   }

@@ -17,24 +17,9 @@
 - **🎯 Status Tracking**: Real-time status monitoring of actors
 - **🔒 Robust Error Handling**: Comprehensive error management and recovery
 
-For detailed feature information, see [CHANGELOG.md](CHANGELOG.md) and [specs/REQUIREMENTS.md](specs/REQUIREMENTS.md).
-
 ## 📚 Documentation
 
-### Memory Bank
-
-This project uses a Memory Bank for comprehensive documentation and context retention. The Memory Bank is located in the
-`.memory-bank` directory and contains the following files:
-
-- `memory-bank-rules.md`: Rules to follow and to consider in all contexts
-- `projectbrief.md`: Overview of the project, core requirements, and goals
-- `productContext.md`: Why the project exists, problems it solves, and how it works
-- `systemPatterns.md`: System architecture, key technical decisions, and design patterns
-- `techContext.md`: Technologies used, development setup, and technical constraints
-- `activeContext.md`: Current work focus, recent changes, and next steps
-- `progress.md`: What works, what's left to build, and known issues
-
-=> !! These files should always be considered as a context and kept up-to-date !!
+For detailed feature information, see [CHANGELOG.md](CHANGELOG.md) and [specs/REQUIREMENTS.md](specs/REQUIREMENTS.md).
 
 ## 🚀 Quick Start
 
@@ -172,7 +157,6 @@ For detailed technical requirements, see [specs/REQUIREMENTS.md](specs/REQUIREME
     - README.md (badges, version numbers)
     - CHANGELOG.md (anticipate the version that will bump, documentate changes, make sure dates are corrects based on
       git tag history)
-    - Memory bank files
 
 2. Run the following scripts to bump version, commit, and push changes:
    ```bash

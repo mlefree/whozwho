@@ -4,7 +4,7 @@
     "whozwho-client": "file:../whozwho-client/dist"
   },
   "remote.dependencies": {
-    "mle-tools-node": "^1.14.2",
-    "whozwho-client": "^1.2.8"
+    "mle-tools-node": "~1.16.9",
+    "whozwho-client": "~1.2.8"
   }
 }
