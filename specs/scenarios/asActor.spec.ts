@@ -147,7 +147,7 @@ describe(`${version} as an Actor`, function () {
     /**
      * Test registration and role check for higher weight actor
      */
-    it('Scenario: Register actor:2 with higher weight but verify no immediate principal role', async () => {
+    it('Scenario: Register actor:2 with higher weight and verify it becomes principal', async () => {
         // Register actor:2 with higher weight (10 > 1)
         const hi = {
             weight: 10,
@@ -168,8 +168,8 @@ describe(`${version} as an Actor`, function () {
             question: ActorQuestion.PRINCIPAL,
         };
 
-        // Despite higher weight, actor:2 should not be principal yet
-        // as actor:1 is still active
+        // With higher weight, actor:2 should become principal
+        // as no existing principal has weight >= 10
         const res = await agent(await $app)
             .post('/actors')
             .set('Content-Type', 'application/json')
@@ -179,7 +179,7 @@ describe(`${version} as an Actor`, function () {
             .expect('Content-Type', /application\/json/)
             .expect(200);
 
-        expect(res.body.answer).to.eq(ActorAnswer.no);
+        expect(res.body.answer).to.eq(ActorAnswer.yes);
     });
 
     /**

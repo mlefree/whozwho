@@ -13,7 +13,9 @@ schema.index({category: 1, namespace: 1}, {unique: true});
 export const StoreStatics = {
     async Get(category: string, namespace: string) {
         const doc = await StoreModel.findOne({category, namespace});
-        if (!doc) return null;
+        if (!doc) {
+            return null;
+        }
         return {version: doc.get('version'), data: doc.get('data')};
     },
 

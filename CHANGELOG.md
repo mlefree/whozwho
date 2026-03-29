@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.18] - 2026-03-30
+
+### Changed
+
+- Fix principal election: actor with max weight now correctly becomes principal even when other alive actors exist
+- Principal role no longer blindly returns yes if already flagged — checks weight first
+
+## [1.2.17] - 2026-03-29
+
 ### Added
 
 - Shared store per category with namespace isolation (`GET/PUT /store/:namespace`)
@@ -75,7 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - mongodb-memory-server can be omitted
 - api cache fix
 
-## [1.2.7] - 2025-07-20
+## [1.2.7] - 2025-06-20
 
 ### Changed
 
@@ -231,7 +240,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - API endpoints documentation
 - Contribution guidelines
 
-[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.16...HEAD
+[Unreleased]: https://github.com/mlefree/whozwho/compare/v1.2.18...HEAD
+
+[1.2.18]: https://github.com/mlefree/whozwho/compare/v1.2.17...v1.2.18
+
+[1.2.17]: https://github.com/mlefree/whozwho/compare/v1.2.16...v1.2.17
 
 [1.2.16]: https://github.com/mlefree/whozwho/compare/v1.2.15...v1.2.16
 
